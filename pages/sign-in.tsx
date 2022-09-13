@@ -24,9 +24,6 @@ const SignIn = ({
         <main className="relative flex items-center justify-center h-full bg-center bg-circle-grid dark:bg-circle-grid-dark">
           <div className="relative bottom-16">
             {/* <Logo className="w-[326px] text-red-light h-[94px] mb-8 bg-primary" /> */}
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              EARLY
-            </h2>
             <div className="w-full space-y-4 text-center bg-primary">
               {Object.values(providers!).map((provider) => (
                 <div key={provider.name}>
