@@ -1,11 +1,5 @@
 import { Layout } from '@/components/layout'
-import { getQueryPaginationInput, Pagination } from '@/components/pagination'
-import type { PostSummaryProps } from '@/components/post-summary'
-import { PostSummarySkeleton } from '@/components/post-summary-skeleton'
-import { InferQueryPathAndInput, trpc } from '@/lib/trpc'
-import type { NextPageWithAuthAndLayout } from '@/lib/types'
 import { useSession } from 'next-auth/react'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -21,9 +15,9 @@ import { ChainId } from '@thirdweb-dev/sdk'
 import { useState, useEffect, useMemo } from 'react'
 import { AddressZero } from '@ethersproject/constants'
 
-const Dao: NextPageWithAuthAndLayout = () => {
-  const { data: session } = useSession()
-  const router = useRouter()
+const Dao = () => {
+  // const { data: session } = useSession()
+  // const router = useRouter()
 
   const address = useAddress()
   const network = useNetwork()
@@ -188,7 +182,7 @@ const Dao: NextPageWithAuthAndLayout = () => {
   const mintNft = async () => {
     try {
       setIsClaiming(true)
-      await editionDrop!.claim('0', 1)
+      await editionDrop.claim('0', 1)
       console.log(
         `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${editionDrop.getAddress()}/0`
       )
@@ -396,7 +390,7 @@ const Dao: NextPageWithAuthAndLayout = () => {
 
 Dao.auth = true
 
-Dao.getLayout = function getLayout(page: React.ReactElement) {
+Dao.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }
 
