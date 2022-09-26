@@ -59,6 +59,7 @@ export function Layout({ children }: LayoutProps) {
 
             <MenuItems className="w-48">
               <MenuItemsContent>
+                <MenuItemLink href={`/dao`}>DAO</MenuItemLink>
                 <MenuItemLink href={`/profile/${session!.user.id}`}>
                   Profile
                 </MenuItemLink>

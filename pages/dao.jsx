@@ -14,6 +14,8 @@ import {
 import { ChainId } from '@thirdweb-dev/sdk'
 import { useState, useEffect, useMemo } from 'react'
 import { AddressZero } from '@ethersproject/constants'
+import { PlusIcon } from '@heroicons/react/20/solid'
+import { Button } from '@/components/button'
 
 const Dao = () => {
   // const { data: session } = useSession()
@@ -213,8 +215,19 @@ const Dao = () => {
         <Head>
           <title>EarlyDAO</title>
         </Head>
-        <h1>Welcome to EARLY</h1>
-        <button onClick={connectWithMetamask}>Connect your wallet</button>
+        <div className="text-center">
+          <h3 className="mt-2 text-sm font-medium">Welcome to EARLYDAO</h3>
+          <p className="mt-1 text-sm text-secondary">
+            Get started by connecting your wallet.
+          </p>
+          <Button
+            onClick={connectWithMetamask}
+            className="mt-6 bottom-0 right-0"
+            type="button"
+          >
+            <span className="sm:block shrink-0">Connect Wallet</span>
+          </Button>
+        </div>
       </>
     )
   }
@@ -223,167 +236,240 @@ const Dao = () => {
   // only DAO members will see this. Render all the members + token amounts.
   if (hasClaimedNFT) {
     return (
-      <div className="member-page">
-        <h1>DAO Member Page</h1>
-        <p>Congratulations on being a member</p>
+      <>
         <div>
           <div>
-            <h2>Member List</h2>
-            <table className="card">
-              <thead>
-                <tr>
-                  <th>Address</th>
-                  <th>Token Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {memberList.map((member) => {
-                  return (
-                    <tr key={member.address}>
-                      <td>{shortenAddress(member.address)}</td>
-                      <td>{member.tokenAmount}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <h2>Active Proposals</h2>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault()
-                e.stopPropagation()
-
-                //before we do async things, we want to disable the button to prevent double clicks
-                setIsVoting(true)
-
-                // lets get the votes from the form for the values
-                const votes = proposals.map((proposal) => {
-                  const voteResult = {
-                    proposalId: proposal.proposalId,
-                    //abstain by default
-                    vote: 2,
-                  }
-                  proposal.votes.forEach((vote) => {
-                    const elem = document.getElementById(
-                      proposal.proposalId + '-' + vote.type
-                    )
-
-                    if (elem.checked) {
-                      voteResult.vote = vote.type
-                      return
-                    }
-                  })
-                  return voteResult
-                })
-
-                // first we need to make sure the user delegates their token to vote
-                try {
-                  //we'll check if the wallet still needs to delegate their tokens before they can vote
-                  const delegation = await token.getDelegationOf(address)
-                  // if the delegation is the 0x0 address that means they have not delegated their governance tokens yet
-                  if (delegation === AddressZero) {
-                    //if they haven't delegated their tokens yet, we'll have them delegate them before voting
-                    await token.delegateTo(address)
-                  }
-                  // then we need to vote on the proposals
-                  try {
-                    await Promise.all(
-                      votes.map(async ({ proposalId, vote: _vote }) => {
-                        // before voting we first need to check whether the proposal is open for voting
-                        // we first need to get the latest state of the proposal
-                        const proposal = await vote.get(proposalId)
-                        // then we check if the proposal is open for voting (state === 1 means it is open)
-                        if (proposal.state === 1) {
-                          // if it is open for voting, we'll vote on it
-                          return vote.vote(proposalId, _vote)
-                        }
-                        // if the proposal is not open for voting we just return nothing, letting us continue
-                        return
-                      })
-                    )
-                    try {
-                      // if any of the propsals are ready to be executed we'll need to execute them
-                      // a proposal is ready to be executed if it is in state 4
-                      await Promise.all(
-                        votes.map(async ({ proposalId }) => {
-                          // we'll first get the latest state of the proposal again, since we may have just voted before
-                          const proposal = await vote.get(proposalId)
-
-                          //if the state is in state 4 (meaning that it is ready to be executed), we'll execute the proposal
-                          if (proposal.state === 4) {
-                            return vote.execute(proposalId)
-                          }
-                        })
-                      )
-                      // if we get here that means we successfully voted, so let's set the "hasVoted" state to true
-                      setHasVoted(true)
-                      // and log out a success message
-                      console.log('successfully voted')
-                    } catch (err) {
-                      console.error('failed to execute votes', err)
-                    }
-                  } catch (err) {
-                    console.error('failed to vote', err)
-                  }
-                } catch (err) {
-                  console.error('failed to delegate tokens')
-                } finally {
-                  // in *either* case we need to set the isVoting state to false to enable the button again
-                  setIsVoting(false)
-                }
-              }}
-            >
-              {proposals.map((proposal) => (
-                <div key={proposal.proposalId} className="card">
-                  <h5>{proposal.description}</h5>
-                  <div>
-                    {proposal.votes.map(({ type, label }) => (
-                      <div key={type}>
-                        <input
-                          type="radio"
-                          id={proposal.proposalId + '-' + type}
-                          name={proposal.proposalId}
-                          value={type}
-                          //default the "abstain" vote to checked
-                          defaultChecked={type === 2}
-                        />
-                        <label htmlFor={proposal.proposalId + '-' + type}>
-                          {label}
-                        </label>
-                      </div>
-                    ))}
+            <div>
+              <div className="px-4 sm:px-6 lg:px-8">
+                <div className="sm:flex sm:items-center">
+                  <div className="sm:flex-auto">
+                    <h1 className="text-xl font-semibold">Member List</h1>
+                    <p className="mt-2 text-sm text-secondary">
+                      Congratulations on being a member! Here are our token
+                      holders
+                    </p>
                   </div>
                 </div>
-              ))}
-              <button disabled={isVoting || hasVoted} type="submit">
-                {isVoting
-                  ? 'Voting...'
-                  : hasVoted
-                  ? 'You Already Voted'
-                  : 'Submit Votes'}
-              </button>
-              {!hasVoted && (
-                <small>
-                  This will trigger multiple transactions that you will need to
-                  sign.
-                </small>
-              )}
-            </form>
+                <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
+                  <table className="min-w-full divide-y divide-gray-300">
+                    <thead>
+                      <tr>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6 md:pl-0"
+                        >
+                          Address
+                        </th>
+                        <th
+                          scope="col"
+                          className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
+                        ></th>
+                        <th
+                          scope="col"
+                          className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
+                        ></th>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6 md:pr-0"
+                        >
+                          $EARLY Amount
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {memberList.map((member) => (
+                        <tr
+                          key={member.address}
+                          className="border-b border-gray-200"
+                        >
+                          <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                            <div className="font-medium">
+                              {shortenAddress(member.address)}
+                            </div>
+                          </td>
+                          <td className="hidden py-4 px-3 text-right text-sm sm:table-cell"></td>
+                          <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell"></td>
+                          <td className="py-4 pl-3 pr-4 text-right text-sm sm:pr-6 md:pr-0">
+                            {member.tokenAmount}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div className="mx-auto max-w-lg px-4 pt-10 pb-12 lg:pb-16">
+              {/* <form> */}
+              <div className="space-y-6">
+                <div>
+                  <h1 className="text-lg font-medium leading-6">
+                    Active Proposals
+                  </h1>
+                  <p className="mt-1 text-sm text-secondary">
+                    Please vote on the latest proposals from the DAO
+                  </p>
+                </div>
+              </div>
+
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+
+                  //before we do async things, we want to disable the button to prevent double clicks
+                  setIsVoting(true)
+
+                  // lets get the votes from the form for the values
+                  const votes = proposals.map((proposal) => {
+                    const voteResult = {
+                      proposalId: proposal.proposalId,
+                      //abstain by default
+                      vote: 2,
+                    }
+                    proposal.votes.forEach((vote) => {
+                      const elem = document.getElementById(
+                        proposal.proposalId + '-' + vote.type
+                      )
+
+                      if (elem.checked) {
+                        voteResult.vote = vote.type
+                        return
+                      }
+                    })
+                    return voteResult
+                  })
+
+                  // first we need to make sure the user delegates their token to vote
+                  try {
+                    //we'll check if the wallet still needs to delegate their tokens before they can vote
+                    const delegation = await token.getDelegationOf(address)
+                    // if the delegation is the 0x0 address that means they have not delegated their governance tokens yet
+                    if (delegation === AddressZero) {
+                      //if they haven't delegated their tokens yet, we'll have them delegate them before voting
+                      await token.delegateTo(address)
+                    }
+                    // then we need to vote on the proposals
+                    try {
+                      await Promise.all(
+                        votes.map(async ({ proposalId, vote: _vote }) => {
+                          // before voting we first need to check whether the proposal is open for voting
+                          // we first need to get the latest state of the proposal
+                          const proposal = await vote.get(proposalId)
+                          // then we check if the proposal is open for voting (state === 1 means it is open)
+                          if (proposal.state === 1) {
+                            // if it is open for voting, we'll vote on it
+                            return vote.vote(proposalId, _vote)
+                          }
+                          // if the proposal is not open for voting we just return nothing, letting us continue
+                          return
+                        })
+                      )
+                      try {
+                        // if any of the propsals are ready to be executed we'll need to execute them
+                        // a proposal is ready to be executed if it is in state 4
+                        await Promise.all(
+                          votes.map(async ({ proposalId }) => {
+                            // we'll first get the latest state of the proposal again, since we may have just voted before
+                            const proposal = await vote.get(proposalId)
+
+                            //if the state is in state 4 (meaning that it is ready to be executed), we'll execute the proposal
+                            if (proposal.state === 4) {
+                              return vote.execute(proposalId)
+                            }
+                          })
+                        )
+                        // if we get here that means we successfully voted, so let's set the "hasVoted" state to true
+                        setHasVoted(true)
+                        // and log out a success message
+                        console.log('successfully voted')
+                      } catch (err) {
+                        console.error('failed to execute votes', err)
+                      }
+                    } catch (err) {
+                      console.error('failed to vote', err)
+                    }
+                  } catch (err) {
+                    console.error('failed to delegate tokens')
+                  } finally {
+                    // in *either* case we need to set the isVoting state to false to enable the button again
+                    setIsVoting(false)
+                  }
+                }}
+              >
+                {proposals.map((proposal) => (
+                  <>
+                    <div className="mt-8">
+                      <p className="text-sm leading-5 text-secondary">
+                        {proposal.description}
+                      </p>
+                      <fieldset className="mt-4">
+                        <div className="space-y-4">
+                          {proposal.votes.map(({ type, label }) => (
+                            <div key={type} className="flex items-center">
+                              <input
+                                id={proposal.proposalId + '-' + type}
+                                name={proposal.proposalId}
+                                type="radio"
+                                value={type}
+                                defaultChecked={type === 2}
+                                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              />
+                              <label
+                                htmlFor={proposal.proposalId + '-' + type}
+                                className="ml-3 block text-sm font-medium"
+                              >
+                                {label}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </fieldset>
+                    </div>
+                  </>
+                ))}
+                <div>
+                  <Button
+                    className="mt-8 bottom-0 right-0"
+                    disabled={isVoting || hasVoted}
+                    type="submit"
+                  >
+                    <span className="sm:block shrink-0">
+                      {isVoting
+                        ? 'Voting...'
+                        : hasVoted
+                        ? 'You Already Voted'
+                        : 'Submit Votes'}
+                    </span>
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
   // Render mint nft screen.
   return (
-    <div className="mint-nft">
-      <h1>Mint your free EARLYDAO Membership NFT</h1>
-      <button disabled={isClaiming} onClick={mintNft}>
-        {isClaiming ? 'Minting...' : 'Mint your NFT (FREE)'}
-      </button>
+    <div className="text-center">
+      <h3 className="mt-2 text-sm font-medium">
+        Mint your free EARLYDAO Membership NFT
+      </h3>
+      <p className="mt-1 text-sm text-secondary">
+        A community for longevity practitioners
+      </p>
+      <Button
+        disabled={isClaiming}
+        onClick={mintNft}
+        className="mt-6 bottom-0 right-0"
+        type="button"
+      >
+        <span className="sm:block shrink-0">
+          {isClaiming ? 'Minting...' : 'Mint your NFT (FREE)'}
+        </span>
+      </Button>
     </div>
   )
 }
