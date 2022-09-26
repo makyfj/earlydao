@@ -12,6 +12,10 @@ import * as React from 'react'
 import { Toaster } from 'react-hot-toast'
 import '../styles/globals.css'
 
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
+
+const activeChainId = ChainId.Mumbai
+
 type AppPropsWithAuthAndLayout = AppProps & {
   Component: NextPageWithAuthAndLayout
 }
@@ -24,14 +28,16 @@ function MyApp({
 
   return (
     <SessionProvider session={session} refetchOnWindowFocus={false}>
-      <ThemeProvider attribute="class" disableTransitionOnChange>
-        {Component.auth ? (
-          <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
-        ) : (
-          getLayout(<Component {...pageProps} />)
-        )}
-        <Toaster />
-      </ThemeProvider>
+      <ThirdwebProvider desiredChainId={activeChainId}>
+        <ThemeProvider attribute="class" disableTransitionOnChange>
+          {Component.auth ? (
+            <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
+          ) : (
+            getLayout(<Component {...pageProps} />)
+          )}
+          <Toaster />
+        </ThemeProvider>
+      </ThirdwebProvider>
     </SessionProvider>
   )
 }
