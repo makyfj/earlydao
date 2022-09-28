@@ -255,13 +255,17 @@ export function LandingLayout({ children }) {
                     <h3 className="mt-2 font-semibold">{feature.name}</h3>
                     <p className="mt-2 text-secondary">{feature.description}</p>
                     {feature.link && (
-                      <div
-                        aria-hidden="true"
-                        className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
-                      >
-                        {feature.linkLabel}
-                        <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
-                      </div>
+                      <Link href={feature.link}>
+                        <a target="_blank">
+                          <div
+                            aria-hidden="true"
+                            className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
+                          >
+                            {feature.linkLabel}
+                            <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+                          </div>
+                        </a>
+                      </Link>
                     )}
                   </li>
                 ))}
