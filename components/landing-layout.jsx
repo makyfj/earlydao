@@ -20,6 +20,40 @@ import Link from 'next/link'
 import * as React from 'react'
 
 import { Button } from '@/components/button'
+import { trpc } from '@/lib/trpc'
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import {
+  Bars4Icon,
+  BookmarkSquareIcon,
+  BookOpenIcon,
+  RssIcon,
+  VideoCameraIcon,
+} from '@heroicons/react/24/outline'
+import toast from 'react-hot-toast'
+
+const links = [
+  {
+    name: 'Longevity Compendium',
+    description:
+      'Just science, expertise, and practical tactics to improve your health and live better for longer',
+    link: 'https://longevitydocs.vercel.app',
+    icon: BookOpenIcon,
+  },
+  {
+    name: 'Decentralizing Longevity',
+    description:
+      'Conversations with the longevity practitioners and how they apply the principles of longevity',
+    link: 'https://decentralizinglongevity.vercel.app',
+    icon: RssIcon,
+  },
+  {
+    name: 'Short-form video',
+    description:
+      'Instructional videos on the foundational principles of longevity',
+    link: '#',
+    icon: VideoCameraIcon,
+  },
+]
 
 // type LayoutProps = {
 //   children: React.ReactNode
@@ -82,8 +116,26 @@ export function TextField({ id, label, type = 'text', className, ...props }) {
 }
 
 export function LandingLayout({ children }) {
+  const [email, setEmail] = React.useState('')
+  const [isSubmitted, setIsSubmitted] = React.useState(false)
+
+  const addEmailMutation = trpc.useMutation('email.add')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setIsSubmitted(true)
+    addEmailMutation.mutate(
+      { email },
+      {
+        onSuccess: () => {},
+        onError: (error) => {
+          toast.error(`Something went wrong: ${error.message}`)
+        },
+      }
+    )
+  }
+
   return (
-    // <div className="max-w-3xl px-6 mx-auto">
     <>
       <section
         id="secondary-features"
@@ -91,48 +143,105 @@ export function LandingLayout({ children }) {
         className="py-20 sm:py-32"
       >
         <Container className={undefined}>
-          <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="text-3xl font-medium tracking-tight">
-              The time to live better is now.
-            </h2>
-            <p className="mt-2 text-lg text-secondary">
-              EARLY is a DAO for longevity practitioners. Gain the tools,
-              insights, and frameworks you need to live longer and more
-              importantly, live better.
-            </p>
+          <div className="mx-auto max-w-2xl text-center">
+            {isSubmitted ? (
+              <>
+                <h2 className="text-3xl font-medium tracking-tight">
+                  You&apos;ll be the first to know
+                </h2>
+                <p className="mt-2 text-lg text-secondary">
+                  In the meantime, check out our longevity resources
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-3xl font-medium tracking-tight">
+                  The time to live better is now.
+                </h2>
+                <p className="mt-2 text-lg text-secondary">
+                  EARLY is a DAO for longevity practitioners. Gain the tools,
+                  insights, and frameworks you need to live longer and more
+                  importantly, live better.
+                </p>
+                <p className="mt-2 text-lg text-secondary">
+                  Early access mint coming Winter 2022
+                </p>
+              </>
+            )}
           </div>
-          <div className="items-center pt-8">
-            <form className="flex w-full justify-center md:w-auto">
-              <TextField
-                type="email"
-                aria-label="Email address"
-                placeholder="Email address"
-                autoComplete="email"
-                required
-                className="w-60 min-w-0 shrink"
-              />
-              <Button type="submit" color="cyan" className="ml-4 flex-none">
-                <span className="inline">Get early access</span>
-              </Button>
-            </form>
-          </div>
-          <ul
-            role="list"
-            className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
-          >
-            {features.map((feature) => (
-              <li
-                key={feature.name}
-                className="rounded-2xl border border-gray-200 p-8"
+          {isSubmitted ? (
+            <>
+              <div className="items-center pt-8">
+                <ul
+                  role="list"
+                  className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+                >
+                  {links.map((feature) => (
+                    <li
+                      key={feature.name}
+                      className="rounded-2xl border border-gray-200 p-8"
+                    >
+                      <Link href={feature.link}>
+                        <a target="_blank">
+                          <feature.icon className="h-8 w-8" />
+                          <h3 className="mt-2 font-semibold">{feature.name}</h3>
+                          <p className="mt-2 text-secondary">
+                            {feature.description}
+                          </p>
+                          <div
+                            aria-hidden="true"
+                            className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
+                          >
+                            Visit
+                            <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+                          </div>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="items-center pt-8">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex w-full justify-center md:w-auto"
+                >
+                  <TextField
+                    type="email"
+                    aria-label="Email address"
+                    placeholder="Email address"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-60 min-w-0 shrink"
+                  />
+                  <Button type="submit" color="cyan" className="ml-4 flex-none">
+                    <span className="inline">Get early access</span>
+                  </Button>
+                </form>
+              </div>
+              <ul
+                role="list"
+                className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
               >
-                <h3 className="mt-2 font-semibold">{feature.name}</h3>
-                <p className="mt-2 text-secondary">{feature.description}</p>
-              </li>
-            ))}
-          </ul>
+                {features.map((feature) => (
+                  <li
+                    key={feature.name}
+                    className="rounded-2xl border border-gray-200 p-8"
+                  >
+                    <h3 className="mt-2 font-semibold">{feature.name}</h3>
+                    <p className="mt-2 text-secondary">{feature.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </Container>
       </section>
-      {/* </div> */}
     </>
   )
 }
