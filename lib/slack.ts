@@ -1,6 +1,5 @@
 import { serverEnv } from '@/env/server'
 import type { Post } from '@prisma/client'
-import { markdownToBlocks } from '@instantish/mack'
 import { marked } from 'marked'
 
 export async function postToSlackIfEnabled({
@@ -19,9 +18,7 @@ export async function postToSlackIfEnabled({
         token.type === 'image'
       )
     })
-    const summaryBlocks = summaryToken
-      ? await markdownToBlocks(summaryToken.raw)
-      : []
+    const summaryBlocks: any[] = []
     return fetch(serverEnv.SLACK_WEBHOOK_URL, {
       method: 'POST',
       headers: {
