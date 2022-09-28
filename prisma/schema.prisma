@@ -109,7 +109,7 @@ model Comment {
 
 model Email {
   id            String       @id @default(cuid())
-  email         String
+  email         String       @unique
 }
 
 enum Role {

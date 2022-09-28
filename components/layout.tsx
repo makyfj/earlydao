@@ -25,6 +25,7 @@ type LayoutProps = {
 export function Layout({ children }: LayoutProps) {
   const { data: session } = useSession()
   const { theme, themes, setTheme } = useTheme()
+  setTheme('dark')
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false)
 
   return (
