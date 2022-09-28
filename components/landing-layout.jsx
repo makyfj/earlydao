@@ -72,7 +72,7 @@ const features = [
   {
     name: 'Track key longevity metrics',
     description:
-      'Get insider tips on big stock moves and act on them within seconds.',
+      'Integrations with data aggregators like Apple Health, Oura, and Levels make it easy to sync your exercise, sleep and nutrition data.',
     icon: TableCellsIcon,
   },
   {
@@ -93,8 +93,9 @@ const features = [
     icon: CurrencyDollarIcon,
   },
   {
-    name: 'Community-first platform',
-    description: 'Work in the open and collaborate with other memebers.',
+    name: 'Community-first, privacy-forward platform',
+    description:
+      'Work in the open, collaborate with others and do it as yourself or a pseudonym.',
     icon: UserGroupIcon,
   },
   {
