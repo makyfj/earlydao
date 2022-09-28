@@ -1,4 +1,5 @@
 import { Layout } from '@/components/layout'
+import { LandingLayout } from '@/components/landing-layout'
 import { getQueryPaginationInput, Pagination } from '@/components/pagination'
 import type { PostSummaryProps } from '@/components/post-summary'
 import { PostSummarySkeleton } from '@/components/post-summary-skeleton'
@@ -20,6 +21,9 @@ const POSTS_PER_PAGE = 20
 const Home: NextPageWithAuthAndLayout = () => {
   const { data: session } = useSession()
   const router = useRouter()
+  if (!Home.auth) {
+    return <></>
+  }
   const currentPageNumber = router.query.page ? Number(router.query.page) : 1
   const utils = trpc.useContext()
   const feedQueryPathAndInput: InferQueryPathAndInput<'post.feed'> = [
@@ -148,9 +152,12 @@ const Home: NextPageWithAuthAndLayout = () => {
   )
 }
 
-Home.auth = true
+Home.auth = false
 
 Home.getLayout = function getLayout(page: React.ReactElement) {
+  if (!Home.auth) {
+    return <LandingLayout>{page}</LandingLayout>
+  }
   return <Layout>{page}</Layout>
 }
 

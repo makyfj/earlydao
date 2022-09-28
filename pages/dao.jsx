@@ -166,6 +166,7 @@ const Dao = () => {
     const checkBalance = async () => {
       try {
         const balance = await editionDrop.balanceOf(address, 0)
+        console.log('this is the balance', balance)
         if (balance.gt(0)) {
           setHasClaimedNFT(true)
           console.log('🌟 this user has a membership NFT!')
@@ -231,6 +232,8 @@ const Dao = () => {
       </>
     )
   }
+
+  console.log(hasClaimedNFT)
 
   // If the user has already claimed their NFT we want to display the interal DAO page to them
   // only DAO members will see this. Render all the members + token amounts.
