@@ -86,7 +86,7 @@ const features = [
   {
     name: 'Reflect on performance with experiements',
     description:
-      "Wearables aren't so great at saying what your data means, we can run experiments, gather the data, add context to the data, and create personalized action plan.",
+      "Wearables aren't so great at saying what your data means. Using the EARLY platform, we can gather the data, add context to the data, can run experiments, and create personalized action plan.",
     icon: PencilSquareIcon,
   },
   {
