@@ -16,6 +16,7 @@ import { SearchDialog } from '@/components/search-dialog'
 import { capitalize } from '@/lib/text'
 import { signOut, useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
+import Head from 'next/head'
 import Link from 'next/link'
 import * as React from 'react'
 
@@ -181,6 +182,13 @@ export function LandingLayout({ children }) {
 
   return (
     <>
+      <Head>
+        <title>EARLY - DAO for longevity practitioners</title>
+        <meta
+          name="description"
+          content="Optimize your longevity, gain the tools, insights, and frameworks you need to live longer and more importantly, live better."
+        />
+      </Head>
       <section
         id="secondary-features"
         aria-label="Features for building a portfolio"
