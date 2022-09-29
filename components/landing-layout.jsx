@@ -38,33 +38,6 @@ import {
   CurrencyDollarIcon,
 } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
-
-const links = [
-  {
-    name: 'Longevity Compendium',
-    description:
-      'Just science, expertise, and practical tactics to improve your health and live better for longer',
-    link: 'https://longevitydocs.vercel.app',
-    linkLabel: 'Read the docs',
-    icon: BookOpenIcon,
-  },
-  {
-    name: 'Decentralizing Longevity',
-    description:
-      'Conversations with the longevity practitioners and how they apply the principles of longevity',
-    link: 'https://decentralizinglongevity.vercel.app',
-    linkLabel: 'Listen to our podcast',
-    icon: RssIcon,
-  },
-  {
-    name: 'Short-form video',
-    description:
-      'Instructional videos on the foundational principles of longevity',
-    link: '#',
-    icon: VideoCameraIcon,
-  },
-]
-
 // type LayoutProps = {
 //   children: React.ReactNode
 // }
@@ -73,24 +46,35 @@ const features = [
   {
     name: 'Track key longevity metrics',
     description:
-      'Integrations with data aggregators like Apple Health, Oura, and Levels make it easy to sync your exercise, sleep and nutrition data.',
+      'Integrations with data aggregators like Apple Health, Oura, and Levels make it easy to sync your exercise, sleep, and nutrition data.',
     icon: TableCellsIcon,
   },
   {
     name: 'Rich data visualizations',
-    description: 'See your longevity metrics as they improve over time.',
+    description:
+      'Provide insightful, data-driven, actionable analytics about your health.',
     icon: ChartBarSquareIcon,
   },
   {
-    name: 'Calendar-based',
+    name: 'Longevity Compendium',
     description:
-      'Never lose track of the days. Ground yourself in the present and focus on what matters.',
-    icon: CalendarDaysIcon,
+      'Curation of the best-in-class science, expertise, and practical tactics to improve your health and live better for longer from world-class experts.',
+    link: 'https://longevitydocs.vercel.app',
+    linkLabel: 'Read the docs',
+    icon: BookOpenIcon,
   },
-
+  {
+    name: 'Decentralizing Longevity Podcast',
+    description:
+      'Conversations with the longevity practitioners and how they apply the principles of longevity, building the dialogue around longevity in the community.',
+    link: 'https://decentralizinglongevity.vercel.app',
+    linkLabel: 'Listen to the podcast',
+    icon: RssIcon,
+  },
   {
     name: 'Contribution incentives',
-    description: 'Earn governance tokens as you contribute to EARLY.',
+    description:
+      'Earn governance tokens as you contribute to the EARLY ecosystem as an engineer, researcher, creator, or practitioner.',
     icon: CurrencyDollarIcon,
   },
   {
@@ -100,26 +84,16 @@ const features = [
     icon: UserGroupIcon,
   },
   {
-    name: 'Reflect on performance',
+    name: 'Reflect on performance with experiements',
     description:
-      'Built-in accountability. Iterate on a cadence by writing thoughtful letters.',
+      "Wearables aren't so great at saying what your data means, we can run experiments, gather the data, add context to the data, and create personalized action plan.",
     icon: PencilSquareIcon,
   },
   {
-    name: 'Longevity Compendium',
+    name: 'Calendar-based interface',
     description:
-      'Just science, expertise, and practical tactics to improve your health and live better for longer',
-    link: 'https://longevitydocs.vercel.app',
-    linkLabel: 'Read the docs',
-    icon: BookOpenIcon,
-  },
-  {
-    name: 'Decentralizing Longevity Podcast',
-    description:
-      'Conversations with the longevity practitioners and how they apply the principles of longevity',
-    link: 'https://decentralizinglongevity.vercel.app',
-    linkLabel: 'Listen to the podcast',
-    icon: RssIcon,
+      'Never lose track of the days. Ground yourself in the present and focus on what matters.',
+    icon: CalendarDaysIcon,
   },
   {
     name: 'Short-form video',
