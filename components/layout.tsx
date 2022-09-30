@@ -26,7 +26,6 @@ type LayoutProps = {
 export function Layout({ children }: LayoutProps) {
   const { data: session } = useSession()
   const { theme, themes, setTheme } = useTheme()
-  setTheme('dark')
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false)
 
   return (
@@ -70,6 +69,8 @@ export function Layout({ children }: LayoutProps) {
               <MenuItems className="w-48">
                 <MenuItemsContent>
                   <MenuItemLink href={`/dao`}>DAO</MenuItemLink>
+                  <MenuItemLink href={`/import`}>Import</MenuItemLink>
+                  <MenuItemLink href={`/feed`}>Feed</MenuItemLink>
                   <MenuItemLink href={`/profile/${session!.user.id}`}>
                     Profile
                   </MenuItemLink>
