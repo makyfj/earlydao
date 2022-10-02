@@ -14,7 +14,7 @@ import '../styles/globals.css'
 
 import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 
-const activeChainId = ChainId.Rinkeby
+const activeChainId = ChainId.Mumbai
 
 type AppPropsWithAuthAndLayout = AppProps & {
   Component: NextPageWithAuthAndLayout

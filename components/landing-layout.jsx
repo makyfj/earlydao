@@ -127,7 +127,6 @@ export function TextField({ id, label, type = 'text', className, ...props }) {
 }
 
 export function LandingLayout({ children }) {
-  const { theme, themes, setTheme } = useTheme()
   const [email, setEmail] = React.useState('')
   const [isSubmitted, setIsSubmitted] = React.useState(false)
 
@@ -170,40 +169,24 @@ export function LandingLayout({ children }) {
       >
         <Container className={undefined}>
           <div className="mx-auto max-w-2xl text-center">
-            {isSubmitted ? (
-              <>
-                <h2 className="text-3xl font-medium tracking-tight">
-                  You&apos;ll be the first to know
-                </h2>
-                <div className="mt-6">
-                  <a
-                    onClick={() => setIsSubmitted(false)}
-                    className="text-base font-medium"
-                  >
-                    Go back home
-                    <span aria-hidden="true"> &rarr;</span>
-                  </a>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className="text-3xl font-medium tracking-tight">
-                  The time to live better is now.
-                </h2>
-                <p className="mt-2 text-lg text-secondary">
-                  EARLY is a DAO for longevity practitioners. Gain the tools,
-                  insights, and frameworks you need to live longer and more
-                  importantly, live better.
-                </p>
-                <p className="mt-2 text-lg text-secondary">
-                  Early access mint coming Winter 2022
-                </p>
-              </>
-            )}
-          </div>
-          {!isSubmitted && (
             <>
-              <div className="items-center pt-8">
+              <h2 className="text-3xl font-medium tracking-tight">
+                The time to live better is now.
+              </h2>
+              <p className="mt-2 text-lg text-secondary">
+                EARLY is a DAO for longevity practitioners. Gain the tools,
+                insights, and frameworks you need to live longer and more
+                importantly, live better.
+              </p>
+              <p className="mt-2 text-lg text-secondary">
+                Early access mint coming Winter 2022
+              </p>
+            </>
+          </div>
+
+          <>
+            <div className="items-center pt-8">
+              {!isSubmitted ? (
                 <form
                   onSubmit={handleSubmit}
                   className="flex w-full justify-center md:w-auto"
@@ -222,38 +205,42 @@ export function LandingLayout({ children }) {
                     <span className="inline">Get early access</span>
                   </Button>
                 </form>
-              </div>
-              <ul
-                role="list"
-                className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
-              >
-                {features.map((feature) => (
-                  <li
-                    key={feature.name}
-                    className="rounded-2xl border border-gray-200 p-8"
-                  >
-                    <feature.icon className="h-8 w-8" />
+              ) : (
+                <p className="mt-2 text-lg text-secondary text-center">
+                  You&apos;ll be the first to know!
+                </p>
+              )}
+            </div>
+            <ul
+              role="list"
+              className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+            >
+              {features.map((feature) => (
+                <li
+                  key={feature.name}
+                  className="rounded-2xl border border-gray-200 p-8"
+                >
+                  <feature.icon className="h-8 w-8" />
 
-                    <h3 className="mt-2 font-semibold">{feature.name}</h3>
-                    <p className="mt-2 text-secondary">{feature.description}</p>
-                    {feature.link && (
-                      <Link href={feature.link}>
-                        <a target="_blank">
-                          <div
-                            aria-hidden="true"
-                            className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
-                          >
-                            {feature.linkLabel}
-                            <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
-                          </div>
-                        </a>
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+                  <h3 className="mt-2 font-semibold">{feature.name}</h3>
+                  <p className="mt-2 text-secondary">{feature.description}</p>
+                  {feature.link && (
+                    <Link href={feature.link}>
+                      <a target="_blank">
+                        <div
+                          aria-hidden="true"
+                          className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
+                        >
+                          {feature.linkLabel}
+                          <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+                        </div>
+                      </a>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
         </Container>
         <Container>
           <div className="mt-20 flex flex-col items-center border-t border-slate-400/10 py-10 sm:flex-row-reverse sm:justify-between">
