@@ -111,7 +111,6 @@ export default function ImportTabs() {
     <div className="w-full px-2 py-8 sm:px-0">
       <Tab.Group
         onChange={(index) => {
-          console.log('Changed selected tab to:', index)
           setSelectedIndex(index)
         }}
       >

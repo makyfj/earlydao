@@ -402,7 +402,7 @@ const Dao = () => {
               >
                 {proposals.map((proposal) => (
                   <>
-                    <div className="mt-8">
+                    <div key={proposal} className="mt-8">
                       <p className="text-sm leading-5 text-secondary">
                         {proposal.description}
                       </p>

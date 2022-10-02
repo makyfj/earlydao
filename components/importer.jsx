@@ -49,36 +49,54 @@ const importedFields = [
     },
     {
       id: 8,
+      name: 'sleep_efficiency',
+      label: 'Sleep Efficiency',
+      optional: false,
+    },
+    {
+      id: 9,
+      name: 'sleep_latency',
+      label: 'Sleep Latency',
+      optional: false,
+    },
+    {
+      id: 10,
       name: 'lowest_resting_heart_rate',
       label: 'Lowest Resting Heart Rate',
       optional: false,
     },
     {
-      id: 9,
+      id: 11,
+      name: 'average_resting_heart_rate',
+      label: 'Average Resting Heart Rate',
+      optional: false,
+    },
+    {
+      id: 12,
       name: 'average_heart_rate_variability',
       label: 'Average HRV',
       optional: false,
     },
     {
-      id: 10,
+      id: 13,
       name: 'temperature_deviation',
       label: 'Temperature Deviation (°C)',
       optional: false,
     },
     {
-      id: 11,
+      id: 14,
       name: 'respiratory_rate',
       label: 'Respiratory Rate',
       optional: false,
     },
     {
-      id: 12,
+      id: 15,
       name: 'inactive_time',
       label: 'Inactive Time',
       optional: false,
     },
     {
-      id: 13,
+      id: 16,
       name: 'average_met',
       label: 'Average MET',
       optional: false,
@@ -93,7 +111,7 @@ const importedFields = [
     },
     {
       id: 102,
-      name: 'type',
+      name: 'type', // TODO: type does not fit into our framework ((stability, strength, aerobic performance, anaerobic output, rucking, walking, NEAT))
       label: 'Type',
       optional: false,
     },
