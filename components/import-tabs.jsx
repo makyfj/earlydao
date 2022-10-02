@@ -28,6 +28,13 @@ export default function ImportTabs() {
         commentCount: 3,
         shareCount: 2,
       },
+      {
+        id: 3,
+        title: 'Download sample CSV',
+        date: 'Sep 30, 2022',
+        commentCount: 3,
+        shareCount: 2,
+      },
     ],
     'Micro Exercise': [
       {
@@ -43,6 +50,13 @@ export default function ImportTabs() {
         date: 'Sep 30, 2022',
         commentCount: 24,
         shareCount: 12,
+      },
+      {
+        id: 3,
+        title: 'Download sample CSV',
+        date: 'Sep 30, 2022',
+        commentCount: 3,
+        shareCount: 2,
       },
     ],
     'Macro Exercise': [
@@ -60,6 +74,13 @@ export default function ImportTabs() {
         commentCount: 24,
         shareCount: 12,
       },
+      {
+        id: 3,
+        title: 'Download sample CSV',
+        date: 'Sep 30, 2022',
+        commentCount: 3,
+        shareCount: 2,
+      },
     ],
     Nutrition: [
       {
@@ -75,6 +96,13 @@ export default function ImportTabs() {
         date: 'Sep 30, 2022',
         commentCount: 24,
         shareCount: 12,
+      },
+      {
+        id: 3,
+        title: 'Download sample CSV',
+        date: 'Sep 30, 2022',
+        commentCount: 3,
+        shareCount: 2,
       },
     ],
   })
