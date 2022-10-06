@@ -164,7 +164,7 @@ export const postRouter = createProtectedRouter()
   .mutation('add', {
     input: z.object({
       endDate: z.string(),
-      cadence: z.string().min(1),
+      cadence: z.string(),
       title: z.string().min(1),
       content: z.string().min(1),
     }),

@@ -7,9 +7,14 @@ import { DatePicker } from '@/components/date-picker'
 import { useLeaveConfirm } from '@/lib/form'
 import * as React from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { trpc } from '@/lib/trpc'
+import Select from 'react-select'
+import { sleep } from 'react-query/types/core/utils'
+
+import mean from 'lodash/mean'
 
 type FormData = {
-  cadence: string
+  cadence: any
   endDate: string
   title: string
   content: string
@@ -28,14 +33,52 @@ export function PostForm({
   backTo,
   onSubmit,
 }: PostFormProps) {
-  const { control, register, formState, getValues, reset, handleSubmit } =
-    useForm<FormData>({
-      defaultValues,
-    })
+  const {
+    control,
+    register,
+    formState,
+    getValues,
+    reset,
+    handleSubmit,
+    watch,
+  } = useForm<FormData>({
+    defaultValues,
+  })
 
   useLeaveConfirm({ formState })
 
   const { isSubmitSuccessful } = formState
+
+  const watchAllFields = watch() // when pass nothing as argument, you are watching everything
+  // const watchFields = watch(['showAge', 'number']) // you can also target specific fields by their names
+
+  const sleepQuery = trpc.useQuery([
+    'oura.post_metrics',
+    { cadence: watchAllFields.cadence, endDate: watchAllFields.endDate },
+  ])
+  console.log(watchAllFields)
+  console.log({
+    cadence: watchAllFields.cadence,
+    endDate: watchAllFields.endDate,
+  })
+
+  const result = {
+    totalSleep: mean(sleepQuery.data?.entries.map((i) => i.totalSleep)),
+    lowestRestingHeartRate: mean(
+      sleepQuery.data?.entries.map((i) => i.lowestRestingHeartRate)
+    ),
+    averageHRV: mean(sleepQuery.data?.entries.map((i) => i.averageHRV)),
+    inactiveTime: mean(sleepQuery.data?.entries.map((i) => i.inactiveTime)),
+    averageMET: mean(sleepQuery.data?.entries.map((i) => i.averageMET)),
+  }
+
+  // Callback version of watch.  It's your responsibility to unsubscribe when done.
+  React.useEffect(() => {
+    const subscription = watch((value, { name, type }) =>
+      console.log(value, name, type)
+    )
+    return () => subscription.unsubscribe()
+  }, [watch])
 
   React.useEffect(() => {
     if (isSubmitSuccessful) {
@@ -45,31 +88,6 @@ export function PostForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {!defaultValues?.title && (
-        <>
-          <DatePicker
-            {...register('endDate', { required: !defaultValues?.title })}
-            label="End date"
-            autoFocus
-            required
-            className="text-lg font-semibold !py-1.5"
-          />
-
-          <div className="mt-6">
-            <label htmlFor="cadence" className="block mb-2 font-semibold">
-              Cadence
-            </label>
-            <select
-              className="block w-full py-1 rounded shadow-sm bg-secondary border-secondary focus-ring text-lg font-semibold !py-1.5"
-              {...(register('cadence'), { required: !defaultValues?.title })}
-            >
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-            </select>
-          </div>
-        </>
-      )}
       <div className="mt-6">
         <TextField
           {...register('title', { required: true })}
@@ -78,6 +96,47 @@ export function PostForm({
           className="text-lg font-semibold !py-1.5"
         />
       </div>
+      {!defaultValues?.title && (
+        <>
+          <div className="mt-6">
+            <DatePicker
+              {...register('endDate', { required: !defaultValues?.title })}
+              label="End date"
+              autoFocus
+              required
+              className="text-lg font-semibold !py-1.5"
+            />
+          </div>
+
+          <div className="mt-6">
+            <label htmlFor="cadence" className="block mb-2 font-semibold">
+              Cadence
+            </label>
+            <Controller
+              name="cadence"
+              control={control}
+              rules={{ required: true }}
+              {...(register('cadence'), { required: !defaultValues?.title })}
+              render={({ field }) => (
+                <select
+                  {...field}
+                  {...register('cadence')}
+                  className="block w-full py-1 rounded shadow-sm bg-secondary border-secondary focus-ring text-lg font-semibold !py-1.5"
+                >
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly</option>
+                </select>
+              )}
+            />
+          </div>
+        </>
+      )}
+
+      {JSON.stringify(sleepQuery.data, null, 2)}
+
+      <div className="mt-6">{JSON.stringify(result, null, 2)}</div>
+
       <div className="mt-6">
         <Controller
           name="content"
