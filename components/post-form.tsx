@@ -62,15 +62,30 @@ export function PostForm({
     endDate: watchAllFields.endDate,
   })
 
-  const result = {
-    totalSleep: mean(sleepQuery.data?.entries.map((i) => i.totalSleep)),
-    lowestRestingHeartRate: mean(
-      sleepQuery.data?.entries.map((i) => i.lowestRestingHeartRate)
-    ),
-    averageHRV: mean(sleepQuery.data?.entries.map((i) => i.averageHRV)),
-    inactiveTime: mean(sleepQuery.data?.entries.map((i) => i.inactiveTime)),
-    averageMET: mean(sleepQuery.data?.entries.map((i) => i.averageMET)),
-  }
+  const keyMetrics = [
+    {
+      name: 'Total Sleep',
+      value: mean(sleepQuery.data?.entries.map((i) => i.totalSleep)),
+    },
+    {
+      name: 'Lowest Resting Heart Rate',
+      value: mean(
+        sleepQuery.data?.entries.map((i) => i.lowestRestingHeartRate)
+      ),
+    },
+    {
+      name: 'Average HRV',
+      value: mean(sleepQuery.data?.entries.map((i) => i.averageHRV)),
+    },
+    {
+      name: 'Inactive Time',
+      value: mean(sleepQuery.data?.entries.map((i) => i.inactiveTime)),
+    },
+    {
+      name: 'Average METs',
+      value: mean(sleepQuery.data?.entries.map((i) => i.averageMET)),
+    },
+  ]
 
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
   React.useEffect(() => {
@@ -133,9 +148,51 @@ export function PostForm({
         </>
       )}
 
-      {JSON.stringify(sleepQuery.data, null, 2)}
+      {/* {JSON.stringify(sleepQuery.data, null, 2)} */}
 
-      <div className="mt-6">{JSON.stringify(result, null, 2)}</div>
+      {/* <div className="mt-6">{JSON.stringify(keyMetrics, null, 2)}</div> */}
+      <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
+        <table className="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6 md:pl-0"
+              >
+                Key Metric
+              </th>
+              <th
+                scope="col"
+                className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
+              ></th>
+              <th
+                scope="col"
+                className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
+              ></th>
+              <th
+                scope="col"
+                className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6 md:pr-0"
+              >
+                Result
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {keyMetrics.map((km, kmIdx) => (
+              <tr key={kmIdx} className="border-b border-gray-200">
+                <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
+                  <div className="font-medium">{km.name}</div>
+                </td>
+                <td className="hidden py-4 px-3 text-right text-sm sm:table-cell"></td>
+                <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell"></td>
+                <td className="py-4 pl-3 pr-4 text-right text-sm sm:pr-6 md:pr-0">
+                  {km.value ? km.value : 'Loading'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="mt-6">
         <Controller
