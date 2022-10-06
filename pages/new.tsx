@@ -37,7 +37,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
           onSubmit={(values) => {
             addPostMutation.mutate(
               {
-                endDate: values.endDate,
+                endDate: values.endDate!,
                 cadence: values.cadence,
                 title: values.title,
                 content: values.content,

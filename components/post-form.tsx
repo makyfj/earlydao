@@ -69,8 +69,6 @@ export function PostForm({
     },
   ])
 
-  console.log(watchAllFields.endDate)
-
   const cadenceMap: any = {
     weekly: 7,
     monthly: 30,
