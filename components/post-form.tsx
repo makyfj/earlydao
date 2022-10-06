@@ -63,8 +63,20 @@ export function PostForm({
 
   const sleepQuery = trpc.useQuery([
     'oura.post_metrics',
-    { cadence: watchAllFields.cadence, endDate: watchAllFields.endDate },
+    {
+      cadence: watchAllFields.cadence,
+      endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+    },
   ])
+
+  console.log(watchAllFields.endDate)
+
+  const cadenceMap: any = {
+    weekly: 7,
+    monthly: 30,
+    quarterly: 120,
+    annually: 365,
+  }
 
   const keyMetrics = [
     {
@@ -93,16 +105,16 @@ export function PostForm({
       name: 'Average METs',
       value: mean(sleepQuery.data?.entries.map((i: any) => i.averageMET)),
     },
-    // {
-    //   name: 'Average Bed Time',
-    //   value: new Date(
-    //     sum(
-    //       sleepQuery.data?.entries.map((i: any) =>
-    //         new Date(i.bedTime).getTime()
-    //       )
-    //     ) / 7 //sleepQuery.data?.entries.length ?? 1
-    //   ).getTime(),
-    // },
+    {
+      name: 'Average Bed Time',
+      value: secondsToDuration(
+        sum(
+          sleepQuery.data?.entries.map((i: any) =>
+            new Date(i.bedTime).getTime()
+          )
+        ) / cadenceMap[watchAllFields.cadence]
+      ),
+    },
   ]
 
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
