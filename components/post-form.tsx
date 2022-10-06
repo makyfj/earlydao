@@ -103,16 +103,16 @@ export function PostForm({
       name: 'Average METs',
       value: mean(sleepQuery.data?.entries.map((i: any) => i.averageMET)),
     },
-    {
-      name: 'Average Bed Time',
-      value: secondsToDuration(
-        sum(
-          sleepQuery.data?.entries.map((i: any) =>
-            new Date(i.bedTime).getTime()
-          )
-        ) / cadenceMap[watchAllFields.cadence]
-      ),
-    },
+    // {
+    //   name: 'Average Bed Time',
+    //   value: secondsToDuration(
+    //     sum(
+    //       sleepQuery.data?.entries.map((i: any) =>
+    //         new Date(i.bedTime).getTime()
+    //       )
+    //     ) / cadenceMap[watchAllFields.cadence]
+    //   ),
+    // },
   ]
 
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
