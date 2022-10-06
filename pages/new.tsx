@@ -28,13 +28,20 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
         <PostForm
           isSubmitting={addPostMutation.isLoading}
           defaultValues={{
+            cadence: 'weekly',
+            endDate: new Date().toISOString().split('T')[0],
             title: '',
             content: '',
           }}
           backTo="/"
           onSubmit={(values) => {
             addPostMutation.mutate(
-              { title: values.title, content: values.content },
+              {
+                endDate: values.endDate,
+                cadence: values.cadence,
+                title: values.title,
+                content: values.content,
+              },
               {
                 onSuccess: (data) => router.push(`/post/${data.id}`),
               }

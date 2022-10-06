@@ -3,11 +3,14 @@ import { ButtonLink } from '@/components/button-link'
 import { MarkdownIcon } from '@/components/icons'
 import { MarkdownEditor } from '@/components/markdown-editor'
 import { TextField } from '@/components/text-field'
+import { DatePicker } from '@/components/date-picker'
 import { useLeaveConfirm } from '@/lib/form'
 import * as React from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 type FormData = {
+  cadence: string
+  endDate: string
   title: string
   content: string
 }
@@ -42,14 +45,39 @@ export function PostForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        {...register('title', { required: true })}
-        label="Title"
-        autoFocus
-        required
-        className="text-lg font-semibold !py-1.5"
-      />
+      {!defaultValues?.title && (
+        <>
+          <DatePicker
+            {...register('endDate', { required: !defaultValues?.title })}
+            label="End date"
+            autoFocus
+            required
+            className="text-lg font-semibold !py-1.5"
+          />
 
+          <div className="mt-6">
+            <label htmlFor="cadence" className="block mb-2 font-semibold">
+              Cadence
+            </label>
+            <select
+              className="block w-full py-1 rounded shadow-sm bg-secondary border-secondary focus-ring text-lg font-semibold !py-1.5"
+              {...(register('cadence'), { required: !defaultValues?.title })}
+            >
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+            </select>
+          </div>
+        </>
+      )}
+      <div className="mt-6">
+        <TextField
+          {...register('title', { required: true })}
+          label="Title"
+          required
+          className="text-lg font-semibold !py-1.5"
+        />
+      </div>
       <div className="mt-6">
         <Controller
           name="content"
@@ -66,7 +94,6 @@ export function PostForm({
           )}
         />
       </div>
-
       <div className="flex items-center justify-between gap-4 mt-8">
         <div className="flex gap-4">
           <Button

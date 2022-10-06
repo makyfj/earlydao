@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { Importer, ImporterField } from 'react-csv-importer'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
+import { trpc } from '@/lib/trpc'
 
 const importedFields = [
   [
@@ -174,29 +175,23 @@ const importedFields = [
     {
       id: 206,
       name: 'flights_climbed',
-      label: 'Apple Exercise Time (min)',
-      optional: false,
-    },
-    {
-      id: 207,
-      name: 'exercise_time',
       label: 'Flights Climbed (count)',
       optional: false,
     },
     {
-      id: 208,
+      id: 207,
       name: 'mindful_minutes',
       label: 'Mindful Minutes (min)',
       optional: false,
     },
     {
-      id: 209,
+      id: 208,
       name: 'step_count',
       label: 'Step Count (count)',
       optional: false,
     },
     {
-      id: 210,
+      id: 209,
       name: 'vo2_max',
       label: 'VO2 Max (ml/(kg·min))',
       optional: false,
@@ -232,42 +227,152 @@ const importedFields = [
 
 export default function DataImporter({ fieldsIndex }) {
   const router = useRouter()
+  const addLevelsMutation = trpc.useMutation('levels.add', {
+    onError: (error) => {
+      toast.error(`Something went wrong: ${error.message}`)
+    },
+  })
+  const addMicroMutation = trpc.useMutation('apple_micro.add', {
+    onError: (error) => {
+      toast.error(`Something went wrong: ${error.message}`)
+    },
+  })
+  const addMacroMutation = trpc.useMutation('apple_macro.add', {
+    onError: (error) => {
+      toast.error(`Something went wrong: ${error.message}`)
+    },
+  })
+  const addOuraMutation = trpc.useMutation('oura.add', {
+    onError: (error) => {
+      toast.error(`Something went wrong: ${error.message}`)
+    },
+  })
+  const [importData, setImportData] = useState([])
+
+  async function processData(rows, schema) {
+    switch (schema) {
+      case 0:
+        // Oura
+        for (const row of rows) {
+          if (row.bed_time) {
+            addOuraMutation.mutate(
+              {
+                date: new Date(row.date),
+                bedTime: new Date(row.bed_time),
+                wakeUpTime: new Date(row.wake_up_time),
+                totalSleep: Number(row.total_sleep_duration),
+                totalAwake: Number(row.awake_time),
+                totalREM: Number(row.rem_sleep),
+                totalDeep: Number(row.deep_sleep),
+                sleepEfficiency: Number(row.sleep_efficiency),
+                latencyDuration: Number(row.sleep_latency),
+                lowestRestingHeartRate: Number(row.lowest_resting_heart_rate),
+                averageRestingHeartRate: Number(row.average_resting_heart_rate),
+                averageHRV: Number(row.average_heart_rate_variability),
+                temperatureDeviation: Number(row.temperature_deviation),
+                respiratoryRate: Number(row.respiratory_rate),
+                inactiveTime: Number(row.inactive_time),
+                averageMET: Number(row.average_met),
+              },
+              {
+                onSuccess: (data) => toast.success(`Imported successfully`),
+              }
+            )
+          }
+        }
+        break
+      case 1:
+        // Workouts
+        for (const row of rows) {
+          addMicroMutation.mutate(
+            {
+              startTime: new Date(row.start),
+              type: row.type,
+              duration: row.duration,
+              activeEnergy: Number(row.active_energy),
+              maxHeartRate: Number(row.max_heart_rate),
+              averageHeartRate: Number(row.average_heart_rate),
+            },
+            {
+              onSuccess: (data) => toast.success(`Imported successfully`),
+            }
+          )
+        }
+        break
+      case 2:
+        // Apple Health
+        for (const row of rows) {
+          addMacroMutation.mutate(
+            {
+              date: new Date(row.date),
+              activeEnergy: Number(row.active_energy),
+              exerciseTime: Number(row.exercise_time),
+              standHour: Number(row.stand_hour),
+              standTime: Number(row.stand_time),
+              flightsClimbed: Number(row.flights_climbed),
+              mindfulMintues: Number(row.mindful_minutes),
+              stepCount: Number(row.step_count),
+              vo2Max: Number(row.vo2_max),
+            },
+            {
+              onSuccess: (data) => toast.success(`Imported successfully`),
+            }
+          )
+        }
+        break
+      case 3:
+        // Levels
+        for (const row of rows) {
+          if (row.type === 'food') {
+            addLevelsMutation.mutate(
+              {
+                time: new Date(row.time),
+                notes: row.notes,
+                link: row.photo_link,
+              },
+              {
+                onSuccess: (data) => toast.success(`Imported successfully`),
+              }
+            )
+          }
+        }
+        break
+      default:
+        // Invalid
+        break
+    }
+  }
 
   return (
     <Importer
+      chunkSize={10000} // optional, internal parsing chunk size in bytes
       assumeNoHeaders={false} // optional, keeps "data has headers" checkbox off by default
-      restartable={false} // optional, lets user choose to upload another file when import is complete
+      restartable={true} // optional, lets user choose to upload another file when import is complete
       onStart={({ file, preview, fields, columnFields }) => {
         // optional, invoked when user has mapped columns and started import
         // prepMyAppForIncomingData()
-        console.log('1')
-        console.log(file, preview, fields, columnFields)
+        console.log('1: onStart!')
       }}
-      processChunk={async (rows, { startIndex }) => {
+      processChunk={(rows, { startIndex }) => {
         // required, may be called several times
         // receives a list of parsed objects based on defined fields and user column mapping;
         // (if this callback returns a promise, the widget will wait for it before parsing more data)
-        console.log('2')
-        console.log(startIndex)
-        console.log(rows)
-        for (row of rows) {
-          //   await console.log(row)
-          console.log('processing')
-        }
+        console.log('2: processChunk!')
+
+        Promise.resolve(processData(rows, fieldsIndex))
       }}
-      onComplete={({ file, preview, fields, columnFields }) => {
+      onComplete={async ({ file, preview, fields, columnFields }) => {
         // optional, invoked right after import is done (but user did not dismiss/reset the widget yet)
         // showMyAppToastNotification()
-        console.log('3')
-        toast.success('Imported')
+        // processData(importData, fieldsIndex)
       }}
-      onClose={({ file, preview, fields, columnFields }) => {
-        // optional, if this is specified the user will see a "Finish" button after import is done,
-        // which will call this when clicked
-        // goToMyAppNextPage()
-        console.log('4')
-        router.reload(window.location.pathname)
-      }}
+      // onClose={({ file, preview, fields, columnFields }) => {
+      //   // optional, if this is specified the user will see a "Finish" button after import is done,
+      //   // which will call this when clicked
+      //   // goToMyAppNextPage()
+      //   console.log('4: onClose!')
+      //   router.reload(window.location.pathname)
+      // }}
 
       // CSV options passed directly to PapaParse if specified:
       // delimiter={...}

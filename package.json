@@ -23,7 +23,7 @@
     "@trpc/server": "^9.18.0",
     "cloudinary": "^1.27.1",
     "crypto-hash": "^2.0.1",
-    "date-fns": "^2.28.0",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.2",
     "envsafe": "^2.0.3",
     "ethers": "^5.6.6",

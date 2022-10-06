@@ -163,12 +163,17 @@ export const postRouter = createProtectedRouter()
   })
   .mutation('add', {
     input: z.object({
+      endDate: z.string(),
+      cadence: z.string().min(1),
       title: z.string().min(1),
       content: z.string().min(1),
     }),
     async resolve({ ctx, input }) {
       const post = await ctx.prisma.post.create({
         data: {
+          endDate: new Date(input.endDate),
+          type: 'health',
+          cadence: input.cadence,
           title: input.title,
           content: input.content,
           contentHtml: markdownToHtml(input.content),

@@ -8,12 +8,6 @@ import { Button } from '@/components/button'
 
 const ImportDataPage = () => {
   const router = useRouter()
-  //   const addPostMutation = trpc.useMutation('post.add', {
-  //     onError: (error) => {
-  //       toast.error(`Something went wrong: ${error.message}`)
-  //     },
-  //   })
-
   return (
     <>
       <Head>
