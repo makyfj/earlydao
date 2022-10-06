@@ -1,4 +1,3 @@
-import { AppleMacro } from '@prisma/client'
 import { z } from 'zod'
 import { createProtectedRouter } from '../create-protected-router'
 
@@ -15,7 +14,7 @@ export const appleMacroRouter = createProtectedRouter().mutation('add', {
     vo2Max: z.number().optional(),
   }),
   async resolve({ ctx, input }) {
-    const appleMacro: AppleMacro = await ctx.prisma.appleMacro.upsert({
+    const appleMacro: any = await ctx.prisma.appleMacro.upsert({
       where: {
         AppleMacro_date_authorId_unique_constraint: {
           date: input.date,

@@ -1,6 +1,5 @@
 import { markdownToHtml } from '@/lib/editor'
 import { postToSlackIfEnabled } from '@/lib/slack'
-import { Oura } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { createProtectedRouter } from '../create-protected-router'
@@ -26,7 +25,7 @@ export const ouraRouter = createProtectedRouter()
       averageMET: z.number(),
     }),
     async resolve({ ctx, input }) {
-      const ouraPost: Oura = await ctx.prisma.oura.upsert({
+      const ouraPost: any = await ctx.prisma.oura.upsert({
         where: {
           Oura_date_authorId_unique_constraint: {
             date: input.date,
