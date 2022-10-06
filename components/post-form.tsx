@@ -27,48 +27,6 @@ type PostFormProps = {
   onSubmit: SubmitHandler<FormData>
 }
 
-const ONE_DAY_IN_MILLISECONDS = 24 * 3600 * 1000
-
-function getMillisecondsFromTimeTillMinTime(time, minTime) {
-  if (time < minTime) {
-    return ONE_DAY_IN_MILLISECONDS - minTime + time
-  }
-
-  return time - minTime
-}
-
-function getTimePartInMilliseconds(t) {
-  return (
-    (t.getHours() * 3600 + t.getMinutes() * 60 + t.getSeconds()) * 1000 +
-    t.getMilliseconds()
-  )
-}
-
-function calculateAverageOfHours(times: any, minTime: any) {
-  console.log(times)
-  if (times === undefined) return
-  let timestamps = times.map(getTimePartInMilliseconds)
-  let minTimestamp = getTimePartInMilliseconds(minTime)
-
-  let average = 0
-  timestamps.forEach((t) => {
-    average +=
-      getMillisecondsFromTimeTillMinTime(t, minTimestamp) / timestamps.length
-  })
-
-  const millisecondsFromStartOfDay =
-    (minTimestamp + average) % ONE_DAY_IN_MILLISECONDS
-
-  return new Date(
-    0,
-    0,
-    0,
-    Math.trunc(millisecondsFromStartOfDay / 3600000),
-    Math.trunc((millisecondsFromStartOfDay % 3600000) / 60000),
-    Math.trunc((millisecondsFromStartOfDay % 10000) / 1000)
-  )
-}
-
 function secondsToDuration(seconds: number) {
   var hours = Math.floor(seconds / 3600)
   var minutes = Math.floor((seconds - hours * 3600) / 60)
