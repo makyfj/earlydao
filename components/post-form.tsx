@@ -8,8 +8,6 @@ import { useLeaveConfirm } from '@/lib/form'
 import * as React from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { trpc } from '@/lib/trpc'
-import Select from 'react-select'
-import { sleep } from 'react-query/types/core/utils'
 // @ts-ignore
 import mean from 'lodash/mean'
 
