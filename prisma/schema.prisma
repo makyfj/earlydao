@@ -84,9 +84,9 @@ model Post {
   likedBy     LikedPosts[]
   comments    Comment[]
 
+  @@unique([endDate, cadence, type, authorId], name: "Post_endDate_cadence_type_authorId_unique_constraint")
   @@index([authorId])
   @@fulltext([title, content])
-  @@unique([endDate, cadence, type, authorId], name: "Post_endDate_cadence_type_authorId_unique_constraint")
 }
 
 model LikedPosts {
@@ -116,93 +116,93 @@ model Comment {
 }
 
 model Email {
-  id            String       @id @default(cuid())
-  email         String       @unique
+  id    String @id @default(cuid())
+  email String @unique
+}
+
+model Levels {
+  id                Int      @id @default(autoincrement())
+  date              DateTime
+  localTime         DateTime
+  notes             String   @db.Text
+  link              String   @db.VarChar(255)
+  perceivedFullness Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  author            User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId          String
+
+  @@unique([localTime, authorId], name: "Levels_localTime_authorId_unique_constraint")
+  @@index([authorId])
+  @@fulltext([notes])
+}
+
+model AppleMicro {
+  id           Int      @id @default(autoincrement())
+  date         DateTime
+  start        DateTime
+  type         String   @db.VarChar(255)
+  duration     Int
+  activeEnergy Float
+  maxHeartRate Int
+  avgHeartRate Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+
+  @@unique([start, authorId], name: "AppleMicro_start_authorId_unique_constraint")
+  @@index([authorId])
+}
+
+model AppleMacro {
+  id             Int      @id @default(autoincrement())
+  date           DateTime
+  activeEnergy   Float?
+  exerciseTime   Int?
+  standHour      Int?
+  standTime      Float?
+  flightsClimbed Float?
+  mindfulMinutes Float?
+  stepCount      Float?
+  vo2Max         Float?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  author         User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId       String
+
+  @@unique([date, authorId], name: "AppleMacro_date_authorId_unique_constraint")
+  @@index([authorId])
+}
+
+model Oura {
+  id                      Int       @id @default(autoincrement())
+  date                    DateTime
+  bedTime                 DateTime?
+  wakeUpTime              DateTime?
+  totalSleep              Int?
+  totalAwake              Int?
+  totalREM                Int?
+  totalDeep               Int?
+  sleepEfficiency         Int?
+  latencyDuration         Int?
+  lowestRestingHeartRate  Float?
+  averageRestingHeartRate Float?
+  averageHRV              Int?
+  temperatureDeviation    Float?
+  respiratoryRate         Float?
+  inactiveTime            Int?
+  averageMET              Float?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  author                  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId                String
+
+  @@unique([date, authorId], name: "Oura_date_authorId_unique_constraint")
+  @@index([authorId])
 }
 
 enum Role {
   USER
   ADMIN
-}
-
-model Levels {
-  id          Int          @id @default(autoincrement())
-  date        DateTime
-  localTime   DateTime
-  notes       String       @db.Text
-  link        String       @db.VarChar(255)
-  perceivedFullness Int
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId    String
-
-  @@index([authorId])
-  @@fulltext([notes])
-  @@unique([localTime, authorId], name: "Levels_localTime_authorId_unique_constraint")
-}
-
-model AppleMicro {
-  id          Int          @id @default(autoincrement())
-  date        DateTime
-  start       DateTime
-  type        String       @db.VarChar(255)
-  duration    Int
-  activeEnergy Float
-  maxHeartRate Int
-  avgHeartRate Float
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId    String
-
-  @@index([authorId])
-  @@unique([start, authorId], name: "AppleMicro_start_authorId_unique_constraint")
-}
-
-model AppleMacro {
-  id          Int          @id @default(autoincrement())
-  date        DateTime
-  activeEnergy Float?
-  exerciseTime Int?
-  standHour   Int?
-  standTime   Float?
-  flightsClimbed Float?
-  mindfulMinutes Float?
-  stepCount   Float?
-  vo2Max      Float?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId    String
-
-  @@index([authorId])
-  @@unique([date, authorId], name: "AppleMacro_date_authorId_unique_constraint")
-}
-
-model Oura {
-  id          Int          @id @default(autoincrement())
-  date        DateTime
-  bedTime     DateTime?
-  wakeUpTime  DateTime?
-  totalSleep  Int?
-  totalAwake  Int?
-  totalREM    Int?
-  totalDeep   Int?
-  sleepEfficiency Int?
-  latencyDuration Int?
-  lowestRestingHeartRate Float?
-  averageRestingHeartRate Float?
-  averageHRV  Int?
-  temperatureDeviation Float?
-  respiratoryRate Float?
-  inactiveTime   Int?
-  averageMET Float?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId    String
-
-  @@index([authorId])
-  @@unique([date, authorId], name: "Oura_date_authorId_unique_constraint")
 }
