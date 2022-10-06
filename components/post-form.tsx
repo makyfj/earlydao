@@ -141,8 +141,8 @@ export function PostForm({
       value: parseInt(
         mean(
           macroQuery.data?.entries
-            .reduce(function (filtered, option) {
-              if (option.activeEnergy) {
+            .reduce(function (filtered: any, option: any) {
+              if (option?.activeEnergy) {
                 filtered.push(option.activeEnergy)
               }
               return filtered
@@ -155,7 +155,7 @@ export function PostForm({
       name: 'Average VO2 Max',
       value: mean(
         macroQuery.data?.entries
-          .reduce(function (filtered, option) {
+          .reduce(function (filtered: any, option: any) {
             if (option.vo2Max) {
               filtered.push(option.vo2Max)
             }
@@ -175,7 +175,7 @@ export function PostForm({
       value: parseInt(
         mean(
           macroQuery.data?.entries
-            .reduce(function (filtered, option) {
+            .reduce(function (filtered: any, option: any) {
               if (option.stepCount) {
                 filtered.push(option.stepCount)
               }
