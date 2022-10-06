@@ -32,10 +32,7 @@ function secondsToDuration(seconds: number) {
   var minutes = Math.floor((seconds - hours * 3600) / 60)
   var seconds = seconds - hours * 3600 - minutes * 60
 
-  if (minutes < 10) {
-    minutes = '0' + minutes
-  }
-  return hours + 'h ' + minutes + 'm'
+  return `${hours}h ${minutes}m`
 }
 
 export function PostForm({
