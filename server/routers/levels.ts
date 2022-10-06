@@ -1,3 +1,4 @@
+import { Levels } from '@prisma/client'
 import { z } from 'zod'
 import { createProtectedRouter } from '../create-protected-router'
 
@@ -8,7 +9,7 @@ export const levelsRouter = createProtectedRouter().mutation('add', {
     link: z.string(),
   }),
   async resolve({ ctx, input }) {
-    const levelsPost: any = await ctx.prisma.levels.upsert({
+    const levelsPost: Levels = await ctx.prisma.levels.upsert({
       where: {
         Levels_localTime_authorId_unique_constraint: {
           localTime: input.time,

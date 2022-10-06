@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { createProtectedRouter } from '../create-protected-router'
+import { AppleMicro } from '@prisma/client'
 
 export const appleMicroRouter = createProtectedRouter().mutation('add', {
   input: z.object({
@@ -15,7 +16,7 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
     const durationSeconds =
       +durationArray[0] * 60 * 60 + +durationArray[1] * 60 + +durationArray[2]
 
-    const appleMicro: any = await ctx.prisma.appleMicro.upsert({
+    const appleMicro: AppleMicro = await ctx.prisma.appleMicro.upsert({
       where: {
         AppleMicro_start_authorId_unique_constraint: {
           start: input.startTime,
