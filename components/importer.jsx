@@ -310,7 +310,7 @@ export default function DataImporter({ fieldsIndex }) {
               standHour: Number(row.stand_hour),
               standTime: Number(row.stand_time),
               flightsClimbed: Number(row.flights_climbed),
-              mindfulMintues: Number(row.mindful_minutes),
+              mindfulMinutes: Number(row.mindful_minutes),
               stepCount: Number(row.step_count),
               vo2Max: Number(row.vo2_max),
             },

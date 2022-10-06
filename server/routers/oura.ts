@@ -78,7 +78,7 @@ export const ouraRouter = createProtectedRouter()
       return ouraPost
     },
   })
-  .query('post_metrics', {
+  .query('key_metrics', {
     input: z.object({
       // take: z.number().min(1).max(50).optional(),
       // skip: z.number().min(1).optional(),
@@ -111,7 +111,7 @@ export const ouraRouter = createProtectedRouter()
             lte: new Date(input.endDate),
             gte: startDate,
           },
-          authorId: 'cl8ugicc61257o61ex6k9vmrx',
+          authorId: ctx.session.user.id,
         },
         select: {
           date: true,

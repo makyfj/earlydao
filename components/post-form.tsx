@@ -10,9 +10,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { trpc } from '@/lib/trpc'
 // @ts-ignore
 import mean from 'lodash/mean'
-
 // @ts-ignore
-import sum from 'lodash/sum'
+import compact from 'lodash/compact'
 
 type FormData = {
   cadence?: any
@@ -26,6 +25,48 @@ type PostFormProps = {
   isSubmitting?: boolean
   backTo: string
   onSubmit: SubmitHandler<FormData>
+}
+
+const ONE_DAY_IN_MILLISECONDS = 24 * 3600 * 1000
+
+function getMillisecondsFromTimeTillMinTime(time, minTime) {
+  if (time < minTime) {
+    return ONE_DAY_IN_MILLISECONDS - minTime + time
+  }
+
+  return time - minTime
+}
+
+function getTimePartInMilliseconds(t) {
+  return (
+    (t.getHours() * 3600 + t.getMinutes() * 60 + t.getSeconds()) * 1000 +
+    t.getMilliseconds()
+  )
+}
+
+function calculateAverageOfHours(times: any, minTime: any) {
+  console.log(times)
+  if (times === undefined) return
+  let timestamps = times.map(getTimePartInMilliseconds)
+  let minTimestamp = getTimePartInMilliseconds(minTime)
+
+  let average = 0
+  timestamps.forEach((t) => {
+    average +=
+      getMillisecondsFromTimeTillMinTime(t, minTimestamp) / timestamps.length
+  })
+
+  const millisecondsFromStartOfDay =
+    (minTimestamp + average) % ONE_DAY_IN_MILLISECONDS
+
+  return new Date(
+    0,
+    0,
+    0,
+    Math.trunc(millisecondsFromStartOfDay / 3600000),
+    Math.trunc((millisecondsFromStartOfDay % 3600000) / 60000),
+    Math.trunc((millisecondsFromStartOfDay % 10000) / 1000)
+  )
 }
 
 function secondsToDuration(seconds: number) {
@@ -62,12 +103,36 @@ export function PostForm({
   // const watchFields = watch(['showAge', 'number']) // you can also target specific fields by their names
 
   const sleepQuery = trpc.useQuery([
-    'oura.post_metrics',
+    'oura.key_metrics',
     {
       cadence: watchAllFields.cadence,
       endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
     },
   ])
+
+  // const microQuery = trpc.useQuery([
+  //   'oura.key_metrics',
+  //   {
+  //     cadence: watchAllFields.cadence,
+  //     endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+  //   },
+  // ])
+
+  const macroQuery = trpc.useQuery([
+    'apple_macro.key_metrics',
+    {
+      cadence: watchAllFields.cadence,
+      endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+    },
+  ])
+
+  // const levelsQuery = trpc.useQuery([
+  //   'oura.key_metrics',
+  //   {
+  //     cadence: watchAllFields.cadence,
+  //     endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+  //   },
+  // ])
 
   const cadenceMap: any = {
     weekly: 7,
@@ -84,14 +149,16 @@ export function PostForm({
       ),
     },
     {
-      name: 'Lowest Resting Heart Rate',
-      value: mean(
-        sleepQuery.data?.entries.map((i: any) => i.lowestRestingHeartRate)
+      name: 'Lowest Resting Heart Rate (bpm)',
+      value: parseInt(
+        mean(sleepQuery.data?.entries.map((i: any) => i.lowestRestingHeartRate))
       ),
     },
     {
-      name: 'Average HRV',
-      value: mean(sleepQuery.data?.entries.map((i: any) => i.averageHRV)),
+      name: 'Average HRV (ms)',
+      value: parseInt(
+        mean(sleepQuery.data?.entries.map((i: any) => i.averageHRV))
+      ),
     },
     {
       name: 'Inactive Time',
@@ -101,19 +168,81 @@ export function PostForm({
     },
     {
       name: 'Average METs',
-      value: mean(sleepQuery.data?.entries.map((i: any) => i.averageMET)),
+      value: mean(
+        sleepQuery.data?.entries.map((i: any) => i.averageMET)
+      ).toFixed(4),
+    },
+    {
+      name: 'Total Sleep',
+      value: secondsToDuration(
+        mean(sleepQuery.data?.entries.map((i: any) => i.totalSleep))
+      ),
+    },
+    {
+      name: 'Average Calories Burned',
+      value: parseInt(
+        mean(
+          macroQuery.data?.entries
+            .reduce(function (filtered, option) {
+              if (option.activeEnergy) {
+                filtered.push(option.activeEnergy)
+              }
+              return filtered
+            }, [])
+            .map((i: any) => i)
+        )
+      ),
+    },
+    {
+      name: 'Average VO2 Max',
+      value: mean(
+        macroQuery.data?.entries
+          .reduce(function (filtered, option) {
+            if (option.vo2Max) {
+              filtered.push(option.vo2Max)
+            }
+            return filtered
+          }, [])
+          .map((i: any) => i)
+      ).toFixed(2),
     },
     // {
-    //   name: 'Average Bed Time',
-    //   value: secondsToDuration(
-    //     sum(
-    //       sleepQuery.data?.entries.map((i: any) =>
-    //         new Date(i.bedTime).getTime()
-    //       )
-    //     ) / cadenceMap[watchAllFields.cadence]
+    //   name: 'Average Mindful Minutes',
+    //   value: parseInt(
+    //     mean(macroQuery.data?.entries.map((i: any) => i.mindfulMinutes))
     //   ),
     // },
+    {
+      name: 'Average Step Count',
+      value: parseInt(
+        mean(
+          macroQuery.data?.entries
+            .reduce(function (filtered, option) {
+              if (option.stepCount) {
+                filtered.push(option.stepCount)
+              }
+              return filtered
+            }, [])
+            .map((i: any) => i)
+        )
+      ),
+    },
+
+    // {
+    //   name: 'Average Bed Time',
+    //   value: calculateAverageOfHours(
+    //     sleepQuery.data?.entries.map((i: any) => i.bedTime),
+    //     new Date(
+    //       Math.min.apply(
+    //         null,
+    //         sleepQuery.data?.entries.map((i: any) => i.bedTime)
+    //       )
+    //     )
+    //   )?.toLocaleTimeString(),
+    // },
   ]
+
+  console.log()
 
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
   React.useEffect(() => {
@@ -136,6 +265,7 @@ export function PostForm({
           {...register('title', { required: true })}
           label="Title"
           required
+          autoFocus
           className="text-lg font-semibold !py-1.5"
         />
       </div>
@@ -145,7 +275,6 @@ export function PostForm({
             <DatePicker
               {...register('endDate', { required: !defaultValues?.title })}
               label="End date"
-              autoFocus
               required
               className="text-lg font-semibold !py-1.5"
             />
@@ -176,7 +305,7 @@ export function PostForm({
         </>
       )}
 
-      {/* {JSON.stringify(sleepQuery.data, null, 2)} */}
+      {/* {JSON.stringify(macroQuery.data, null, 2)} */}
 
       {/* <div className="mt-6">{JSON.stringify(keyMetrics, null, 2)}</div> */}
       <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
@@ -214,7 +343,7 @@ export function PostForm({
                 <td className="hidden py-4 px-3 text-right text-sm sm:table-cell"></td>
                 <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell"></td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm sm:pr-6 md:pr-0">
-                  {km.value ? km.value : 'Loading'}
+                  {sleepQuery.isLoading ? 'Loading' : km.value}
                 </td>
               </tr>
             ))}
