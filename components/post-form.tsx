@@ -65,25 +65,25 @@ export function PostForm({
   const keyMetrics = [
     {
       name: 'Total Sleep',
-      value: mean(sleepQuery.data?.entries.map((i) => i.totalSleep)),
+      value: mean(sleepQuery.data?.entries.map((i: any) => i.totalSleep)),
     },
     {
       name: 'Lowest Resting Heart Rate',
       value: mean(
-        sleepQuery.data?.entries.map((i) => i.lowestRestingHeartRate)
+        sleepQuery.data?.entries.map((i: any) => i.lowestRestingHeartRate)
       ),
     },
     {
       name: 'Average HRV',
-      value: mean(sleepQuery.data?.entries.map((i) => i.averageHRV)),
+      value: mean(sleepQuery.data?.entries.map((i: any) => i.averageHRV)),
     },
     {
       name: 'Inactive Time',
-      value: mean(sleepQuery.data?.entries.map((i) => i.inactiveTime)),
+      value: mean(sleepQuery.data?.entries.map((i: any) => i.inactiveTime)),
     },
     {
       name: 'Average METs',
-      value: mean(sleepQuery.data?.entries.map((i) => i.averageMET)),
+      value: mean(sleepQuery.data?.entries.map((i: any) => i.averageMET)),
     },
   ]
 
