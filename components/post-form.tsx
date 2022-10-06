@@ -27,6 +27,17 @@ type PostFormProps = {
   onSubmit: SubmitHandler<FormData>
 }
 
+function secondsToDuration(seconds: number) {
+  var hours = Math.floor(seconds / 3600)
+  var minutes = Math.floor((seconds - hours * 3600) / 60)
+  var seconds = seconds - hours * 3600 - minutes * 60
+
+  if (minutes < 10) {
+    minutes = '0' + minutes
+  }
+  return hours + 'h ' + minutes + 'm'
+}
+
 export function PostForm({
   defaultValues,
   isSubmitting,
@@ -56,16 +67,13 @@ export function PostForm({
     'oura.post_metrics',
     { cadence: watchAllFields.cadence, endDate: watchAllFields.endDate },
   ])
-  console.log(watchAllFields)
-  console.log({
-    cadence: watchAllFields.cadence,
-    endDate: watchAllFields.endDate,
-  })
 
   const keyMetrics = [
     {
       name: 'Total Sleep',
-      value: mean(sleepQuery.data?.entries.map((i: any) => i.totalSleep)),
+      value: secondsToDuration(
+        mean(sleepQuery.data?.entries.map((i: any) => i.totalSleep))
+      ),
     },
     {
       name: 'Lowest Resting Heart Rate',
@@ -79,7 +87,9 @@ export function PostForm({
     },
     {
       name: 'Inactive Time',
-      value: mean(sleepQuery.data?.entries.map((i: any) => i.inactiveTime)),
+      value: secondsToDuration(
+        mean(sleepQuery.data?.entries.map((i: any) => i.inactiveTime))
+      ),
     },
     {
       name: 'Average METs',
