@@ -12,10 +12,11 @@ import Select from 'react-select'
 import { sleep } from 'react-query/types/core/utils'
 
 import mean from 'lodash/mean'
+import sum from 'lodash/sum'
 
 type FormData = {
-  cadence: any
-  endDate: string
+  cadence?: any
+  endDate?: string
   title: string
   content: string
 }
@@ -92,6 +93,16 @@ export function PostForm({
       name: 'Average METs',
       value: mean(sleepQuery.data?.entries.map((i: any) => i.averageMET)),
     },
+    // {
+    //   name: 'Average Bed Time',
+    //   value: new Date(
+    //     sum(
+    //       sleepQuery.data?.entries.map((i: any) =>
+    //         new Date(i.bedTime).getTime()
+    //       )
+    //     ) / 7 //sleepQuery.data?.entries.length ?? 1
+    //   ).getTime(),
+    // },
   ]
 
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
@@ -155,7 +166,7 @@ export function PostForm({
         </>
       )}
 
-      {/* {JSON.stringify(sleepQuery.data, null, 2)} */}
+      {JSON.stringify(sleepQuery.data, null, 2)}
 
       {/* <div className="mt-6">{JSON.stringify(keyMetrics, null, 2)}</div> */}
       <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
