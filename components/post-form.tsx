@@ -176,7 +176,7 @@ export function PostForm({
         </>
       )}
 
-      {JSON.stringify(sleepQuery.data, null, 2)}
+      {/* {JSON.stringify(sleepQuery.data, null, 2)} */}
 
       {/* <div className="mt-6">{JSON.stringify(keyMetrics, null, 2)}</div> */}
       <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
