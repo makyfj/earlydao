@@ -10,8 +10,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { trpc } from '@/lib/trpc'
 import Select from 'react-select'
 import { sleep } from 'react-query/types/core/utils'
-
+// @ts-ignore
 import mean from 'lodash/mean'
+
+// @ts-ignore
 import sum from 'lodash/sum'
 
 type FormData = {
