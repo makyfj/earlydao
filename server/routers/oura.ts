@@ -82,7 +82,8 @@ export const ouraRouter = createProtectedRouter()
     input: z.object({
       // take: z.number().min(1).max(50).optional(),
       // skip: z.number().min(1).optional(),
-      cadence: z.string(),
+      cadence: z.string().optional(),
+      startDate: z.string().optional(),
       endDate: z.string(),
     }),
     async resolve({ input, ctx }) {
@@ -95,19 +96,22 @@ export const ouraRouter = createProtectedRouter()
         annually: 365,
       }
       const endDateAsDate = new Date(input.endDate)
-      const startDate = new Date(
-        endDateAsDate.setDate(
-          endDateAsDate.getDate() - cadenceMap[input.cadence]
+      let startDate = null
+      if (input.startDate === undefined) {
+        startDate = new Date(
+          endDateAsDate.setDate(
+            endDateAsDate.getDate() - cadenceMap[input.cadence!]
+          )
         )
-      )
+      } else {
+        startDate = new Date(input.startDate)
+      }
 
       const entries = await ctx.prisma.oura.findMany({
         // take,
         // skip,
         where: {
           date: {
-            // lte: endDateAsDate,
-            // gte: startDate,
             lte: new Date(input.endDate),
             gte: startDate,
           },
