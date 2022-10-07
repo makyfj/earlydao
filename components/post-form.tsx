@@ -10,8 +10,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { trpc } from '@/lib/trpc'
 // @ts-ignore
 import mean from 'lodash/mean'
-// @ts-ignore
-import compact from 'lodash/compact'
 
 type FormData = {
   cadence?: any
@@ -92,6 +90,39 @@ export function PostForm({
   //   },
   // ])
 
+  const sleepQueryImprovment = trpc.useQuery([
+    'oura.key_metrics',
+    {
+      cadence: watchAllFields.cadence,
+      endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+      improvementFlag: true,
+    },
+  ])
+
+  // const microQuery = trpc.useQuery([
+  //   'oura.key_metrics',
+  //   {
+  //     cadence: watchAllFields.cadence,
+  //     endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+  //   },
+  // ])
+
+  // const macroQuery = trpc.useQuery([
+  //   'apple_macro.key_metrics',
+  //   {
+  //     cadence: watchAllFields.cadence,
+  //     endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+  //   },
+  // ])
+
+  // const levelsQuery = trpc.useQuery([
+  //   'oura.key_metrics',
+  //   {
+  //     cadence: watchAllFields.cadence,
+  //     endDate: watchAllFields.endDate || new Date().toLocaleDateString(),
+  //   },
+  // ])
+
   const cadenceMap: any = {
     weekly: 7,
     monthly: 30,
@@ -105,11 +136,21 @@ export function PostForm({
       value: secondsToDuration(
         mean(sleepQuery.data?.entries.map((i: any) => i.totalSleep))
       ),
+      improvement: secondsToDuration(
+        mean(sleepQueryImprovment.data?.entries.map((i: any) => i.totalSleep))
+      ),
     },
     {
       name: 'Lowest Resting Heart Rate (bpm)',
       value: parseInt(
         mean(sleepQuery.data?.entries.map((i: any) => i.lowestRestingHeartRate))
+      ),
+      improvement: parseInt(
+        mean(
+          sleepQueryImprovment.data?.entries.map(
+            (i: any) => i.lowestRestingHeartRate
+          )
+        )
       ),
     },
     {
@@ -117,11 +158,17 @@ export function PostForm({
       value: parseInt(
         mean(sleepQuery.data?.entries.map((i: any) => i.averageHRV))
       ),
+      improvement: parseInt(
+        mean(sleepQueryImprovment.data?.entries.map((i: any) => i.averageHRV))
+      ),
     },
     {
       name: 'Inactive Time',
       value: secondsToDuration(
         mean(sleepQuery.data?.entries.map((i: any) => i.inactiveTime))
+      ),
+      improvement: secondsToDuration(
+        mean(sleepQueryImprovment.data?.entries.map((i: any) => i.inactiveTime))
       ),
     },
     {
@@ -129,11 +176,17 @@ export function PostForm({
       value: mean(
         sleepQuery.data?.entries.map((i: any) => i.averageMET)
       ).toFixed(4),
+      improvement: mean(
+        sleepQueryImprovment.data?.entries.map((i: any) => i.averageMET)
+      ).toFixed(4),
     },
     {
       name: 'Total Sleep',
       value: secondsToDuration(
         mean(sleepQuery.data?.entries.map((i: any) => i.totalSleep))
+      ),
+      improvement: secondsToDuration(
+        mean(sleepQueryImprovment.data?.entries.map((i: any) => i.totalSleep))
       ),
     },
     {
@@ -194,6 +247,89 @@ export function PostForm({
     //       Math.min.apply(
     //         null,
     //         sleepQuery.data?.entries.map((i: any) => i.bedTime)
+    //       )
+    //     )
+    //   )?.toLocaleTimeString(),
+    // },
+  ]
+
+  const keyMetricsImprovment = [
+    {
+      name: 'Total Sleep',
+    },
+    {
+      name: 'Lowest Resting Heart Rate (bpm)',
+    },
+    {
+      name: 'Average HRV (ms)',
+    },
+    {
+      name: 'Inactive Time',
+    },
+    {
+      name: 'Average METs',
+    },
+    {
+      name: 'Total Sleep',
+    },
+    {
+      name: 'Average Calories Burned',
+      value: parseInt(
+        mean(
+          macroQuery.data?.entries
+            .reduce(function (filtered: any, option: any) {
+              if (option?.activeEnergy) {
+                filtered.push(option.activeEnergy)
+              }
+              return filtered
+            }, [])
+            .map((i: any) => i)
+        )
+      ),
+    },
+    {
+      name: 'Average VO2 Max',
+      value: mean(
+        macroQuery.data?.entries
+          .reduce(function (filtered: any, option: any) {
+            if (option.vo2Max) {
+              filtered.push(option.vo2Max)
+            }
+            return filtered
+          }, [])
+          .map((i: any) => i)
+      ).toFixed(2),
+    },
+    // {
+    //   name: 'Average Mindful Minutes',
+    //   value: parseInt(
+    //     mean(macroQuery.data?.entries.map((i: any) => i.mindfulMinutes))
+    //   ),
+    // },
+    {
+      name: 'Average Step Count',
+      value: parseInt(
+        mean(
+          macroQuery.data?.entries
+            .reduce(function (filtered: any, option: any) {
+              if (option.stepCount) {
+                filtered.push(option.stepCount)
+              }
+              return filtered
+            }, [])
+            .map((i: any) => i)
+        )
+      ),
+    },
+
+    // {
+    //   name: 'Average Bed Time',
+    //   value: calculateAverageOfHours(
+    //     sleepQueryImprovment.data?.entries.map((i: any) => i.bedTime),
+    //     new Date(
+    //       Math.min.apply(
+    //         null,
+    //         sleepQueryImprovment.data?.entries.map((i: any) => i.bedTime)
     //       )
     //     )
     //   )?.toLocaleTimeString(),
@@ -283,7 +419,9 @@ export function PostForm({
               <th
                 scope="col"
                 className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
-              ></th>
+              >
+                Last
+              </th>
               <th
                 scope="col"
                 className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold sm:pr-6 md:pr-0"
@@ -299,7 +437,9 @@ export function PostForm({
                   <div className="font-medium">{km.name}</div>
                 </td>
                 <td className="hidden py-4 px-3 text-right text-sm sm:table-cell"></td>
-                <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell"></td>
+                <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell">
+                  {sleepQueryImprovment.isLoading ? 'Loading' : km?.improvement}
+                </td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm sm:pr-6 md:pr-0">
                   {sleepQuery.isLoading ? 'Loading' : km.value}
                 </td>

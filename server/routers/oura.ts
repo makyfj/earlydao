@@ -85,6 +85,7 @@ export const ouraRouter = createProtectedRouter()
       cadence: z.string().optional(),
       startDate: z.string().optional(),
       endDate: z.string(),
+      improvementFlag: z.boolean().optional(),
     }),
     async resolve({ input, ctx }) {
       // const take = input?.take ?? 50
@@ -95,14 +96,27 @@ export const ouraRouter = createProtectedRouter()
         quarterly: 120,
         annually: 365,
       }
-      const endDateAsDate = new Date(input.endDate)
+      let endDateAsDate = new Date(input.endDate)
       let startDate = null
       if (input.startDate === undefined) {
-        startDate = new Date(
-          endDateAsDate.setDate(
-            endDateAsDate.getDate() - cadenceMap[input.cadence!]
+        if (input.improvementFlag) {
+          startDate = new Date(
+            endDateAsDate.setDate(
+              endDateAsDate.getDate() - cadenceMap[input.cadence!] * 2
+            )
           )
-        )
+          endDateAsDate = new Date(
+            endDateAsDate.setDate(
+              endDateAsDate.getDate() - cadenceMap[input.cadence!]
+            )
+          )
+        } else {
+          startDate = new Date(
+            endDateAsDate.setDate(
+              endDateAsDate.getDate() - cadenceMap[input.cadence!]
+            )
+          )
+        }
       } else {
         startDate = new Date(input.startDate)
       }
