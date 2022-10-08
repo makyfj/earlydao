@@ -420,7 +420,7 @@ export function PostForm({
                 scope="col"
                 className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
               >
-                Last
+                Previous {watchAllFields.cadence}
               </th>
               <th
                 scope="col"
