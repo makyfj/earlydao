@@ -415,12 +415,14 @@ export function PostForm({
               <th
                 scope="col"
                 className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
-              ></th>
+              >
+                Previous {watchAllFields.cadence}
+              </th>
               <th
                 scope="col"
                 className="hidden py-3.5 px-3 text-right text-sm font-semibold sm:table-cell"
               >
-                Previous {watchAllFields.cadence}
+                Change
               </th>
               <th
                 scope="col"
@@ -436,9 +438,12 @@ export function PostForm({
                 <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
                   <div className="font-medium">{km.name}</div>
                 </td>
-                <td className="hidden py-4 px-3 text-right text-sm sm:table-cell"></td>
-                <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell">
+                <td className="hidden py-4 px-3 text-right text-sm sm:table-cell">
                   {sleepQueryImprovment.isLoading ? 'Loading' : km?.improvement}
+                </td>
+                <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell">
+                  {/* {sleepQuery.isLoading &&sleepQueryImprovment.isLoading ? 'Coming soon' : km?.improvement} */}
+                  ...
                 </td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm sm:pr-6 md:pr-0">
                   {sleepQuery.isLoading ? 'Loading' : km.value}

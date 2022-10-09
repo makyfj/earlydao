@@ -10,6 +10,7 @@ import {
   useToken,
   useVote,
   useNetwork,
+  useContract,
 } from '@thirdweb-dev/react'
 import { ChainId } from '@thirdweb-dev/sdk'
 import { useState, useEffect, useMemo } from 'react'
@@ -23,17 +24,34 @@ const Dao = () => {
 
   const address = useAddress()
   const network = useNetwork()
+
   const connectWithMetamask = useMetamask()
   console.log('👋 Address:', address)
+  console.log('👋 nw:', network)
 
   // Initialize our editionDrop contract
-  const editionDrop = useEditionDrop(
-    '0x980f916838cEdbAC5d640da88D6Cf9B23cd01730'
-  )
+  const editionDrop = useContract(
+    '0x980f916838cEdbAC5d640da88D6Cf9B23cd01730',
+    'edition-drop'
+  ).contract
   // Initialize our token contract
-  const token = useToken('0xf7f64a9aeE1F99282f3A7D32d8451af0bc6216a0')
+  const token = useContract(
+    '0xf7f64a9aeE1F99282f3A7D32d8451af0bc6216a0',
+    'edition-drop'
+  ).contract
 
-  const vote = useVote('0x3D40193A0D008114ffeD058Aef7D10E1Ab13BA40')
+  const vote = useContract(
+    '0x3D40193A0D008114ffeD058Aef7D10E1Ab13BA40',
+    'edition-drop'
+  ).contract
+
+  console.log(`edition:${editionDrop}`)
+  console.log(`token:${token}`)
+  console.log(`vote:${vote}`)
+  console.log()
+  console.log(vote)
+  const ed = useEditionDrop('0x980f916838cEdbAC5d640da88D6Cf9B23cd01730')
+  console.log(`edition2:${ed}`)
 
   // State variable for us to know if user has our NFT.
   const [hasClaimedNFT, setHasClaimedNFT] = useState(false)

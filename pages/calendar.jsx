@@ -86,12 +86,7 @@ const CalendarPage = () => {
   let today = startOfToday()
   let [selectedDay, setSelectedDay] = useState(today)
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
-  const [firstDayCurrentMonth, setFirstDayCurrentMonth] = useState(
-    parse(currentMonth, 'MMM-yyyy', new Date())
-  )
-  const [lastDayCurrentMonth, setLastDayCurrentMonth] = useState(
-    endOfMonth(firstDayCurrentMonth)
-  )
+  let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
 
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
@@ -99,29 +94,18 @@ const CalendarPage = () => {
   })
 
   function previousMonth() {
-    setFirstDayCurrentMonth(add(firstDayCurrentMonth, { months: -1 }))
-    setLastDayCurrentMonth(endOfMonth(firstDayCurrentMonth))
-    setCurrentMonth(format(firstDayCurrentMonth, 'MMM-yyyy'))
+    let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 })
+    setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
   }
 
   function nextMonth() {
-    setFirstDayCurrentMonth(add(firstDayCurrentMonth, { months: 1 }))
-    setLastDayCurrentMonth(endOfMonth(firstDayCurrentMonth))
-    setCurrentMonth(format(firstDayCurrentMonth, 'MMM-yyyy'))
+    let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 })
+    setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
   }
 
-  let selectedDayMeetings = sleepQuery?.data?.entries.filter((meeting) =>
-    isSameDay(parseISO(meeting.wakeUpTime), selectedDay)
+  let selectedDayMeetings = meetings.filter((meeting) =>
+    isSameDay(parseISO(meeting.endDatetime), selectedDay)
   )
-
-  const sleepQuery = trpc.useQuery([
-    'oura.key_metrics',
-    {
-      startDate: String(firstDayCurrentMonth),
-      endDate: String(lastDayCurrentMonth),
-    },
-  ])
-  console.log(sleepQuery)
 
   return (
     <>
@@ -211,8 +195,8 @@ const CalendarPage = () => {
                       </button>
 
                       <div className="w-1 h-1 mx-auto mt-1">
-                        {sleepQuery?.data?.entries.map((meeting) =>
-                          isSameDay(new Date(meeting.wakeUpTime), new Date(day))
+                        {meetings.some((meeting) =>
+                          isSameDay(parseISO(meeting.endDatetime), day)
                         ) && (
                           <div className="w-1 h-1 rounded-full bg-red-500"></div>
                         )}
@@ -229,7 +213,7 @@ const CalendarPage = () => {
                   </time>
                 </h2>
                 <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-                  {selectedDayMeetings?.length > 0 ? (
+                  {selectedDayMeetings.length > 0 ? (
                     selectedDayMeetings.map((meeting) => (
                       <Meeting meeting={meeting} key={meeting.id} />
                     ))
@@ -247,27 +231,27 @@ const CalendarPage = () => {
 }
 
 const Meeting = ({ meeting }) => {
-  let startDateTime = parseISO(meeting.bedTime)
-  let endDateTime = parseISO(meeting.wakeUpTime)
+  let startDateTime = parseISO(meeting.startDatetime)
+  let endDateTime = parseISO(meeting.endDatetime)
 
   console.log(meeting)
 
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      {/* TODO: have pictures for different logs - oura, levels, etc */}
+      {/* TODO: have pictures */}
       {/* <img
         src={meeting.imageUrl}
         alt=""
         className="flex-none w-10 h-10 rounded-full"
       /> */}
       <div className="flex-auto">
-        <p className="text-gray-900">{meeting.totalSleep}</p>
+        <p className="text-gray-900">{meeting.name}</p>
         <p className="mt-0.5">
-          <time dateTime={meeting.bedTime}>
+          <time dateTime={meeting.startDatetime}>
             {format(startDateTime, 'h:mm a')}
           </time>{' '}
           -{' '}
-          <time dateTime={meeting.wakeUpTime}>
+          <time dateTime={meeting.endDatetime}>
             {format(endDateTime, 'h:mm a')}
           </time>
         </p>
