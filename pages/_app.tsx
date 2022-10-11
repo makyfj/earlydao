@@ -14,7 +14,7 @@ import '../styles/globals.css'
 
 import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 
-const activeChainId = ChainId.Goerli
+const activeChainId = ChainId.Mumbai
 
 console.log(`CHAIN: ${activeChainId}`)
 

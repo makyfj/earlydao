@@ -27,19 +27,19 @@ import { Fragment, useState } from 'react'
 const meetings = [
   {
     id: 1,
-    name: 'Leslie Alexander',
+    name: 'Sleep',
     imageUrl:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     startDatetime: '2022-10-06T21:00',
     endDatetime: '2022-10-07T08:30',
   },
   {
-    id: 2,
-    name: 'Michael Foster',
+    id: 1,
+    name: 'Strength training',
     imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2022-05-20T09:00',
-    endDatetime: '2022-05-20T11:30',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '2022-10-07T10:00',
+    endDatetime: '2022-10-07T11:30',
   },
   {
     id: 3,

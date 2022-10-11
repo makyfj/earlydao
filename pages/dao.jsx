@@ -26,32 +26,21 @@ const Dao = () => {
   const network = useNetwork()
 
   const connectWithMetamask = useMetamask()
-  console.log('👋 Address:', address)
-  console.log('👋 nw:', network)
 
-  // Initialize our editionDrop contract
   const editionDrop = useContract(
     '0x980f916838cEdbAC5d640da88D6Cf9B23cd01730',
     'edition-drop'
   ).contract
-  // Initialize our token contract
+
   const token = useContract(
     '0xf7f64a9aeE1F99282f3A7D32d8451af0bc6216a0',
-    'edition-drop'
+    'token'
   ).contract
 
   const vote = useContract(
     '0x3D40193A0D008114ffeD058Aef7D10E1Ab13BA40',
-    'edition-drop'
+    'vote'
   ).contract
-
-  console.log(`edition:${editionDrop}`)
-  console.log(`token:${token}`)
-  console.log(`vote:${vote}`)
-  console.log()
-  console.log(vote)
-  const ed = useEditionDrop('0x980f916838cEdbAC5d640da88D6Cf9B23cd01730')
-  console.log(`edition2:${ed}`)
 
   // State variable for us to know if user has our NFT.
   const [hasClaimedNFT, setHasClaimedNFT] = useState(false)
@@ -64,8 +53,8 @@ const Dao = () => {
   const [memberAddresses, setMemberAddresses] = useState([])
 
   const [proposals, setProposals] = useState([])
-  const [isVoting, setIsVoting] = useState(false)
   const [hasVoted, setHasVoted] = useState(false)
+  const [isVoting, setIsVoting] = useState(false)
 
   // A fancy function to shorten someones wallet address, no need to show the whole thing.
   const shortenAddress = (str) => {
@@ -83,9 +72,9 @@ const Dao = () => {
       try {
         const proposals = await vote.getAll()
         setProposals(proposals)
-        console.log('🌈 Proposals:', proposals)
+        // console.log('🌈 Proposals:', proposals)
       } catch (error) {
-        console.log('failed to get proposals', error)
+        // console.log('failed to get proposals', error)
       }
     }
     getAllProposals()
@@ -108,12 +97,12 @@ const Dao = () => {
         const hasVoted = await vote.hasVoted(proposals[0].proposalId, address)
         setHasVoted(hasVoted)
         if (hasVoted) {
-          console.log('🥵 User has already voted')
+          // console.log('🥵 User has already voted')
         } else {
-          console.log('🙂 User has not voted yet')
+          // console.log('🙂 User has not voted yet')
         }
       } catch (error) {
-        console.error('Failed to check if wallet has voted', error)
+        // console.error('Failed to check if wallet has voted', error)
       }
     }
     checkIfUserHasVoted()
@@ -132,13 +121,13 @@ const Dao = () => {
         const memberAddresses =
           await editionDrop.history.getAllClaimerAddresses(0)
         setMemberAddresses(memberAddresses)
-        console.log('🚀 Members addresses', memberAddresses)
+        // console.log('🚀 Members addresses', memberAddresses)
       } catch (error) {
-        console.error('failed to get member list', error)
+        // console.error('failed to get member list', error)
       }
     }
     getAllAddresses()
-  }, [hasClaimedNFT, editionDrop.history])
+  }, [hasClaimedNFT, editionDrop])
 
   // This useEffect grabs the # of token each member holds.
   useEffect(() => {
@@ -150,13 +139,13 @@ const Dao = () => {
       try {
         const amounts = await token.history.getAllHolderBalances()
         setMemberTokenAmounts(amounts)
-        console.log('👜 Amounts', amounts)
+        // console.log('👜 Amounts', amounts)
       } catch (error) {
-        console.error('failed to get member balances', error)
+        // console.error('failed to get member balances', error)
       }
     }
     getAllBalances()
-  }, [hasClaimedNFT, token.history])
+  }, [hasClaimedNFT, token])
 
   // Now, we combine the memberAddresses and memberTokenAmounts into a single array
   const memberList = useMemo(() => {
@@ -184,17 +173,17 @@ const Dao = () => {
     const checkBalance = async () => {
       try {
         const balance = await editionDrop.balanceOf(address, 0)
-        console.log('this is the balance', balance)
+        // console.log('this is the balance', balance)
         if (balance.gt(0)) {
           setHasClaimedNFT(true)
-          console.log('🌟 this user has a membership NFT!')
+          // console.log('🌟 this user has a membership NFT!')
         } else {
           setHasClaimedNFT(false)
-          console.log("😭 this user doesn't have a membership NFT.")
+          // console.log("😭 this user doesn't have a membership NFT.")
         }
       } catch (error) {
         setHasClaimedNFT(false)
-        console.error('Failed to get balance', error)
+        // console.error('Failed to get balance', error)
       }
     }
     checkBalance()
@@ -204,24 +193,24 @@ const Dao = () => {
     try {
       setIsClaiming(true)
       await editionDrop.claim('0', 1)
-      console.log(
-        `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${editionDrop.getAddress()}/0`
-      )
+      // console.log(
+      //   `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${editionDrop.getAddress()}/0`
+      // )
       setHasClaimedNFT(true)
     } catch (error) {
       setHasClaimedNFT(false)
-      console.error('Failed to mint NFT', error)
+      // console.error('Failed to mint NFT', error)
     } finally {
       setIsClaiming(false)
     }
   }
 
-  if (address && network?.[0].data.chain.id !== ChainId.Rinkeby) {
+  if (address && network?.[0].data.chain.id !== ChainId.Mumbai) {
     return (
       <div className="unsupported-network">
-        <h2>Please connect to Rinkeby</h2>
+        <h2>Please connect to Mumbai</h2>
         <p>
-          This dapp only works on the Rinkeby network, please switch networks in
+          This dapp only works on the Mumbai network, please switch networks in
           your connected wallet.
         </p>
       </div>
@@ -250,8 +239,6 @@ const Dao = () => {
       </>
     )
   }
-
-  console.log(hasClaimedNFT)
 
   // If the user has already claimed their NFT we want to display the interal DAO page to them
   // only DAO members will see this. Render all the members + token amounts.
@@ -320,8 +307,7 @@ const Dao = () => {
                 </div>
               </div>
             </div>
-            <div className="mx-auto max-w-lg px-4 pt-10 pb-12 lg:pb-16">
-              {/* <form> */}
+            {/* <div className="mx-auto max-w-lg px-4 pt-10 pb-12 lg:pb-16">
               <div className="space-y-6">
                 <div>
                   <h1 className="text-lg font-medium leading-6">
@@ -465,7 +451,7 @@ const Dao = () => {
                   </Button>
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
         </div>
       </>
@@ -479,7 +465,7 @@ const Dao = () => {
         Mint your free EARLYDAO Membership NFT
       </h3>
       <p className="mt-1 text-sm text-secondary">
-        A community for longevity practitioners
+        A DAO for longevity practitioners
       </p>
       <Button
         disabled={isClaiming}
