@@ -18,8 +18,9 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
 
     const appleMicro: AppleMicro = await ctx.prisma.appleMicro.upsert({
       where: {
-        AppleMicro_start_authorId_unique_constraint: {
+        AppleMicro_start_type_authorId_unique_constraint: {
           start: input.startTime,
+          type: input.type,
           authorId: ctx.session.user.id,
         },
       },
@@ -39,6 +40,7 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
       },
       update: {
         date: new Date(input.startTime.toISOString().split('T')[0]),
+        start: input.startTime,
         type: input.type,
         duration: durationSeconds,
         activeEnergy: input.activeEnergy,

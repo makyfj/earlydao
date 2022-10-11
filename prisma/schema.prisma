@@ -151,7 +151,7 @@ model AppleMicro {
   author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId     String
 
-  @@unique([start, authorId], name: "AppleMicro_start_authorId_unique_constraint")
+  @@unique([start, type, authorId], name: "AppleMicro_start_type_authorId_unique_constraint")
   @@index([authorId])
 }
 
@@ -159,7 +159,7 @@ model AppleMacro {
   id             Int      @id @default(autoincrement())
   date           DateTime
   activeEnergy   Float?
-  exerciseTime   Int?
+  exerciseTime   Float?
   standHour      Int?
   standTime      Float?
   flightsClimbed Float?

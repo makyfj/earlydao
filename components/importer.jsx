@@ -229,22 +229,38 @@ export default function DataImporter({ fieldsIndex }) {
   const router = useRouter()
   const addLevelsMutation = trpc.useMutation('levels.add', {
     onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`)
+      if (error.message.includes('Failed to fetch')) {
+        toast.error('File too large, please break into chunks')
+      } else {
+        toast.error(`Something went wrong: ${error.message}`)
+      }
     },
   })
   const addMicroMutation = trpc.useMutation('apple_micro.add', {
     onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`)
+      if (error.message.includes('Failed to fetch')) {
+        toast.error('File too large, please break into chunks')
+      } else {
+        toast.error(`Something went wrong: ${error.message}`)
+      }
     },
   })
   const addMacroMutation = trpc.useMutation('apple_macro.add', {
     onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`)
+      if (error.message.includes('Failed to fetch')) {
+        toast.error('File too large, please break into chunks')
+      } else {
+        toast.error(`Something went wrong: ${error.message}`)
+      }
     },
   })
   const addOuraMutation = trpc.useMutation('oura.add', {
     onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`)
+      if (error.message.includes('Failed to fetch')) {
+        toast.error('File too large, please break into chunks')
+      } else {
+        toast.error(`Something went wrong: ${error.message}`)
+      }
     },
   })
   const [importData, setImportData] = useState([])
@@ -275,7 +291,8 @@ export default function DataImporter({ fieldsIndex }) {
                 averageMET: Number(row.average_met),
               },
               {
-                onSuccess: (data) => toast.success(`Imported successfully`),
+                onSuccess: (data) =>
+                  toast.success(`Imported ${rows.length} rows successfully`),
               }
             )
           }
@@ -294,7 +311,8 @@ export default function DataImporter({ fieldsIndex }) {
               averageHeartRate: Number(row.average_heart_rate),
             },
             {
-              onSuccess: (data) => toast.success(`Imported successfully`),
+              onSuccess: (data) =>
+                toast.success(`Imported ${rows.length} rows successfully`),
             }
           )
         }
@@ -315,7 +333,8 @@ export default function DataImporter({ fieldsIndex }) {
               vo2Max: Number(row.vo2_max),
             },
             {
-              onSuccess: (data) => toast.success(`Imported successfully`),
+              onSuccess: (data) =>
+                toast.success(`Imported ${rows.length} rows successfully`),
             }
           )
         }
@@ -331,7 +350,8 @@ export default function DataImporter({ fieldsIndex }) {
                 link: row.photo_link,
               },
               {
-                onSuccess: (data) => toast.success(`Imported successfully`),
+                onSuccess: (data) =>
+                  toast.success(`Imported ${rows.length} rows successfully`),
               }
             )
           }
@@ -351,14 +371,11 @@ export default function DataImporter({ fieldsIndex }) {
       onStart={({ file, preview, fields, columnFields }) => {
         // optional, invoked when user has mapped columns and started import
         // prepMyAppForIncomingData()
-        console.log('1: onStart!')
       }}
       processChunk={(rows, { startIndex }) => {
         // required, may be called several times
         // receives a list of parsed objects based on defined fields and user column mapping;
         // (if this callback returns a promise, the widget will wait for it before parsing more data)
-        console.log('2: processChunk!')
-
         Promise.resolve(processData(rows, fieldsIndex))
       }}
       onComplete={async ({ file, preview, fields, columnFields }) => {
