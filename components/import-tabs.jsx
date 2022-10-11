@@ -13,7 +13,7 @@ export default function ImportTabs() {
   const router = useRouter()
   const [selectedIndex, setSelectedIndex] = useState(0)
   let [categories] = useState({
-    Sleep: [
+    Oura: [
       {
         id: 1,
         title: 'Schema: What data EARLY pulls from Oura',
@@ -36,7 +36,7 @@ export default function ImportTabs() {
         shareCount: 2,
       },
     ],
-    'Micro Exercise': [
+    Workouts: [
       {
         id: 1,
         title: 'Schema: What data EARLY looks for in your workouts',
@@ -59,7 +59,7 @@ export default function ImportTabs() {
         shareCount: 2,
       },
     ],
-    'Macro Exercise': [
+    'Apple Health': [
       {
         id: 1,
         title: 'Schema: What data EARLY looks for in your fitness data',
@@ -82,7 +82,7 @@ export default function ImportTabs() {
         shareCount: 2,
       },
     ],
-    Nutrition: [
+    Levels: [
       {
         id: 1,
         title: 'Schema: What data EARLY looks for in your nutrition data',
