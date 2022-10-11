@@ -36,7 +36,7 @@ export default function ImportTabs() {
         shareCount: 2,
       },
     ],
-    Workouts: [
+    'Apple Workouts': [
       {
         id: 1,
         title: 'Schema: What data EARLY looks for in your workouts',
