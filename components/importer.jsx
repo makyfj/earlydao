@@ -227,13 +227,13 @@ const importedFields = [
   [
     {
       id: 401,
-      name: 'time',
+      name: 'date',
       label: 'Date',
       optional: false,
     },
     {
       id: 402,
-      name: 'type',
+      name: 'weight',
       label: 'Weight (lb)',
       optional: true,
     },
@@ -411,11 +411,11 @@ export default function DataImporter({ fieldsIndex }) {
           addMiscMutation.mutate(
             {
               date: new Date(row.date),
-              weight: row.weight,
-              fatMass: row.fat_mass,
-              boneMass: row.bone_mass,
-              muscleMass: row.muscle_mass,
-              hydration: row.hydration,
+              weight: Number(row.weight),
+              fatMass: Number(row.fat_mass),
+              boneMass: Number(row.bone_mass),
+              muscleMass: Number(row.muscle_mass),
+              hydration: Number(row.hydration),
             },
             {
               onSuccess: (data) =>
