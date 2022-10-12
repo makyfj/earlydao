@@ -7,6 +7,7 @@ export const levelsRouter = createProtectedRouter().mutation('add', {
     time: z.date(),
     notes: z.string().min(1),
     link: z.string(),
+    type: z.string(),
   }),
   async resolve({ ctx, input }) {
     const levelsPost: Levels = await ctx.prisma.levels.upsert({
@@ -21,7 +22,7 @@ export const levelsRouter = createProtectedRouter().mutation('add', {
         localTime: input.time,
         notes: input.notes,
         link: input.link,
-        perceivedFullness: 0,
+        type: input.type,
         author: {
           connect: {
             id: ctx.session.user.id,
@@ -32,7 +33,7 @@ export const levelsRouter = createProtectedRouter().mutation('add', {
         date: new Date(input.time.toISOString().split('T')[0]),
         notes: input.notes,
         link: input.link,
-        perceivedFullness: 0,
+        type: input.type,
       },
     })
 

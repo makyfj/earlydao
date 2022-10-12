@@ -105,6 +105,29 @@ export default function ImportTabs() {
         shareCount: 2,
       },
     ],
+    Misc: [
+      {
+        id: 1,
+        title: 'Schema: What data EARLY looks for in your misc data',
+        date: 'Sep 30, 2022',
+        commentCount: 29,
+        shareCount: 16,
+      },
+      {
+        id: 2,
+        title: 'Tutorial: Import misc data',
+        date: 'Sep 30, 2022',
+        commentCount: 24,
+        shareCount: 12,
+      },
+      {
+        id: 3,
+        title: 'Download sample CSV',
+        date: 'Sep 30, 2022',
+        commentCount: 3,
+        shareCount: 2,
+      },
+    ],
   })
 
   return (

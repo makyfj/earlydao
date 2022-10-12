@@ -8,6 +8,7 @@ import { levelsRouter } from './levels'
 import { ouraRouter } from './oura'
 import { appleMicroRouter } from './appleMicro'
 import { appleMacroRouter } from './appleMacro'
+import { miscRouter } from './misc'
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -19,5 +20,6 @@ export const appRouter = createRouter()
   .merge('oura.', ouraRouter)
   .merge('apple_macro.', appleMacroRouter)
   .merge('apple_micro.', appleMicroRouter)
+  .merge('misc.', miscRouter)
 
 export type AppRouter = typeof appRouter

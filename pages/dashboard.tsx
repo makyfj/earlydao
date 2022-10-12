@@ -25,7 +25,7 @@ const DashboardPage = () => {
 
 DashboardPage.auth = true
 
-DashboardPage.getLayout = function getLayout(page) {
+DashboardPage.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>
 }
 

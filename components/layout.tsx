@@ -37,7 +37,7 @@ export function Layout({ children }: LayoutProps) {
           content="Optimize your longevity, gain the tools, insights, and frameworks you need to live longer and more importantly, live better."
         />
       </Head>
-      <div className="max-w-3xl px-6 mx-auto">
+      <div className="max-w-4xl px-6 mx-auto">
         <header className="flex items-center justify-between gap-4 py-12 md:py-20">
           <Link href="/">
             {/* <a>

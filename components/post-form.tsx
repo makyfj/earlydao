@@ -10,6 +10,54 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { trpc } from '@/lib/trpc'
 // @ts-ignore
 import mean from 'lodash/mean'
+import {
+  Card,
+  Metric,
+  Text,
+  Flex,
+  BadgeDelta,
+  DeltaType,
+  Color,
+  ColGrid,
+} from '@tremor/react'
+
+const colors: { [key: string]: Color } = {
+  increase: 'emerald',
+  moderateIncrease: 'emerald',
+  unchanged: 'orange',
+  moderateDecrease: 'rose',
+  decrease: 'rose',
+}
+
+const categories: {
+  title: string
+  metric: string
+  metricPrev: string
+  delta: string
+  deltaType: DeltaType
+}[] = [
+  {
+    title: 'Sleep',
+    metric: '8h 32m',
+    metricPrev: '8h 18m',
+    delta: '2.7%',
+    deltaType: 'moderateIncrease',
+  },
+  {
+    title: 'Resting Heart Rate',
+    metric: '46 bpm',
+    metricPrev: '48 bpm',
+    delta: '4.2%',
+    deltaType: 'moderateDecrease',
+  },
+  {
+    title: 'Heart Rate Variability',
+    metric: '57 ms',
+    metricPrev: '49 ms',
+    delta: '16.3%',
+    deltaType: 'moderateIncrease',
+  },
+]
 
 type FormData = {
   cadence?: any
@@ -402,7 +450,7 @@ export function PostForm({
       {/* {JSON.stringify(macroQuery.data, null, 2)} */}
 
       {/* <div className="mt-6">{JSON.stringify(keyMetrics, null, 2)}</div> */}
-      <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
+      {/* <div className="-mx-4 mt-3 flex flex-col sm:-mx-6 md:mx-0">
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
@@ -442,7 +490,7 @@ export function PostForm({
                   {sleepQueryImprovment.isLoading ? 'Loading' : km?.improvement}
                 </td>
                 <td className="hidden py-4 px-3 text-right text-sm  sm:table-cell">
-                  {/* {sleepQuery.isLoading &&sleepQueryImprovment.isLoading ? 'Coming soon' : km?.improvement} */}
+                  {sleepQuery.isLoading &&sleepQueryImprovment.isLoading ? 'Coming soon' : km?.improvement}
                   ...
                 </td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm sm:pr-6 md:pr-0">
@@ -452,6 +500,41 @@ export function PostForm({
             ))}
           </tbody>
         </table>
+      </div>
+      <></> */}
+
+      <div className="mt-5">
+        <ColGrid numColsSm={2} numColsLg={3} gapX="gap-x-6" gapY="gap-y-6">
+          {categories.map((item) => (
+            <Card key={item.title}>
+              <Text>{item.title}</Text>
+              <Flex
+                justifyContent="justify-start"
+                alignItems="items-baseline"
+                spaceX="space-x-3"
+                truncate={true}
+              >
+                <Metric>{item.metric}</Metric>
+                <Text truncate={true}>from {item.metricPrev}</Text>
+              </Flex>
+              <Flex
+                justifyContent="justify-start"
+                spaceX="space-x-2"
+                marginTop="mt-4"
+              >
+                <BadgeDelta deltaType={item.deltaType} />
+                <Flex
+                  justifyContent="justify-start"
+                  spaceX="space-x-1"
+                  truncate={true}
+                >
+                  <Text color={colors[item.deltaType]}>{item.delta}</Text>
+                  <Text truncate={true}> to previous month </Text>
+                </Flex>
+              </Flex>
+            </Card>
+          ))}
+        </ColGrid>
       </div>
 
       <div className="mt-6">

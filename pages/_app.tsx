@@ -10,13 +10,12 @@ import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import * as React from 'react'
 import { Toaster } from 'react-hot-toast'
+import '@tremor/react/dist/esm/tremor.css'
 import '../styles/globals.css'
 
 import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 
 const activeChainId = ChainId.Mumbai
-
-console.log(`CHAIN: ${activeChainId}`)
 
 type AppPropsWithAuthAndLayout = AppProps & {
   Component: NextPageWithAuthAndLayout

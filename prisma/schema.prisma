@@ -57,6 +57,9 @@ model User {
   appleMicros   AppleMicro[]
   appleMacros   AppleMacro[]
   ouraPosts     Oura[]
+  miscPosts     Misc[]
+  gender        Gender       @default(NONE)
+  birthday      DateTime?
   role          Role         @default(USER)
 }
 
@@ -124,9 +127,10 @@ model Levels {
   id                Int      @id @default(autoincrement())
   date              DateTime
   localTime         DateTime
+  type              String
   notes             String   @db.Text
   link              String   @db.VarChar(255)
-  perceivedFullness Int
+  logDetail         Json? // can be perceivedFullness, foodType (cooking, restaurant), supplements, coffee, alcohol, marijuana
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   author            User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -159,6 +163,7 @@ model AppleMacro {
   id             Int      @id @default(autoincrement())
   date           DateTime
   activeEnergy   Float?
+  basalEnergy    Float?
   exerciseTime   Float?
   standHour      Int?
   standTime      Float?
@@ -202,7 +207,31 @@ model Oura {
   @@index([authorId])
 }
 
+model Misc {
+  id                Int      @id @default(autoincrement())
+  date              DateTime
+  weight            Float?
+  fatMass           Float?
+  boneMass          Float?
+  muscleMass        Float?
+  hydration         Float?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  author            User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId          String
+
+  @@unique([date, authorId], name: "Misc_date_authorId_unique_constraint")
+  @@index([authorId])
+}
+
 enum Role {
   USER
   ADMIN
+}
+
+enum Gender {
+  NONE
+  MALE
+  FEMALE
+  INTERSEX
 }

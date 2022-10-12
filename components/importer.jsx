@@ -223,6 +223,45 @@ const importedFields = [
       optional: true,
     },
   ],
+  //TODO: misc
+  [
+    {
+      id: 401,
+      name: 'time',
+      label: 'Date',
+      optional: false,
+    },
+    {
+      id: 402,
+      name: 'type',
+      label: 'Weight (lb)',
+      optional: true,
+    },
+    {
+      id: 403,
+      name: 'fat_mass',
+      label: 'Fat mass (lb)',
+      optional: true,
+    },
+    {
+      id: 404,
+      name: 'bone_mass',
+      label: 'Bone mass (lb)',
+      optional: true,
+    },
+    {
+      id: 405,
+      name: 'muscle_mass',
+      label: 'Muscle mass (lb)',
+      optional: true,
+    },
+    {
+      id: 406,
+      name: 'hydration',
+      label: 'Hydration (lb)',
+      optional: true,
+    },
+  ],
 ]
 
 export default function DataImporter({ fieldsIndex }) {
@@ -263,7 +302,15 @@ export default function DataImporter({ fieldsIndex }) {
       }
     },
   })
-  const [importData, setImportData] = useState([])
+  const addMiscMutation = trpc.useMutation('misc.add', {
+    onError: (error) => {
+      if (error.message.includes('Failed to fetch')) {
+        toast.error('File too large, please break into chunks')
+      } else {
+        toast.error(`Something went wrong: ${error.message}`)
+      }
+    },
+  })
 
   async function processData(rows, schema) {
     switch (schema) {
@@ -342,12 +389,13 @@ export default function DataImporter({ fieldsIndex }) {
       case 3:
         // Levels
         for (const row of rows) {
-          if (row.type === 'food') {
+          if (row.type === 'food' || row.type === 'note') {
             addLevelsMutation.mutate(
               {
                 time: new Date(row.time),
                 notes: row.notes,
                 link: row.photo_link,
+                type: row.type,
               },
               {
                 onSuccess: (data) =>
@@ -355,6 +403,25 @@ export default function DataImporter({ fieldsIndex }) {
               }
             )
           }
+        }
+        break
+      case 4:
+        // Misc
+        for (const row of rows) {
+          addMiscMutation.mutate(
+            {
+              date: new Date(row.date),
+              weight: row.weight,
+              fatMass: row.fat_mass,
+              boneMass: row.bone_mass,
+              muscleMass: row.muscle_mass,
+              hydration: row.hydration,
+            },
+            {
+              onSuccess: (data) =>
+                toast.success(`Imported ${rows.length} rows successfully`),
+            }
+          )
         }
         break
       default:
