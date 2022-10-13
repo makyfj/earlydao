@@ -1,5 +1,5 @@
-import { Layout } from '@/components/layout'
-import { PostForm } from '@/components/post-form'
+import { WideLayout } from '@/components/wide-layout'
+import KpiCardGrid from '@/components/KpiCardGrid'
 import { trpc } from '@/lib/trpc'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -14,11 +14,9 @@ const DashboardPage = () => {
         <title>Dashboard - EarlyDAO</title>
       </Head>
 
-      <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-        Dashboard
-      </h1>
-
-      <div className="mt-6"></div>
+      <div className="">
+        <KpiCardGrid />
+      </div>
     </>
   )
 }
@@ -26,7 +24,7 @@ const DashboardPage = () => {
 DashboardPage.auth = true
 
 DashboardPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <Layout>{page}</Layout>
+  return <WideLayout>{page}</WideLayout>
 }
 
 export default DashboardPage

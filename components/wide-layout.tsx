@@ -23,7 +23,7 @@ type LayoutProps = {
   children: React.ReactNode
 }
 
-export function Layout({ children }: LayoutProps) {
+export function WideLayout({ children }: LayoutProps) {
   const { data: session } = useSession()
   const { theme, themes, setTheme } = useTheme()
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false)
@@ -38,7 +38,7 @@ export function Layout({ children }: LayoutProps) {
         />
       </Head>
       <div className="max-w-4xl px-6 mx-auto">
-        <header className="flex items-center justify-between gap-4 py-12 md:py-20">
+        <header className="flex items-center justify-between gap-4 py-5 md:py-8">
           <Link href="/">
             {/* <a>
             <Logo className="w-auto text-red-light h-[34px]" />
@@ -109,20 +109,24 @@ export function Layout({ children }: LayoutProps) {
             </ButtonLink>
           </div>
         </header>
+      </div>
 
+      <div className="px-6 mx-auto">
         <main>{children}</main>
+      </div>
 
+      <div className="max-w-4xl px-6 mx-auto">
         <div className="py-20">
           <Footer />
         </div>
-
-        <SearchDialog
-          isOpen={isSearchDialogOpen}
-          onClose={() => {
-            setIsSearchDialogOpen(false)
-          }}
-        />
       </div>
+
+      <SearchDialog
+        isOpen={isSearchDialogOpen}
+        onClose={() => {
+          setIsSearchDialogOpen(false)
+        }}
+      />
     </>
   )
 }
