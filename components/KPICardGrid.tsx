@@ -4,11 +4,13 @@ import ChartView from './ChartView'
 import TableView from './TableView'
 import KpiCards from './KPICards'
 import ActivityOverview from './ActivityOverview'
+import Charts from './Charts'
+import LineChartTabs from './LineChartTabs'
 
 export default function KpiCardGrid() {
   const [selectedView, setSelectedView] = useState(1)
   return (
-    <main className="bg-slate-50 p-6 sm:p-10">
+    <main className="p-6 sm:p-10">
       <Title>Dashboard</Title>
       {/* <Text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</Text> */}
 
@@ -40,6 +42,12 @@ export default function KpiCardGrid() {
       )}
       <Block marginTop="mt-6">
         <ActivityOverview />
+      </Block>
+      <Block marginTop="mt-6">
+        <Charts />
+      </Block>
+      <Block marginTop="mt-6">
+        <LineChartTabs />
       </Block>
     </main>
   )

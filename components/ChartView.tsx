@@ -15,22 +15,22 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 export const performance = [
   {
     date: '2021-01-01',
-    Sales: 900.73,
-    Profit: 173,
-    Customers: 73,
+    Sleep: 900.73,
+    RHR: 173,
+    HRV: 73,
   },
   {
     date: '2021-01-02',
-    Sales: 1000.74,
-    Profit: 174.6,
-    Customers: 74,
+    Sleep: 1000.74,
+    RHR: 174.6,
+    HRV: 74,
   },
   // ...
   {
     date: '2021-03-13',
-    Sales: 882,
-    Profit: 682,
-    Customers: 682,
+    Sleep: 882,
+    RHR: 682,
+    HRV: 682,
   },
 ]
 
@@ -42,13 +42,13 @@ const numberFormatter = (value: number) =>
   `${Intl.NumberFormat('us').format(value).toString()}`
 
 export default function ChartView() {
-  const [selectedKpi, setSelectedKpi] = useState('Sales')
+  const [selectedKpi, setSelectedKpi] = useState('Sleep')
 
   // map formatters by selectedKpi
   const formatters: { [key: string]: any } = {
-    Sales: dollarFormatter,
-    Profit: dollarFormatter,
-    Customers: numberFormatter,
+    Sleep: numberFormatter,
+    RHR: numberFormatter,
+    HRV: numberFormatter,
   }
 
   return (
@@ -75,9 +75,9 @@ export default function ChartView() {
             defaultValue={selectedKpi}
             handleSelect={(value) => setSelectedKpi(value)}
           >
-            <ToggleItem value="Sales" text="Sales" />
-            <ToggleItem value="Profit" text="Profit" />
-            <ToggleItem value="Customers" text="Customers" />
+            <ToggleItem value="Sleep" text="Sleep" />
+            <ToggleItem value="RHR" text="RHR" />
+            <ToggleItem value="HRV" text="HRV" />
           </Toggle>
         </div>
       </div>

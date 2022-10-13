@@ -17,14 +17,12 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import React, { useState } from 'react'
 
 const Runners = {
-  Chris: 'Chris',
-  Severin: 'Severin',
-  Achilleas: 'Achilleas',
+  Workouts: 'Workouts',
 }
 
 const data = [
   {
-    name: 'Chris',
+    name: 'Workouts',
     session: [
       { name: 'Long runs', value: 56 },
       { name: 'Fartlek runs', value: 45 },
@@ -54,75 +52,13 @@ const data = [
       { name: 'Functional strength', value: 0 },
     ],
   },
-  {
-    name: 'Severin',
-    session: [
-      { name: 'Long runs', value: 32 },
-      { name: 'Fartlek runs', value: 53 },
-      { name: 'Recover runs', value: 27 },
-      { name: 'Runs with Lena', value: 21 },
-      { name: 'Functional strength', value: 8 },
-    ],
-    time: [
-      { name: 'Long runs', value: 90.5 },
-      { name: 'Fartlek runs', value: 70.6 },
-      { name: 'Recover runs', value: 120.7 },
-      { name: 'Runs with Lena', value: 20.6 },
-      { name: 'Functional strength', value: 30.2 },
-    ],
-    bpm: [
-      { name: 'Long runs', value: 172 },
-      { name: 'Fartlek runs', value: 146 },
-      { name: 'Recover runs', value: 138 },
-      { name: 'Runs with Lena', value: 156 },
-      { name: 'Functional strength', value: 121 },
-    ],
-    km: [
-      { name: 'Long runs', value: 1432.75 },
-      { name: 'Fartlek runs', value: 267.32 },
-      { name: 'Recover runs', value: 321.92 },
-      { name: 'Runs with Lena', value: 210.73 },
-      { name: 'Functional strength', value: 120.05 },
-    ],
-  },
-  {
-    name: 'Achilleas',
-    session: [
-      { name: 'Long runs', value: 46 },
-      { name: 'Fartlek runs', value: 28 },
-      { name: 'Recover runs', value: 21 },
-      { name: 'Runs with Lena', value: 56 },
-      { name: 'Functional strength', value: 27 },
-    ],
-    time: [
-      { name: 'Long runs', value: 110.9 },
-      { name: 'Fartlek runs', value: 45.6 },
-      { name: 'Recover runs', value: 32.3 },
-      { name: 'Runs with Lena', value: 32.2 },
-      { name: 'Functional strength', value: 10.5 },
-    ],
-    bpm: [
-      { name: 'Long runs', value: 177 },
-      { name: 'Fartlek runs', value: 158 },
-      { name: 'Recover runs', value: 132 },
-      { name: 'Runs with Lena', value: 155 },
-      { name: 'Functional strength', value: 134 },
-    ],
-    km: [
-      { name: 'Long runs', value: 1103.63 },
-      { name: 'Fartlek runs', value: 342.32 },
-      { name: 'Recover runs', value: 278.12 },
-      { name: 'Runs with Lena', value: 190.04 },
-      { name: 'Functional strength', value: 0 },
-    ],
-  },
 ]
 
 const valueFormatter = (number: number) =>
   Intl.NumberFormat('us').format(number).toString()
 
 export default function ActivityOverview() {
-  const [selectedRunner, setSelectedRunner] = useState(Runners.Chris)
+  const [selectedRunner, setSelectedRunner] = useState(Runners.Workouts)
   return (
     <Card>
       <Title> Activity Overview</Title>
@@ -131,9 +67,7 @@ export default function ActivityOverview() {
         handleSelect={(value) => setSelectedRunner(value)}
         marginTop="mt-8"
       >
-        <Tab value={Runners.Chris} text="Chris" />
-        <Tab value={Runners.Severin} text="Severin" />
-        <Tab value={Runners.Achilleas} text="Achilleas" />
+        <Tab value={Runners.Workouts} text="Workouts" />
       </TabList>
 
       {data
@@ -172,7 +106,7 @@ export default function ActivityOverview() {
             </Block>
             <Block>
               <Text marginTop="mt-8">
-                <Bold>Activity by distance (km)</Bold>
+                <Bold>Activity by calories (kacal)</Bold>
               </Text>
               <BarList
                 marginTop="mt-4"

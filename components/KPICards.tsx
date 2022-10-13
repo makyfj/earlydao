@@ -1,74 +1,88 @@
 import {
-  BadgeDelta,
-  Block,
   Card,
-  ColGrid,
-  DeltaType,
-  Flex,
   Metric,
-  ProgressBar,
   Text,
+  Flex,
+  BadgeDelta,
+  DeltaType,
+  Color,
+  ColGrid,
 } from '@tremor/react'
 
-type Kpi = {
-  title: string
-  metric: string
-  progress: number
-  target: string
-  delta: string
-  deltaType: DeltaType
+const colors: { [key: string]: Color } = {
+  increase: 'emerald',
+  moderateIncrease: 'emerald',
+  unchanged: 'orange',
+  moderateDecrease: 'rose',
+  decrease: 'rose',
 }
 
-const kpiData: Kpi[] = [
+const categories: {
+  title: string
+  metric: string
+  metricPrev: string
+  delta: string
+  deltaType: DeltaType
+}[] = [
   {
-    title: 'Sales',
-    metric: '$ 12,699',
-    progress: 15.9,
-    target: '$ 80,000',
-    delta: '13.2%',
+    title: 'Sleep',
+    metric: '8h 32m',
+    metricPrev: '8h 18m',
+    delta: '2.7%',
     deltaType: 'moderateIncrease',
   },
   {
-    title: 'Profit',
-    metric: '$ 45,564',
-    progress: 36.5,
-    target: '$ 125,000',
-    delta: '23.9%',
-    deltaType: 'increase',
+    title: 'Resting Heart Rate',
+    metric: '46 bpm',
+    metricPrev: '48 bpm',
+    delta: '4.2%',
+    deltaType: 'moderateDecrease',
   },
   {
-    title: 'Customers',
-    metric: '1,072',
-    progress: 53.6,
-    target: '2,000',
-    delta: '10.1%',
-    deltaType: 'moderateDecrease',
+    title: 'Heart Rate Variability',
+    metric: '57 ms',
+    metricPrev: '49 ms',
+    delta: '16.3%',
+    deltaType: 'moderateIncrease',
   },
 ]
 
-export default function KpiCards() {
+export default function KPICards() {
   return (
     <ColGrid
-      numColsMd={2}
+      numColsSm={2}
       numColsLg={3}
       marginTop="mt-6"
       gapX="gap-x-6"
       gapY="gap-y-6"
     >
-      {kpiData.map((item) => (
+      {categories.map((item) => (
         <Card key={item.title}>
-          <Flex alignItems="items-start">
-            <Block truncate={true}>
-              <Text>{item.title}</Text>
-              <Metric truncate={true}>{item.metric}</Metric>
-            </Block>
-            <BadgeDelta deltaType={item.deltaType} text={item.delta} />
+          <Text>{item.title}</Text>
+          <Flex
+            justifyContent="justify-start"
+            alignItems="items-baseline"
+            spaceX="space-x-3"
+            truncate={true}
+          >
+            <Metric>{item.metric}</Metric>
+            <Text truncate={true}>from {item.metricPrev}</Text>
           </Flex>
-          <Flex marginTop="mt-4" spaceX="space-x-2">
-            <Text truncate={true}>{`${item.progress}% (${item.metric})`}</Text>
-            <Text>{item.target}</Text>
+          <Flex
+            justifyContent="justify-start"
+            spaceX="space-x-2"
+            marginTop="mt-4"
+          >
+            <BadgeDelta deltaType={item.deltaType} />
+            <Flex
+              justifyContent="justify-start"
+              spaceX="space-x-1"
+              truncate={true}
+            >
+              <Text color={colors[item.deltaType]}>{item.delta}</Text>
+              <Text truncate={true}> to previous month </Text>
+            </Flex>
           </Flex>
-          <ProgressBar percentageValue={item.progress} marginTop="mt-2" />
         </Card>
       ))}
     </ColGrid>
