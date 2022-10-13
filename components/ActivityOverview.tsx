@@ -24,32 +24,32 @@ const data = [
   {
     name: 'Workouts',
     session: [
-      { name: 'Long runs', value: 56 },
-      { name: 'Fartlek runs', value: 45 },
-      { name: 'Recover runs', value: 34 },
-      { name: 'Runs with Lena', value: 12 },
-      { name: 'Functional strength', value: 10 },
+      { name: 'Walking', value: 288 },
+      { name: 'Strength Training', value: 138 },
+      { name: 'Zone 2', value: 65 },
+      { name: 'Zone 5', value: 20 },
+      { name: 'Stability', value: 15 },
     ],
     time: [
-      { name: 'Long runs', value: 120.9 },
-      { name: 'Fartlek runs', value: 63.6 },
-      { name: 'Recover runs', value: 41.3 },
-      { name: 'Runs with Lena', value: 6.2 },
-      { name: 'Functional strength', value: 6.1 },
+      { name: 'Walking', value: 113 },
+      { name: 'Strength Training', value: 79 },
+      { name: 'Zone 2', value: 56 },
+      { name: 'Zone 5', value: 31 },
+      { name: 'Stability', value: 10 },
     ],
     bpm: [
-      { name: 'Long runs', value: 162 },
-      { name: 'Fartlek runs', value: 172 },
-      { name: 'Recover runs', value: 142 },
-      { name: 'Runs with Lena', value: 165 },
-      { name: 'Functional strength', value: 128 },
+      { name: 'Walking', value: 105 },
+      { name: 'Strength Training', value: 140 },
+      { name: 'Zone 2', value: 145 },
+      { name: 'Zone 5', value: 170 },
+      { name: 'Stability', value: 95 },
     ],
-    km: [
-      { name: 'Long runs', value: 1243.45 },
-      { name: 'Fartlek runs', value: 342.32 },
-      { name: 'Recover runs', value: 278.12 },
-      { name: 'Runs with Lena', value: 190.04 },
-      { name: 'Functional strength', value: 0 },
+    kcal: [
+      { name: 'Walking', value: 89 },
+      { name: 'Strength Training', value: 279 },
+      { name: 'Zone 2', value: 370 },
+      { name: 'Zone 5', value: 201 },
+      { name: 'Stability', value: 95 },
     ],
   },
 ]
@@ -61,7 +61,7 @@ export default function ActivityOverview() {
   const [selectedRunner, setSelectedRunner] = useState(Runners.Workouts)
   return (
     <Card>
-      <Title> Activity Overview</Title>
+      <Title>Exercise Overview</Title>
       <TabList
         defaultValue={selectedRunner}
         handleSelect={(value) => setSelectedRunner(value)}
@@ -106,11 +106,11 @@ export default function ActivityOverview() {
             </Block>
             <Block>
               <Text marginTop="mt-8">
-                <Bold>Activity by calories (kacal)</Bold>
+                <Bold>Activity by calories (kcal)</Bold>
               </Text>
               <BarList
                 marginTop="mt-4"
-                data={item.km}
+                data={item.kcal}
                 valueFormatter={valueFormatter}
               />
             </Block>

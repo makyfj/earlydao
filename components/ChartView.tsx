@@ -2,8 +2,10 @@ import { useState } from 'react'
 import {
   AreaChart,
   Block,
+  ButtonInline,
   Card,
   Flex,
+  Footer,
   Icon,
   Text,
   Title,
@@ -11,6 +13,7 @@ import {
   ToggleItem,
 } from '@tremor/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { ArrowRightIcon } from '@heroicons/react/20/solid'
 
 export const performance = [
   {

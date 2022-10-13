@@ -1,4 +1,4 @@
-import { Layout } from '@/components/layout'
+import { WideLayout } from '@/components/wide-layout'
 import { PostForm } from '@/components/post-form'
 import { trpc } from '@/lib/trpc'
 import Head from 'next/head'
@@ -112,10 +112,6 @@ const CalendarPage = () => {
       <Head>
         <title>Calendar - EarlyDAO</title>
       </Head>
-
-      <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-        Calendar
-      </h1>
 
       <div className="mt-6">
         <div className="pt-16">
@@ -315,7 +311,7 @@ const Meeting = ({ meeting }) => {
 CalendarPage.auth = true
 
 CalendarPage.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>
+  return <WideLayout>{page}</WideLayout>
 }
 
 export default CalendarPage
