@@ -50,10 +50,22 @@ const features = [
     icon: TableCellsIcon,
   },
   {
-    name: 'Rich data visualizations',
+    name: 'Rich dashboards',
     description:
       'Provide insightful, data-driven, actionable analytics about your health.',
     icon: ChartBarSquareIcon,
+  },
+  {
+    name: 'Reflect on performance with experiments',
+    description:
+      "Wearables aren't so great at saying what your data means. We can add context to your data, run experiments, and create personalized action plan.",
+    icon: PencilSquareIcon,
+  },
+  {
+    name: 'Calendar-based interface',
+    description:
+      'Never lose track of the days. Ground yourself in the present and focus on what matters.',
+    icon: CalendarDaysIcon,
   },
   {
     name: 'Longevity Compendium',
@@ -83,24 +95,13 @@ const features = [
       'Work in the open, collaborate with others and do it as yourself or a pseudonym.',
     icon: UserGroupIcon,
   },
-  {
-    name: 'Reflect on performance with experiements',
-    description:
-      "Wearables aren't so great at saying what your data means. Using the EARLY platform, we can gather the data, add context to the data, can run experiments, and create personalized action plan.",
-    icon: PencilSquareIcon,
-  },
-  {
-    name: 'Calendar-based interface',
-    description:
-      'Never lose track of the days. Ground yourself in the present and focus on what matters.',
-    icon: CalendarDaysIcon,
-  },
-  {
-    name: 'Short-form video',
-    description:
-      'Instructional videos on the foundational principles of longevity',
-    icon: VideoCameraIcon,
-  },
+
+  // {
+  //   name: 'Short-form video',
+  //   description:
+  //     'Instructional videos on the foundational principles of longevity',
+  //   icon: VideoCameraIcon,
+  // },
 ]
 
 const formClasses =
