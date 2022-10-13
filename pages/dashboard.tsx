@@ -1,5 +1,5 @@
 import { WideLayout } from '@/components/wide-layout'
-import KpiCardGrid from '@/components/KpiCardGrid'
+import KpiCardGrid from '@/components/KPICardGrid'
 import { trpc } from '@/lib/trpc'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
