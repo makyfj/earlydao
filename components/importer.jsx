@@ -154,6 +154,7 @@ const importedFields = [
       label: 'Active Energy (kcal)',
       optional: false,
     },
+
     {
       id: 203,
       name: 'exercise_time',
@@ -194,6 +195,12 @@ const importedFields = [
       id: 209,
       name: 'vo2_max',
       label: 'VO2 Max (ml/(kg·min))',
+      optional: false,
+    },
+    {
+      id: 210,
+      name: 'basal_energy',
+      label: 'Basal Energy Burned (kcal)',
       optional: false,
     },
   ],
@@ -371,6 +378,7 @@ export default function DataImporter({ fieldsIndex }) {
             {
               date: new Date(row.date),
               activeEnergy: Number(row.active_energy),
+              basalEnergy: Number(row.basal_energy),
               exerciseTime: Number(row.exercise_time),
               standHour: Number(row.stand_hour),
               standTime: Number(row.stand_time),

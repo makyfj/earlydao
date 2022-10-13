@@ -7,6 +7,7 @@ export const appleMacroRouter = createProtectedRouter()
     input: z.object({
       date: z.date(),
       activeEnergy: z.number().optional(),
+      basalEnergy: z.number().optional(),
       exerciseTime: z.number().optional(),
       standHour: z.number().optional(),
       standTime: z.number().optional(),
@@ -27,6 +28,7 @@ export const appleMacroRouter = createProtectedRouter()
           date: input.date,
           activeEnergy: input.activeEnergy,
           exerciseTime: input.exerciseTime,
+          basalEnergy: input.basalEnergy,
           standHour: input.standHour,
           standTime: input.standTime,
           flightsClimbed: input.flightsClimbed,
@@ -42,6 +44,7 @@ export const appleMacroRouter = createProtectedRouter()
         update: {
           activeEnergy: input.activeEnergy,
           exerciseTime: input.exerciseTime,
+          basalEnergy: input.basalEnergy,
           standHour: input.standHour,
           standTime: input.standTime,
           flightsClimbed: input.flightsClimbed,
