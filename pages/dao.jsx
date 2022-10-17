@@ -221,10 +221,10 @@ const Dao = () => {
     return (
       <>
         <Head>
-          <title>EarlyDAO</title>
+          <title>EARLY</title>
         </Head>
         <div className="text-center">
-          <h3 className="mt-2 text-sm font-medium">Welcome to EARLYDAO</h3>
+          <h3 className="mt-2 text-sm font-medium">Welcome to EARLY</h3>
           <p className="mt-1 text-sm text-secondary">
             Get started by connecting your wallet.
           </p>
@@ -462,7 +462,7 @@ const Dao = () => {
   return (
     <div className="text-center">
       <h3 className="mt-2 text-sm font-medium">
-        Mint your free EARLYDAO Membership NFT
+        Mint your free EARLY Membership NFT
       </h3>
       <p className="mt-1 text-sm text-secondary">
         A DAO for longevity practitioners

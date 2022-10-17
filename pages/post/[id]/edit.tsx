@@ -26,7 +26,7 @@ const EditPostPage: NextPageWithAuthAndLayout = () => {
     return (
       <>
         <Head>
-          <title>Edit {postQuery.data.title} - EarlyDAO</title>
+          <title>Edit {postQuery.data.title} - EARLY</title>
         </Head>
 
         {postBelongsToUser ? (

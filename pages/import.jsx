@@ -11,7 +11,7 @@ const ImportDataPage = () => {
   return (
     <>
       <Head>
-        <title>Import Data - EarlyDAO</title>
+        <title>Import Data - EARLY</title>
       </Head>
 
       <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">

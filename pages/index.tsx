@@ -99,7 +99,7 @@ const Home: NextPageWithAuthAndLayout = () => {
     return (
       <>
         <Head>
-          <title>EarlyDAO</title>
+          <title>EARLY</title>
         </Head>
 
         {feedQuery.data.postCount === 0 ? (

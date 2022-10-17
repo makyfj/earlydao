@@ -11,7 +11,7 @@ const DashboardPage = () => {
   return (
     <>
       <Head>
-        <title>Dashboard - EarlyDAO</title>
+        <title>Dashboard - EARLY</title>
       </Head>
 
       <div className="">

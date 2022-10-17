@@ -17,7 +17,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
   return (
     <>
       <Head>
-        <title>New Post - EarlyDAO</title>
+        <title>New Post - EARLY</title>
       </Head>
 
       <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">

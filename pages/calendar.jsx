@@ -110,7 +110,7 @@ const CalendarPage = () => {
   return (
     <>
       <Head>
-        <title>Calendar - EarlyDAO</title>
+        <title>Calendar - Early</title>
       </Head>
 
       <div className="mt-6">

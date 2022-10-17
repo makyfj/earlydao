@@ -273,7 +273,7 @@ export function LandingLayout({ children }) {
               </Link>
             </div>
             <p className="mt-6 text-sm text-secondary sm:mt-0">
-              EARLYDAO {new Date().getFullYear()}
+              EARLY {new Date().getFullYear()}
             </p>
           </div>
         </Container>

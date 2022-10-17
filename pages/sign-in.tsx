@@ -17,7 +17,7 @@ const SignIn = ({
   return (
     <>
       <Head>
-        <title>Sign In - EarlyDAO</title>
+        <title>Sign In - EARLY</title>
       </Head>
 
       <Div100vh>

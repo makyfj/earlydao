@@ -11,7 +11,7 @@ const DataPage = () => {
   return (
     <>
       <Head>
-        <title>Data - EarlyDAO</title>
+        <title>Data - EARLY</title>
       </Head>
 
       <div className="">

@@ -136,7 +136,7 @@ const PostPage: NextPageWithAuthAndLayout = () => {
     return (
       <>
         <Head>
-          <title>{postQuery.data.title} - EarlyDAO</title>
+          <title>{postQuery.data.title} - EARLY</title>
         </Head>
 
         <div className="divide-y divide-primary">
