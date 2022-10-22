@@ -125,7 +125,7 @@ const importedFields = [
     {
       id: 104,
       name: 'activeEnergy',
-      label: 'Active Energy (kcal)',
+      label: 'Active energy burned(Cal)',
       optional: false,
     },
     {
@@ -374,9 +374,9 @@ export default function DataImporter({ fieldsIndex }) {
         for (const row of rows) {
           addMicroMutation.mutate(
             {
-              startTime: new Date(row.start),
+              startTime: new Date(row.date),
               type: row.type,
-              duration: row.duration,
+              duration: Number(row.duration),
               activeEnergy: Number(row.activeEnergy),
               maxHeartRate: Number(row.maxHeartRate),
               averageHeartRate: Number(row.avgHeartRate),

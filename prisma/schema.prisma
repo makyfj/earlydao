@@ -146,9 +146,9 @@ model AppleMicro {
   date         DateTime
   start        DateTime
   type         String   @db.VarChar(255)
-  duration     Int
+  duration     Float
   activeEnergy Float
-  maxHeartRate Int?
+  maxHeartRate Float?
   avgHeartRate Float?
   zone1        Float?
   zone2        Float?
@@ -171,7 +171,7 @@ model AppleMacro {
   activeEnergy   Float?
   basalEnergy    Float?
   exerciseTime   Float?
-  standHour      Int?
+  standHour      Float?
   standTime      Float?
   flightsClimbed Float?
   mindfulMinutes Float?

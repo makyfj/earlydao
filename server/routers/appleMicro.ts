@@ -6,7 +6,7 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
   input: z.object({
     startTime: z.date(),
     type: z.string(),
-    duration: z.string(),
+    duration: z.number(),
     activeEnergy: z.number(),
     maxHeartRate: z.number().optional(),
     averageHeartRate: z.number().optional(),
@@ -18,10 +18,6 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
     met: z.number().optional(),
   }),
   async resolve({ ctx, input }) {
-    const durationArray = input.duration.split(':')
-    const durationSeconds =
-      +durationArray[0] * 60 * 60 + +durationArray[1] * 60 + +durationArray[2]
-
     const appleMicro: AppleMicro = await ctx.prisma.appleMicro.upsert({
       where: {
         AppleMicro_start_type_authorId_unique_constraint: {
@@ -34,7 +30,7 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
         date: new Date(input.startTime.toISOString().split('T')[0]),
         start: input.startTime,
         type: input.type,
-        duration: durationSeconds,
+        duration: input.duration,
         activeEnergy: input.activeEnergy,
         maxHeartRate: input.maxHeartRate,
         avgHeartRate: input.averageHeartRate,
@@ -54,7 +50,7 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
         date: new Date(input.startTime.toISOString().split('T')[0]),
         start: input.startTime,
         type: input.type,
-        duration: durationSeconds,
+        duration: input.duration,
         activeEnergy: input.activeEnergy,
         maxHeartRate: input.maxHeartRate,
         avgHeartRate: input.averageHeartRate,
