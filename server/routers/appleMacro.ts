@@ -15,6 +15,7 @@ export const appleMacroRouter = createProtectedRouter()
       mindfulMinutes: z.number().optional(),
       stepCount: z.number().optional(),
       vo2Max: z.number().optional(),
+      restingHeartRate: z.number().optional(),
     }),
     async resolve({ ctx, input }) {
       const appleMacro: AppleMacro = await ctx.prisma.appleMacro.upsert({
@@ -35,6 +36,7 @@ export const appleMacroRouter = createProtectedRouter()
           mindfulMinutes: input.mindfulMinutes,
           stepCount: input.stepCount,
           vo2Max: input.vo2Max,
+          restingHeartRate: input.restingHeartRate,
           author: {
             connect: {
               id: ctx.session.user.id,
@@ -51,6 +53,7 @@ export const appleMacroRouter = createProtectedRouter()
           mindfulMinutes: input.mindfulMinutes,
           stepCount: input.stepCount,
           vo2Max: input.vo2Max,
+          restingHeartRate: input.restingHeartRate,
         },
       })
 

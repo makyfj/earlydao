@@ -57,6 +57,7 @@ export const ouraRouter = createProtectedRouter()
           },
         },
         update: {
+          date: input.date,
           bedTime: input.bedTime,
           wakeUpTime: input.wakeUpTime,
           totalSleep: input.totalSleep,

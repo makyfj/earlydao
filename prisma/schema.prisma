@@ -129,8 +129,8 @@ model Levels {
   localTime         DateTime
   type              String
   notes             String   @db.Text
-  link              String   @db.VarChar(255)
-  logDetail         Json? // can be perceivedFullness, foodType (cooking, restaurant), supplements, coffee, alcohol, marijuana
+  link              String?   @db.VarChar(255)
+  logDetail         Json?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   author            User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -148,8 +148,14 @@ model AppleMicro {
   type         String   @db.VarChar(255)
   duration     Int
   activeEnergy Float
-  maxHeartRate Int
-  avgHeartRate Float
+  maxHeartRate Int?
+  avgHeartRate Float?
+  zone1        Float?
+  zone2        Float?
+  zone3        Float?
+  zone4        Float?
+  zone5        Float?
+  met          Float?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -171,6 +177,7 @@ model AppleMacro {
   mindfulMinutes Float?
   stepCount      Float?
   vo2Max         Float?
+  restingHeartRate Float?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   author         User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -183,9 +190,9 @@ model AppleMacro {
 model Oura {
   id                      Int       @id @default(autoincrement())
   date                    DateTime
+  totalSleep              Int?
   bedTime                 DateTime?
   wakeUpTime              DateTime?
-  totalSleep              Int?
   totalAwake              Int?
   totalREM                Int?
   totalDeep               Int?
@@ -211,10 +218,6 @@ model Misc {
   id                Int      @id @default(autoincrement())
   date              DateTime
   weight            Float?
-  fatMass           Float?
-  boneMass          Float?
-  muscleMass        Float?
-  hydration         Float?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   author            User     @relation(fields: [authorId], references: [id], onDelete: Cascade)

@@ -9,96 +9,96 @@ const importedFields = [
     {
       id: 1,
       name: 'date',
-      label: 'Date',
+      label: 'date',
       optional: false,
     },
     {
       id: 2,
-      name: 'bed_time',
-      label: 'Bedtime Start',
-      optional: false,
-    },
-    {
-      id: 3,
-      name: 'wake_up_time',
-      label: 'Bedtime End',
-      optional: false,
-    },
-    {
-      id: 4,
-      name: 'total_sleep_duration',
+      name: 'totalSleep',
       label: 'Total Sleep Duration',
       optional: false,
     },
     {
+      id: 3,
+      name: 'bedTime',
+      label: 'Bedtime Start',
+      optional: false,
+    },
+    {
+      id: 4,
+      name: 'wakeUpTime',
+      label: 'Bedtime End',
+      optional: false,
+    },
+    {
       id: 5,
-      name: 'awake_time',
+      name: 'totalAwake',
       label: 'Awake Time',
       optional: false,
     },
     {
       id: 6,
-      name: 'rem_sleep',
+      name: 'totalREM',
       label: 'REM Sleep Duration',
       optional: false,
     },
     {
       id: 7,
-      name: 'deep_sleep',
+      name: 'totalDeep',
       label: 'Deep Sleep Duration',
       optional: false,
     },
     {
       id: 8,
-      name: 'sleep_efficiency',
+      name: 'sleepEfficiency',
       label: 'Sleep Efficiency',
       optional: false,
     },
     {
       id: 9,
-      name: 'sleep_latency',
+      name: 'latencyDuration',
       label: 'Sleep Latency',
       optional: false,
     },
     {
       id: 10,
-      name: 'lowest_resting_heart_rate',
+      name: 'lowestRestingHeartRate',
       label: 'Lowest Resting Heart Rate',
       optional: false,
     },
     {
       id: 11,
-      name: 'average_resting_heart_rate',
+      name: 'averageRestingHeartRate',
       label: 'Average Resting Heart Rate',
       optional: false,
     },
     {
       id: 12,
-      name: 'average_heart_rate_variability',
+      name: 'averageHRV',
       label: 'Average HRV',
       optional: false,
     },
     {
       id: 13,
-      name: 'temperature_deviation',
+      name: 'temperatureDeviation',
       label: 'Temperature Deviation (°C)',
       optional: false,
     },
     {
       id: 14,
-      name: 'respiratory_rate',
+      name: 'respiratoryRate',
       label: 'Respiratory Rate',
       optional: false,
     },
     {
       id: 15,
-      name: 'inactive_time',
+      name: 'inactiveTime',
       label: 'Inactive Time',
       optional: false,
     },
     {
       id: 16,
-      name: 'average_met',
+      name: 'averageMET',
       label: 'Average MET',
       optional: false,
     },
@@ -106,38 +106,74 @@ const importedFields = [
   [
     {
       id: 101,
-      name: 'start', // TODO: date not on workouts export, need to derive from start
-      label: 'Start',
+      name: 'date',
+      label: 'Date',
       optional: false,
     },
     {
       id: 102,
-      name: 'type', // TODO: type does not fit into our framework ((stability, strength, aerobic performance, anaerobic output, rucking, walking, NEAT))
-      label: 'Type',
+      name: 'type',
+      label: 'Activity',
       optional: false,
     },
     {
       id: 103,
       name: 'duration',
-      label: 'Duration',
+      label: 'Duration(s)',
       optional: false,
     },
     {
       id: 104,
-      name: 'active_energy',
+      name: 'activeEnergy',
       label: 'Active Energy (kcal)',
       optional: false,
     },
     {
       id: 105,
-      name: 'max_heart_rate',
-      label: 'Max Heart Rate (bpm)',
+      name: 'maxHeartRate',
+      label: 'Heart rate: Maximum(count/min)',
       optional: false,
     },
     {
       id: 106,
-      name: 'average_heart_rate',
-      label: 'Avg Heart Rate (bpm)',
+      name: 'avgHeartRate',
+      label: 'Heart rate: Average(count/min)',
+      optional: false,
+    },
+    {
+      id: 107,
+      name: 'zone1',
+      label: 'Heart rate zone: A Easy (<115bpm)(%)',
+      optional: false,
+    },
+    {
+      id: 108,
+      name: 'zone2',
+      label: 'Heart rate zone: B Fat Burn (115-135bpm)(%)',
+      optional: false,
+    },
+    {
+      id: 109,
+      name: 'zone3',
+      label: 'Heart rate zone: C Moderate Training (135-155bpm)(%)',
+      optional: false,
+    },
+    {
+      id: 110,
+      name: 'zone4',
+      label: 'Heart rate zone: D Hard Training (155-175bpm)(%)',
+      optional: false,
+    },
+    {
+      id: 111,
+      name: 'zone5',
+      label: 'Heart rate zone: E Extreme Training (>175bpm)(%)',
+      optional: false,
+    },
+    {
+      id: 112,
+      name: 'met',
+      label: 'METs Average(kcal/hr·kg)',
       optional: false,
     },
   ],
@@ -150,76 +186,82 @@ const importedFields = [
     },
     {
       id: 202,
-      name: 'active_energy',
-      label: 'Active Energy (kcal)',
+      name: 'activeEnergy',
+      label: 'Active energy burned(Cal)',
       optional: false,
     },
 
     {
       id: 203,
-      name: 'exercise_time',
-      label: 'Apple Exercise Time (min)',
+      name: 'exerciseTime',
+      label: 'Exercise time(min)',
       optional: false,
     },
     {
       id: 204,
-      name: 'stand_hour',
-      label: 'Apple Stand Hour (count)',
+      name: 'standHour',
+      label: 'Apple Watch stand hours(hr)',
       optional: false,
     },
     {
       id: 205,
-      name: 'stand_time',
-      label: 'Apple Stand Time (min)',
+      name: 'standTime',
+      label: 'Stand time(min)',
       optional: false,
     },
     {
       id: 206,
-      name: 'flights_climbed',
-      label: 'Flights Climbed (count)',
+      name: 'flightsClimbed',
+      label: 'Flights climbed(count)',
       optional: false,
     },
     {
       id: 207,
-      name: 'mindful_minutes',
-      label: 'Mindful Minutes (min)',
+      name: 'mindfulMinutes',
+      label: 'Mindfulness(min)',
       optional: false,
     },
     {
       id: 208,
-      name: 'step_count',
-      label: 'Step Count (count)',
+      name: 'stepCount',
+      label: 'Step count(count)',
       optional: false,
     },
     {
       id: 209,
-      name: 'vo2_max',
-      label: 'VO2 Max (ml/(kg·min))',
+      name: 'vo2Max',
+      label: 'VO2 Max(mL/min·kg)',
       optional: false,
     },
     {
       id: 210,
-      name: 'basal_energy',
-      label: 'Basal Energy Burned (kcal)',
+      name: 'basalEnergy',
+      label: 'Basal energy burned(Cal)',
+      optional: false,
+    },
+    {
+      id: 211,
+      name: 'restingHeartRate',
+      label: 'Resting heart rate(count/min)',
       optional: false,
     },
   ],
   [
     {
       id: 301,
-      name: 'time', // TODO: date not on levels export, need to derive from time
+      name: 'time',
       label: 'Time (Local)',
       optional: false,
     },
     {
       id: 302,
-      name: 'type', // TODO: ignore all non-food types
+      name: 'type',
       label: 'Type',
       optional: false,
     },
     {
       id: 303,
-      name: 'notes', // TODO: derive fullness from notes
+      name: 'notes',
       label: 'Notes',
       optional: false,
     },
@@ -230,7 +272,6 @@ const importedFields = [
       optional: true,
     },
   ],
-  //TODO: misc
   [
     {
       id: 401,
@@ -242,30 +283,6 @@ const importedFields = [
       id: 402,
       name: 'weight',
       label: 'Weight (lb)',
-      optional: true,
-    },
-    {
-      id: 403,
-      name: 'fat_mass',
-      label: 'Fat mass (lb)',
-      optional: true,
-    },
-    {
-      id: 404,
-      name: 'bone_mass',
-      label: 'Bone mass (lb)',
-      optional: true,
-    },
-    {
-      id: 405,
-      name: 'muscle_mass',
-      label: 'Muscle mass (lb)',
-      optional: true,
-    },
-    {
-      id: 406,
-      name: 'hydration',
-      label: 'Hydration (lb)',
       optional: true,
     },
   ],
@@ -324,25 +341,25 @@ export default function DataImporter({ fieldsIndex }) {
       case 0:
         // Oura
         for (const row of rows) {
-          if (row.bed_time) {
+          if (row.bedTime) {
             addOuraMutation.mutate(
               {
                 date: new Date(row.date),
-                bedTime: new Date(row.bed_time),
-                wakeUpTime: new Date(row.wake_up_time),
-                totalSleep: Number(row.total_sleep_duration),
-                totalAwake: Number(row.awake_time),
-                totalREM: Number(row.rem_sleep),
-                totalDeep: Number(row.deep_sleep),
-                sleepEfficiency: Number(row.sleep_efficiency),
-                latencyDuration: Number(row.sleep_latency),
-                lowestRestingHeartRate: Number(row.lowest_resting_heart_rate),
-                averageRestingHeartRate: Number(row.average_resting_heart_rate),
-                averageHRV: Number(row.average_heart_rate_variability),
-                temperatureDeviation: Number(row.temperature_deviation),
-                respiratoryRate: Number(row.respiratory_rate),
-                inactiveTime: Number(row.inactive_time),
-                averageMET: Number(row.average_met),
+                totalSleep: Number(row.totalSleep),
+                bedTime: new Date(row.bedTime),
+                wakeUpTime: new Date(row.wakeUpTime),
+                totalAwake: Number(row.totalAwake),
+                totalREM: Number(row.totalREM),
+                totalDeep: Number(row.totalDeep),
+                sleepEfficiency: Number(row.sleepEfficiency),
+                latencyDuration: Number(row.latencyDuration),
+                lowestRestingHeartRate: Number(row.lowestRestingHeartRate),
+                averageRestingHeartRate: Number(row.averageRestingHeartRate),
+                averageHRV: Number(row.averageHRV),
+                temperatureDeviation: Number(row.temperatureDeviation),
+                respiratoryRate: Number(row.respiratoryRate),
+                inactiveTime: Number(row.inactiveTime),
+                averageMET: Number(row.averageMET),
               },
               {
                 onSuccess: (data) =>
@@ -360,9 +377,15 @@ export default function DataImporter({ fieldsIndex }) {
               startTime: new Date(row.start),
               type: row.type,
               duration: row.duration,
-              activeEnergy: Number(row.active_energy),
-              maxHeartRate: Number(row.max_heart_rate),
-              averageHeartRate: Number(row.average_heart_rate),
+              activeEnergy: Number(row.activeEnergy),
+              maxHeartRate: Number(row.maxHeartRate),
+              averageHeartRate: Number(row.avgHeartRate),
+              zone1: Number(row.zone1),
+              zone2: Number(row.zone2),
+              zone3: Number(row.zone3),
+              zone4: Number(row.zone4),
+              zone5: Number(row.zone5),
+              met: Number(row.met),
             },
             {
               onSuccess: (data) =>
@@ -377,15 +400,16 @@ export default function DataImporter({ fieldsIndex }) {
           addMacroMutation.mutate(
             {
               date: new Date(row.date),
-              activeEnergy: Number(row.active_energy),
-              basalEnergy: Number(row.basal_energy),
-              exerciseTime: Number(row.exercise_time),
-              standHour: Number(row.stand_hour),
-              standTime: Number(row.stand_time),
-              flightsClimbed: Number(row.flights_climbed),
-              mindfulMinutes: Number(row.mindful_minutes),
-              stepCount: Number(row.step_count),
-              vo2Max: Number(row.vo2_max),
+              activeEnergy: Number(row.activeEnergy),
+              basalEnergy: Number(row.basalEnergy),
+              exerciseTime: Number(row.exerciseTime),
+              standHour: Number(row.standHour),
+              standTime: Number(row.standTime),
+              flightsClimbed: Number(row.flightsClimbed),
+              mindfulMinutes: Number(row.mindfulMinutes),
+              stepCount: Number(row.stepCount),
+              vo2Max: Number(row.vo2Max),
+              restingHeartRate: Number(row.restingHeartRate),
             },
             {
               onSuccess: (data) =>
@@ -397,20 +421,18 @@ export default function DataImporter({ fieldsIndex }) {
       case 3:
         // Levels
         for (const row of rows) {
-          if (row.type === 'food' || row.type === 'note') {
-            addLevelsMutation.mutate(
-              {
-                time: new Date(row.time),
-                notes: row.notes,
-                link: row.photo_link,
-                type: row.type,
-              },
-              {
-                onSuccess: (data) =>
-                  toast.success(`Imported ${rows.length} rows successfully`),
-              }
-            )
-          }
+          addLevelsMutation.mutate(
+            {
+              time: new Date(row.time),
+              notes: row.notes,
+              link: row.photo_link,
+              type: row.type,
+            },
+            {
+              onSuccess: (data) =>
+                toast.success(`Imported ${rows.length} rows successfully`),
+            }
+          )
         }
         break
       case 4:
@@ -420,10 +442,6 @@ export default function DataImporter({ fieldsIndex }) {
             {
               date: new Date(row.date),
               weight: Number(row.weight),
-              fatMass: Number(row.fat_mass),
-              boneMass: Number(row.bone_mass),
-              muscleMass: Number(row.muscle_mass),
-              hydration: Number(row.hydration),
             },
             {
               onSuccess: (data) =>
@@ -440,42 +458,11 @@ export default function DataImporter({ fieldsIndex }) {
 
   return (
     <Importer
-      chunkSize={10000} // optional, internal parsing chunk size in bytes
-      assumeNoHeaders={false} // optional, keeps "data has headers" checkbox off by default
-      restartable={true} // optional, lets user choose to upload another file when import is complete
-      onStart={({ file, preview, fields, columnFields }) => {
-        // optional, invoked when user has mapped columns and started import
-        // prepMyAppForIncomingData()
-      }}
+      assumeNoHeaders={false}
+      restartable={true}
       processChunk={(rows, { startIndex }) => {
-        // required, may be called several times
-        // receives a list of parsed objects based on defined fields and user column mapping;
-        // (if this callback returns a promise, the widget will wait for it before parsing more data)
         Promise.resolve(processData(rows, fieldsIndex))
       }}
-      onComplete={async ({ file, preview, fields, columnFields }) => {
-        // optional, invoked right after import is done (but user did not dismiss/reset the widget yet)
-        // showMyAppToastNotification()
-        // processData(importData, fieldsIndex)
-      }}
-      // onClose={({ file, preview, fields, columnFields }) => {
-      //   // optional, if this is specified the user will see a "Finish" button after import is done,
-      //   // which will call this when clicked
-      //   // goToMyAppNextPage()
-      //   console.log('4: onClose!')
-      //   router.reload(window.location.pathname)
-      // }}
-
-      // CSV options passed directly to PapaParse if specified:
-      // delimiter={...}
-      // newline={...}
-      // quoteChar={...}
-      // escapeChar={...}
-      // comments={...}
-      // skipEmptyLines={...}
-      // delimitersToGuess={...}
-      // chunkSize={...} // defaults to 10000
-      // encoding={...} // defaults to utf-8, see FileReader API
     >
       {importedFields[fieldsIndex].map(({ id, name, label, optional }) =>
         optional ? (

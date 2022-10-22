@@ -8,8 +8,14 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
     type: z.string(),
     duration: z.string(),
     activeEnergy: z.number(),
-    maxHeartRate: z.number(),
-    averageHeartRate: z.number(),
+    maxHeartRate: z.number().optional(),
+    averageHeartRate: z.number().optional(),
+    zone1: z.number().optional(),
+    zone2: z.number().optional(),
+    zone3: z.number().optional(),
+    zone4: z.number().optional(),
+    zone5: z.number().optional(),
+    met: z.number().optional(),
   }),
   async resolve({ ctx, input }) {
     const durationArray = input.duration.split(':')
@@ -32,6 +38,12 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
         activeEnergy: input.activeEnergy,
         maxHeartRate: input.maxHeartRate,
         avgHeartRate: input.averageHeartRate,
+        zone1: input.zone1,
+        zone2: input.zone2,
+        zone3: input.zone3,
+        zone4: input.zone4,
+        zone5: input.zone5,
+        met: input.met,
         author: {
           connect: {
             id: ctx.session.user.id,
@@ -46,6 +58,12 @@ export const appleMicroRouter = createProtectedRouter().mutation('add', {
         activeEnergy: input.activeEnergy,
         maxHeartRate: input.maxHeartRate,
         avgHeartRate: input.averageHeartRate,
+        zone1: input.zone1,
+        zone2: input.zone2,
+        zone3: input.zone3,
+        zone4: input.zone4,
+        zone5: input.zone5,
+        met: input.met,
       },
     })
 

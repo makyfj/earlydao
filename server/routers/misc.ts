@@ -6,10 +6,6 @@ export const miscRouter = createProtectedRouter().mutation('add', {
   input: z.object({
     date: z.date(),
     weight: z.number().optional(),
-    fatMass: z.number().optional(),
-    boneMass: z.number().optional(),
-    muscleMass: z.number().optional(),
-    hydration: z.number().optional(),
   }),
   async resolve({ ctx, input }) {
     const miscPost: Misc = await ctx.prisma.misc.upsert({
@@ -22,10 +18,6 @@ export const miscRouter = createProtectedRouter().mutation('add', {
       create: {
         date: input.date,
         weight: input.weight,
-        fatMass: input.fatMass,
-        boneMass: input.boneMass,
-        muscleMass: input.muscleMass,
-        hydration: input.hydration,
         author: {
           connect: {
             id: ctx.session.user.id,
@@ -35,10 +27,6 @@ export const miscRouter = createProtectedRouter().mutation('add', {
       update: {
         date: input.date,
         weight: input.weight,
-        fatMass: input.fatMass,
-        boneMass: input.boneMass,
-        muscleMass: input.muscleMass,
-        hydration: input.hydration,
       },
     })
 

@@ -6,7 +6,7 @@ export const levelsRouter = createProtectedRouter().mutation('add', {
   input: z.object({
     time: z.date(),
     notes: z.string().min(1),
-    link: z.string(),
+    link: z.string().optional(),
     type: z.string(),
   }),
   async resolve({ ctx, input }) {

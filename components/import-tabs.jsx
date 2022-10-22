@@ -16,116 +16,78 @@ export default function ImportTabs() {
     Oura: [
       {
         id: 1,
-        title: 'Schema: What data EARLY pulls from Oura',
-        date: 'Sep 30, 2022',
-        commentCount: 5,
-        shareCount: 2,
+        title: 'What data does EARLY pull from Oura?',
+
+        href: 'https://longevitydocs.vercel.app/docs/sleep-metrics',
       },
       {
         id: 2,
-        title: 'Tutorial: Export your sleep data from Oura',
-        date: 'Sep 30, 2022',
-        commentCount: 3,
-        shareCount: 2,
+        title: 'How to export your data from Oura and import into EARLY',
       },
       {
         id: 3,
         title: 'Download sample CSV',
-        date: 'Sep 30, 2022',
-        commentCount: 3,
-        shareCount: 2,
       },
     ],
     'Apple Workouts': [
       {
         id: 1,
-        title: 'Schema: What data EARLY looks for in your workouts',
-        date: 'Sep 30, 2022',
-        commentCount: 29,
-        shareCount: 16,
+        title: 'What data does EARLY pull from Apple Workouts?',
+        href: 'https://longevitydocs.vercel.app/docs/exercise-metrics#workouts',
       },
       {
         id: 2,
-        title: 'Tutorial: Export your workouts from Apple Health',
-        date: 'Sep 30, 2022',
-        commentCount: 24,
-        shareCount: 12,
+        title:
+          'How to export your workout data from Apple and import into EARLY',
       },
       {
         id: 3,
         title: 'Download sample CSV',
-        date: 'Sep 30, 2022',
-        commentCount: 3,
-        shareCount: 2,
       },
     ],
     'Apple Health': [
       {
         id: 1,
-        title: 'Schema: What data EARLY looks for in your fitness data',
-        date: 'Sep 30, 2022',
-        commentCount: 29,
-        shareCount: 16,
+        title: 'What data does EARLY pull from Apple Health?',
+        href: 'https://longevitydocs.vercel.app/docs/exercise-metrics#aggregated-health',
       },
       {
         id: 2,
-        title: 'Tutorial: Export your fitness data from Apple Health',
-        date: 'Sep 30, 2022',
-        commentCount: 24,
-        shareCount: 12,
+        title:
+          'How to export your health data from Apple and import into EARLY',
       },
       {
         id: 3,
         title: 'Download sample CSV',
-        date: 'Sep 30, 2022',
-        commentCount: 3,
-        shareCount: 2,
       },
     ],
     Levels: [
       {
         id: 1,
-        title: 'Schema: What data EARLY looks for in your nutrition data',
-        date: 'Sep 30, 2022',
-        commentCount: 29,
-        shareCount: 16,
+        title: 'What data does EARLY pull from Levels?',
+        href: 'https://longevitydocs.vercel.app/docs/docs/nutrition-metrics',
       },
       {
         id: 2,
-        title: 'Tutorial: Export your nutrition data from Levels',
-        date: 'Sep 30, 2022',
-        commentCount: 24,
-        shareCount: 12,
+        title: 'How to export your data from Levels and import into EARLY',
       },
       {
         id: 3,
         title: 'Download sample CSV',
-        date: 'Sep 30, 2022',
-        commentCount: 3,
-        shareCount: 2,
       },
     ],
     Misc: [
       {
         id: 1,
-        title: 'Schema: What data EARLY looks for in your misc data',
-        date: 'Sep 30, 2022',
-        commentCount: 29,
-        shareCount: 16,
+        title: 'What miscellaneous data does EARLY pull?',
       },
       {
         id: 2,
-        title: 'Tutorial: Import misc data',
-        date: 'Sep 30, 2022',
-        commentCount: 24,
-        shareCount: 12,
+        title: 'How to import miscellaneous into EARLY',
       },
       {
         id: 3,
         title: 'Download sample CSV',
-        date: 'Sep 30, 2022',
-        commentCount: 3,
-        shareCount: 2,
       },
     ],
   })
@@ -169,7 +131,7 @@ export default function ImportTabs() {
                     </h3>
 
                     <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-secondary hover:text-secondary-inverse">
-                      <li>{post.date}</li>
+                      <li>{post.href}</li>
                       {/* <li>&middot;</li>
                       <li>{post.commentCount} comments</li>
                       <li>&middot;</li>
@@ -177,7 +139,9 @@ export default function ImportTabs() {
                     </ul>
 
                     <a
-                      href="#"
+                      target="_blank"
+                      rel="noreferrer"
+                      href={post.href}
                       className={classNames(
                         'absolute inset-0 rounded-md',
                         'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2'
