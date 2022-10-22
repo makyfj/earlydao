@@ -27,6 +27,7 @@ export default function ImportTabs() {
       {
         id: 3,
         title: 'Download sample CSV',
+        href: 'https://earlydao.vercel.app/sample_data/sample_oura.csv',
       },
     ],
     'Apple Workouts': [
@@ -43,6 +44,7 @@ export default function ImportTabs() {
       {
         id: 3,
         title: 'Download sample CSV',
+        href: 'https://earlydao.vercel.app/sample_data/sample_workouts.csv',
       },
     ],
     'Apple Health': [
@@ -59,6 +61,7 @@ export default function ImportTabs() {
       {
         id: 3,
         title: 'Download sample CSV',
+        href: 'https://earlydao.vercel.app/sample_data/sample_apple_health.csv',
       },
     ],
     Levels: [
@@ -74,6 +77,7 @@ export default function ImportTabs() {
       {
         id: 3,
         title: 'Download sample CSV',
+        href: 'https://earlydao.vercel.app/sample_data/sample_levels.csv',
       },
     ],
     Misc: [
@@ -88,6 +92,7 @@ export default function ImportTabs() {
       {
         id: 3,
         title: 'Download sample CSV',
+        href: 'https://earlydao.vercel.app/sample_data/sample_misc.csv',
       },
     ],
   })
