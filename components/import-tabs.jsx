@@ -16,13 +16,14 @@ export default function ImportTabs() {
     Oura: [
       {
         id: 1,
-        title: 'What data does EARLY pull from Oura?',
+        title: 'What data does EARLY pull from Oura and how do I export it?',
 
-        href: 'https://longevitydocs.vercel.app/docs/sleep-metrics',
+        href: 'https://longevitydocs.vercel.app/docs/oura-metrics',
       },
       {
         id: 2,
-        title: 'How to export your data from Oura and import into EARLY',
+        title: 'How do I import my Oura data into EARLY',
+        href: 'https://longevitydocs.vercel.app/docs/data-import',
       },
       {
         id: 3,
@@ -33,13 +34,14 @@ export default function ImportTabs() {
     'Apple Workouts': [
       {
         id: 1,
-        title: 'What data does EARLY pull from Apple Workouts?',
-        href: 'https://longevitydocs.vercel.app/docs/exercise-metrics#workouts',
+        title:
+          'What data does EARLY pull from Apple Workouts and how do I export it?',
+        href: 'https://longevitydocs.vercel.app/docs/apple-workouts-metrics',
       },
       {
         id: 2,
-        title:
-          'How to export your workout data from Apple and import into EARLY',
+        title: 'How do I import my Apple Workouts data into EARLY',
+        href: 'https://longevitydocs.vercel.app/docs/data-import',
       },
       {
         id: 3,
@@ -50,13 +52,14 @@ export default function ImportTabs() {
     'Apple Health': [
       {
         id: 1,
-        title: 'What data does EARLY pull from Apple Health?',
-        href: 'https://longevitydocs.vercel.app/docs/exercise-metrics#aggregated-health',
+        title:
+          'What data does EARLY pull from Apple Health and how do I export it?',
+        href: 'https://longevitydocs.vercel.app/docs/apple-health-metrics',
       },
       {
         id: 2,
-        title:
-          'How to export your health data from Apple and import into EARLY',
+        title: 'How do I import my Apple Health data into EARLY',
+        href: 'https://longevitydocs.vercel.app/docs/data-import',
       },
       {
         id: 3,
@@ -68,11 +71,12 @@ export default function ImportTabs() {
       {
         id: 1,
         title: 'What data does EARLY pull from Levels?',
-        href: 'https://longevitydocs.vercel.app/docs/docs/nutrition-metrics',
+        href: 'https://longevitydocs.vercel.app/docs/docs/levels-metrics',
       },
       {
         id: 2,
-        title: 'How to export your data from Levels and import into EARLY',
+        title: 'How do I import my Levels data into EARLY',
+        href: 'https://longevitydocs.vercel.app/docs/data-import',
       },
       {
         id: 3,
@@ -84,10 +88,12 @@ export default function ImportTabs() {
       {
         id: 1,
         title: 'What miscellaneous data does EARLY pull?',
+        href: 'https://longevitydocs.vercel.app/docs/docs/misc-metrics',
       },
       {
         id: 2,
-        title: 'How to import miscellaneous into EARLY',
+        title: 'How do I import my miscellaneous data into EARLY',
+        href: 'https://longevitydocs.vercel.app/docs/data-import',
       },
       {
         id: 3,
