@@ -88,7 +88,7 @@ export default function ImportTabs() {
       {
         id: 1,
         title: 'What miscellaneous data does EARLY pull?',
-        href: 'https://longevitydocs.vercel.app/docs/docs/misc-metrics',
+        href: 'https://longevitydocs.vercel.app/docs/misc-metrics',
       },
       {
         id: 2,
