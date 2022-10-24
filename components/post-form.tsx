@@ -503,40 +503,6 @@ export function PostForm({
       </div>
       <></> */}
 
-      <div className="mt-5">
-        <ColGrid numColsSm={2} numColsLg={3} gapX="gap-x-6" gapY="gap-y-6">
-          {categories.map((item) => (
-            <Card key={item.title}>
-              <Text>{item.title}</Text>
-              <Flex
-                justifyContent="justify-start"
-                alignItems="items-baseline"
-                spaceX="space-x-3"
-                truncate={true}
-              >
-                <Metric>{item.metric}</Metric>
-                <Text truncate={true}>from {item.metricPrev}</Text>
-              </Flex>
-              <Flex
-                justifyContent="justify-start"
-                spaceX="space-x-2"
-                marginTop="mt-4"
-              >
-                <BadgeDelta deltaType={item.deltaType} />
-                <Flex
-                  justifyContent="justify-start"
-                  spaceX="space-x-1"
-                  truncate={true}
-                >
-                  <Text color={colors[item.deltaType]}>{item.delta}</Text>
-                  <Text truncate={true}> to previous month </Text>
-                </Flex>
-              </Flex>
-            </Card>
-          ))}
-        </ColGrid>
-      </div>
-
       <div className="mt-6">
         <Controller
           name="content"
