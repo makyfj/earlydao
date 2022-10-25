@@ -224,6 +224,8 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
               )
               setIsLoading(true)
               //TODO: pull data from user during data range and send to GPT-3
+              // pull data for cadence and previous cadence for % change comparison
+
               // const res = await fetch(`/api/openai`, {
               //   body: JSON.stringify({ search }),
               //   headers: {

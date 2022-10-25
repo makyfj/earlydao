@@ -78,6 +78,9 @@ model Post {
   contentHtml String       @db.Text
   cadence     String       @db.VarChar(255)
   endDate     DateTime
+  inputData   Json
+  prompt      String       @db.Text
+  response    String       @db.Text
   type        String       @db.VarChar(255)
   hidden      Boolean      @default(false)
   createdAt   DateTime     @default(now())
