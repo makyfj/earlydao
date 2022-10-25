@@ -384,8 +384,36 @@ export function PostForm({
     // },
   ]
 
-  console.log()
+  const [content, setContent] = React.useState('Loading...')
+  const [count, setCount] = React.useState(0)
 
+  const search = `688.1 calories_burned 11.2% QoQ (prev: 618.6), (n=56)
+  64.8 exercise_time 3.2% QoQ (prev: 62.8), (n=53)
+  50.3 average_vo2_max 0.8% QoQ (prev: 49.9), (n=31)`
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      if (search) {
+        const res = await fetch(`/api/openai`, {
+          body: JSON.stringify({ search }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        })
+        setCount(count + 1)
+        const data = await res.json()
+        setContent(data)
+      }
+    }
+
+    fetchData()
+    return () => {}
+  }, [])
+
+  console.log('content', content)
+
+  console.log('count', count)
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
   React.useEffect(() => {
     const subscription = watch((value, { name, type }) =>
@@ -446,6 +474,8 @@ export function PostForm({
           </div>
         </>
       )}
+
+      <div className="mt-6">{JSON.stringify(content)}</div>
 
       {/* {JSON.stringify(macroQuery.data, null, 2)} */}
 

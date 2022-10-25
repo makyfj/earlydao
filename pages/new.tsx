@@ -4,6 +4,7 @@ import { trpc } from '@/lib/trpc'
 import type { NextPageWithAuthAndLayout } from '@/lib/types'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import React from 'react'
 import toast from 'react-hot-toast'
 
 const NewPostPage: NextPageWithAuthAndLayout = () => {
@@ -31,7 +32,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
             cadence: 'weekly',
             endDate: new Date().toISOString().split('T')[0],
             title: '',
-            content: '',
+            content: 'Loading...',
           }}
           backTo="/"
           onSubmit={(values) => {
