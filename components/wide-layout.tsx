@@ -28,6 +28,11 @@ export function WideLayout({ children }: LayoutProps) {
   const { theme, themes, setTheme } = useTheme()
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false)
 
+  React.useEffect(() => {
+    // set light mode by default on page load
+    setTheme('light')
+  }, [])
+
   return (
     <>
       <Head>
@@ -68,20 +73,20 @@ export function WideLayout({ children }: LayoutProps) {
 
               <MenuItems className="w-48">
                 <MenuItemsContent>
-                  <MenuItemLink href={`/dao`}>DAO</MenuItemLink>
-                  <MenuItemLink href={`/data`}>Data</MenuItemLink>
+                  {/* <MenuItemLink href={`/dao`}>DAO</MenuItemLink> */}
+                  {/* <MenuItemLink href={`/data`}>Data</MenuItemLink> */}
                   <MenuItemLink href={`/feed`}>Feed</MenuItemLink>
                   <MenuItemLink href={`/import`}>Import</MenuItemLink>
                   <MenuItemLink href={`/profile/${session!.user.id}`}>
                     Profile
                   </MenuItemLink>
-                  <MenuItemLink href={`/calendar`}>Calendar</MenuItemLink>
+                  {/* <MenuItemLink href={`/calendar`}>Calendar</MenuItemLink> */}
                   <MenuItemLink href={`/dashboard`}>Dashboard</MenuItemLink>
                   <MenuItemButton onClick={() => signOut()}>
                     Log out
                   </MenuItemButton>
                 </MenuItemsContent>
-                <div className="flex items-center gap-4 px-4 py-3 rounded-b bg-secondary">
+                {/* <div className="flex items-center gap-4 px-4 py-3 rounded-b bg-secondary">
                   <label htmlFor="theme" className="text-sm">
                     Theme
                   </label>
@@ -100,7 +105,7 @@ export function WideLayout({ children }: LayoutProps) {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div> */}
               </MenuItems>
             </Menu>
 

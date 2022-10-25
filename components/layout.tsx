@@ -28,6 +28,11 @@ export function Layout({ children }: LayoutProps) {
   const { theme, themes, setTheme } = useTheme()
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false)
 
+  React.useEffect(() => {
+    // set system mode by default on page load
+    setTheme('system')
+  }, [])
+
   return (
     <>
       <Head>
@@ -68,14 +73,14 @@ export function Layout({ children }: LayoutProps) {
 
               <MenuItems className="w-48">
                 <MenuItemsContent>
-                  <MenuItemLink href={`/dao`}>DAO</MenuItemLink>
-                  <MenuItemLink href={`/data`}>Data</MenuItemLink>
+                  {/* <MenuItemLink href={`/dao`}>DAO</MenuItemLink> */}
+                  {/* <MenuItemLink href={`/data`}>Data</MenuItemLink> */}
                   <MenuItemLink href={`/feed`}>Feed</MenuItemLink>
                   <MenuItemLink href={`/import`}>Import</MenuItemLink>
                   <MenuItemLink href={`/profile/${session!.user.id}`}>
                     Profile
                   </MenuItemLink>
-                  <MenuItemLink href={`/calendar`}>Calendar</MenuItemLink>
+                  {/* <MenuItemLink href={`/calendar`}>Calendar</MenuItemLink> */}
                   <MenuItemLink href={`/dashboard`}>Dashboard</MenuItemLink>
                   <MenuItemButton onClick={() => signOut()}>
                     Log out
