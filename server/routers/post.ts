@@ -196,6 +196,7 @@ export const postRouter = createProtectedRouter()
       return post
     },
   })
+
   .mutation('edit', {
     input: z.object({
       id: z.number(),
