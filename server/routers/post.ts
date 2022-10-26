@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { markdownToHtml } from '@/lib/editor'
 import { postToSlackIfEnabled } from '@/lib/slack'
 import { TRPCError } from '@trpc/server'
@@ -182,8 +180,6 @@ export const postRouter = createProtectedRouter()
           title: input.title,
           content: input.content,
           contentHtml: markdownToHtml(input.content),
-
-          // @ts-nocheck
           prompt: input.prompt,
           response: input.response,
           inputData: input.inputData,

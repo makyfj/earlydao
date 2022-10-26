@@ -16,10 +16,10 @@ type FormData = {
 }
 
 type PostFormProps = {
-  defaultValues?: FormData
+  defaultValues?: any
   isSubmitting?: boolean
   backTo: string
-  onSubmit: SubmitHandler<FormData>
+  onSubmit: SubmitHandler<any>
 }
 
 export function PostForm({
@@ -36,7 +36,7 @@ export function PostForm({
     reset,
     handleSubmit,
     watch,
-  } = useForm<FormData>({
+  } = useForm<any>({
     defaultValues,
   })
 
