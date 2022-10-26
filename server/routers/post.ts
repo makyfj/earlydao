@@ -180,6 +180,7 @@ export const postRouter = createProtectedRouter()
           title: input.title,
           content: input.content,
           contentHtml: markdownToHtml(input.content),
+          // tslint:disable-next-line: no-null-keyword
           prompt: input.prompt,
           response: input.response,
           inputData: input.inputData,
