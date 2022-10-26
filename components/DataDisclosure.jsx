@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 
@@ -17,6 +18,25 @@ const questions = [
     answer:
       'Resting heart rate, average sleep time, average blood glucose, VO2 max, MET hours.',
   },
+  {
+    question: 'Performance',
+    answer: (
+      <Fragment>
+        <li>8h 17m Total Sleep Duration -5.4% WoW (prev: 8h 46m), (n=7)</li>
+        <li>55.0 Average Resting Heart Rate 4.0% WoW (prev: 53.0), (n=7)</li>
+        <li> 51.0 Average HRV -16.6% WoW (prev: 61.0), (n=7)</li>
+        <li>8h 47m Inactive Time 1.1% WoW (prev: 8h 41m), (n=7)</li>
+        <li>
+          {' '}
+          822.0 Active energy burned(Cal) -15.7% WoW (prev: 974.0), (n=7)
+        </li>
+        <li> 85.0 Exercise time(min) -19.3% WoW (prev: 106.0), (n=7)</li>
+        <li> 52.0 VO2 Max(mL/min·kg) 1.6% WoW (prev: 52.8), (n=7)</li>
+        <li> 9.0 Mindfulness(min) -16.9% WoW (prev: 11.0), (n=7)</li>
+      </Fragment>
+    ),
+    ul: true,
+  },
 ]
 
 export default function DataDisclosure() {
@@ -35,9 +55,18 @@ export default function DataDisclosure() {
                     } h-5 w-5 text-bg-white`}
                   />
                 </Disclosure.Button>
-                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm font-sm text-primary">
-                  {question.answer}
-                </Disclosure.Panel>
+                {question.ul ? (
+                  <Disclosure.Panel
+                    as="ul"
+                    className="px-4 pt-4 pb-2 text-sm text-bg-white"
+                  >
+                    {question.answer}
+                  </Disclosure.Panel>
+                ) : (
+                  <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm font-sm text-primary">
+                    {question.answer}
+                  </Disclosure.Panel>
+                )}
               </>
             )}
           </Disclosure>

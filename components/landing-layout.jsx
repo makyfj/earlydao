@@ -180,7 +180,7 @@ export function LandingLayout({ children }) {
                 importantly, live better.
               </p>
               <p className="mt-2 text-lg text-secondary">
-                Early access mint December 15, 2022
+                Early access mint December 2022
               </p>
             </>
           </div>
