@@ -297,8 +297,9 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
               const selectedOption = cadenceOptions.find(
                 (c) => c.name === selectedCadence
               )
-              const startDate = new Date(selectedOption!.range.split('-')[0])
-              const endDate = new Date(selectedOption!.range.split('-').pop())
+              const dateSplit = selectedOption!.range.split('-')
+              const startDate = new Date(dateSplit[0])
+              const endDate = new Date(dateSplit[dateSplit.length - 1])
               setCurrentStartDate(startDate)
               setCurrentEndDate(addDays(endDate, 1))
               if (selectedCadence === 'Quarterly') {
@@ -314,7 +315,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
 
               const prompt = `Write a reflective essay about the following health
                data and give recommendations on how to improve going forward.
-              \n\Data: ${JSON.stringify()}:\n`
+              \n\Data: ${[]}:\n`
 
               const res = await fetch(`/api/openai`, {
                 body: JSON.stringify({ prompt }),
