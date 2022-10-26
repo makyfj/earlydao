@@ -60,56 +60,22 @@ export const appleMacroRouter = createProtectedRouter()
       return appleMacro
     },
   })
-  .query('key_metrics', {
+  .query('get-range', {
     input: z.object({
-      // take: z.number().min(1).max(50).optional(),
-      // skip: z.number().min(1).optional(),
-      cadence: z.string(),
-      endDate: z.string(),
+      startDate: z.date(),
+      endDate: z.date(),
     }),
-    async resolve({ input, ctx }) {
-      // const take = input?.take ?? 50
-      // const skip = input?.skip
-      const cadenceMap: any = {
-        weekly: 7,
-        monthly: 30,
-        quarterly: 120,
-        annually: 365,
-      }
-      const endDateAsDate = new Date(input.endDate)
-      const startDate = new Date(
-        endDateAsDate.setDate(
-          endDateAsDate.getDate() - cadenceMap[input.cadence]
-        )
-      )
-
-      const entries = await ctx.prisma.appleMacro.findMany({
-        // take,
-        // skip,
+    async resolve({ ctx, input }) {
+      const appleMacros = await ctx.prisma.appleMacro.findMany({
         where: {
-          date: {
-            // lte: endDateAsDate,
-            // gte: startDate,
-            lte: new Date(input.endDate),
-            gte: startDate,
-          },
           authorId: ctx.session.user.id,
-        },
-        select: {
-          date: true,
-          activeEnergy: true,
-          exerciseTime: true,
-          standHour: true,
-          standTime: true,
-          flightsClimbed: true,
-          mindfulMinutes: true,
-          stepCount: true,
-          vo2Max: true,
+          date: {
+            gte: input.startDate,
+            lte: input.endDate,
+          },
         },
       })
 
-      return {
-        entries,
-      }
+      return appleMacros
     },
   })

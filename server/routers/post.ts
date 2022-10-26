@@ -167,6 +167,9 @@ export const postRouter = createProtectedRouter()
       cadence: z.string(),
       title: z.string().min(1),
       content: z.string().min(1),
+      prompt: z.string().min(1),
+      response: z.string().min(1),
+      inputData: z.any(),
     }),
     async resolve({ ctx, input }) {
       const post = await ctx.prisma.post.create({
@@ -177,6 +180,9 @@ export const postRouter = createProtectedRouter()
           title: input.title,
           content: input.content,
           contentHtml: markdownToHtml(input.content),
+          prompt: input.prompt,
+          response: input.response,
+          inputData: input.inputData,
           author: {
             connect: {
               id: ctx.session.user.id,

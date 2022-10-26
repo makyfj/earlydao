@@ -19,9 +19,12 @@ import {
   getWeek,
   getMonth,
   getQuarter,
+  sub,
+  addDays,
 } from 'date-fns'
 import { Button } from '@/components/button'
 import { RadioGroup } from '@headlessui/react'
+import { AppleMacro, AppleMicro, Oura, Misc } from '@prisma/client'
 
 function CheckIcon(
   props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
@@ -80,7 +83,7 @@ for (const [key, value] of Object.entries(intervals)) {
   let rangeEnd = value[0].setDate(value[0].getDate() - 1)
   let next = null
   if (key === 'Quarterly') {
-    start = new Date().setDate(new Date().getDate() - 7)
+    start = new Date().setDate(new Date().getDate() - 5)
     rangeStart = startOfQuarter(rangeEnd)
     number = `Q${getQuarter(rangeEnd)}`
     next = endOfQuarter(new Date())
@@ -91,10 +94,11 @@ for (const [key, value] of Object.entries(intervals)) {
     next = endOfMonth(new Date())
   } else if (key === 'Weekly') {
     start = new Date().setDate(new Date().getDate() - 5)
-    rangeStart = startOfWeek(rangeEnd)
+    rangeStart = startOfWeek(rangeEnd, { weekStartsOn: 0 })
     number = `W${getWeek(rangeEnd)}`
     next = endOfWeek(new Date())
   }
+  console.log(`numbre`)
   if (
     isWithinInterval(value[0], {
       start: start,
@@ -116,7 +120,9 @@ for (const [key, value] of Object.entries(intervals)) {
       number: number,
       range: `${rangeStart.toLocaleDateString()} - ${value[0].toLocaleDateString()}`,
       disabled: true,
-      message: `Post deadline for ${number} has passed. Next period is ${next!.toLocaleDateString()}.`,
+      message: `${number} post deadline has passed. 
+      ${number.charAt(0)}${Number(number.charAt(1)) + 1}
+       opens ${next!.toLocaleDateString()}.`,
     })
   }
 }
@@ -133,8 +139,74 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
       }
     },
   })
+
   const [selectedCadence, setSelectedCadence] = React.useState()
   const [isLoading, setIsLoading] = React.useState(false)
+  const [currentStartDate, setCurrentStartDate] = React.useState(new Date())
+  const [currentEndDate, setCurrentEndDate] = React.useState(new Date())
+  const [prevStartDate, setPrevStartDate] = React.useState(new Date())
+  const [prevEndDate, setPrevEndDate] = React.useState(new Date())
+
+  const { data: currMacro, refetch } = trpc.useQuery(
+    [
+      'apple_macro.get-range',
+      {
+        startDate: currentStartDate,
+        endDate: currentEndDate,
+      },
+    ],
+    { keepPreviousData: true }
+  )
+  // const macroQueryPast = trpc.useQuery([
+  //   'apple_macro.get-range',
+  //   {
+  //     startDate: prevStartDate,
+  //     endDate: prevEndDate,
+  //   },
+  // ])
+  // const microQueryCurrent = trpc.useQuery([
+  //   'apple_micro.get-range',
+  //   {
+  //     startDate: currentStartDate,
+  //     endDate: currentEndDate,
+  //   },
+  // ])
+  // const microQueryPast = trpc.useQuery([
+  //   'apple_micro.get-range',
+  //   {
+  //     startDate: prevStartDate,
+  //     endDate: prevEndDate,
+  //   },
+  // ])
+  // const ouraQueryCurrent = trpc.useQuery([
+  //   'oura.get-range',
+  //   {
+  //     startDate: currentStartDate,
+  //     endDate: currentEndDate,
+  //   },
+  // ])
+  // const ouraQueryPast = trpc.useQuery([
+  //   'oura.get-range',
+  //   {
+  //     startDate: prevStartDate,
+  //     endDate: prevEndDate,
+  //   },
+  // ])
+  // const miscQueryCurrent = trpc.useQuery([
+  //   'misc.get-range',
+  //   {
+  //     startDate: currentStartDate,
+  //     endDate: currentEndDate,
+  //   },
+  // ])
+  // const miscQueryPast = trpc.useQuery([
+  //   'misc.get-range',
+  //   {
+  //     startDate: prevStartDate,
+  //     endDate: prevEndDate,
+  //   },
+  // ])
+  // console.log()
 
   return (
     <>
@@ -164,11 +236,13 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
                   className={({ active, checked }) =>
                     `${
                       active
-                        ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300'
+                        ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-300'
                         : ''
                     }
                   ${
-                    checked ? 'bg-sky-900 bg-opacity-75 text-white' : 'bg-white'
+                    checked
+                      ? 'bg-blue-700 bg-opacity-20 text-white'
+                      : 'bg-white'
                   }
                     relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                   }
@@ -191,7 +265,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
                             <RadioGroup.Description
                               as="span"
                               className={`inline ${
-                                checked ? 'text-sky-100' : 'text-gray-500'
+                                checked ? 'text-blue-100' : 'text-gray-500'
                               }`}
                             >
                               <span>{cadence.message}</span>{' '}
@@ -219,33 +293,48 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
         <div>
           <Button
             onClick={async () => {
+              setIsLoading(true)
               const selectedOption = cadenceOptions.find(
                 (c) => c.name === selectedCadence
               )
-              setIsLoading(true)
-              //TODO: pull data from user during data range and send to GPT-3
-              // pull data for cadence and previous cadence for % change comparison
+              const startDate = new Date(selectedOption!.range.split('-')[0])
+              const endDate = new Date(selectedOption!.range.split('-').pop())
+              setCurrentStartDate(startDate)
+              setCurrentEndDate(addDays(endDate, 1))
+              if (selectedCadence === 'Quarterly') {
+                setPrevStartDate(sub(startDate, { months: 3 }))
+                setPrevEndDate(addDays(sub(endDate, { months: 3 }), 1))
+              } else if (selectedCadence === 'Monthly') {
+                setPrevStartDate(sub(startDate, { months: 1 }))
+                setPrevEndDate(addDays(sub(endDate, { months: 1 }), 1))
+              } else if (selectedCadence === 'Weekly') {
+                setPrevStartDate(sub(startDate, { weeks: 1 }))
+                setPrevEndDate(addDays(sub(endDate, { weeks: 1 }), 1))
+              }
 
-              // const res = await fetch(`/api/openai`, {
-              //   body: JSON.stringify({ search }),
-              //   headers: {
-              //     'Content-Type': 'application/json',
-              //   },
-              //   method: 'POST',
-              // })
-              // const data = await res.json()
+              const prompt = `Write a reflective essay about the following health
+               data and give recommendations on how to improve going forward.
+              \n\Data: ${JSON.stringify()}:\n`
 
-              //TODO: create a post with the generated text, start hidden, let user publish
+              const res = await fetch(`/api/openai`, {
+                body: JSON.stringify({ prompt }),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                method: 'POST',
+              })
+              const data = await res.json()
+
               addPostMutation.mutate(
                 {
                   endDate: selectedOption!.range.split(' ')[0],
                   cadence: `${selectedOption!.name.toLowerCase()}`,
                   title: `WIP: ${selectedOption!.number!} ${selectedOption!
                     .range!}`,
-                  content: 'TODO boi!',
-                  // TODO: JSONB for data metrics - display in accordian
-                  // TODO: save GPT-3 prompt
-                  // TODO: save GPT-3 response
+                  content: data.data.replace(/[^a-zA-Z0-9 ]/g, ''),
+                  prompt: prompt,
+                  response: data.data.replace(/[^a-zA-Z0-9 ]/g, ''),
+                  inputData: { currMacro },
                 },
                 {
                   onSuccess: (data) => router.push(`/post/${data.id}/edit`),

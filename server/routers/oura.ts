@@ -150,3 +150,22 @@ export const ouraRouter = createProtectedRouter()
       }
     },
   })
+  .query('get-range', {
+    input: z.object({
+      startDate: z.date(),
+      endDate: z.date(),
+    }),
+    async resolve({ ctx, input }) {
+      const ouras = await ctx.prisma.oura.findMany({
+        where: {
+          authorId: ctx.session.user.id,
+          date: {
+            gte: input.startDate,
+            lte: input.endDate,
+          },
+        },
+      })
+
+      return ouras
+    },
+  })
