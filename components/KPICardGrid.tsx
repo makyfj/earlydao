@@ -9,7 +9,7 @@ import LineChartTabs from './LineChartTabs'
 import MultipleAreaChart from './MultipleAreaChart'
 
 export default function KpiCardGrid() {
-  const [selectedView, setSelectedView] = useState(1)
+  const [selectedView, setSelectedView] = useState('1W')
   return (
     <main className="p-6 sm:p-10">
       <Card>
@@ -21,11 +21,51 @@ export default function KpiCardGrid() {
           handleSelect={(value) => setSelectedView(value)}
           marginTop="mt-6"
         >
-          <Tab value={1} text="Overview" />
-          {/* <Tab value={2} text="Detail" /> */}
+          <Tab value="1W" text="1W" />
+          <Tab value="1M" text="1M" />
+          <Tab value="1Q" text="2M" />
+          <Tab value="6M" text="6M" />
+          <Tab value="YTD" text="YTD" />
+          <Tab value="1Y" text="1Y" />
         </TabList>
 
-        {selectedView === 1 && (
+        {selectedView === '1W' && (
+          <>
+            <KpiCards />
+
+            <Block marginTop="mt-6">
+              <ChartView />
+            </Block>
+          </>
+        )}
+        {selectedView === '1M' && (
+          <>
+            <KpiCards />
+
+            <Block marginTop="mt-6">
+              <ChartView />
+            </Block>
+          </>
+        )}
+        {selectedView === '1W' && (
+          <>
+            <KpiCards />
+
+            <Block marginTop="mt-6">
+              <ChartView />
+            </Block>
+          </>
+        )}
+        {selectedView === '1W' && (
+          <>
+            <KpiCards />
+
+            <Block marginTop="mt-6">
+              <ChartView />
+            </Block>
+          </>
+        )}
+        {selectedView === '1W' && (
           <>
             <KpiCards />
 

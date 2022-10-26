@@ -3,7 +3,7 @@ import { ButtonLink } from '@/components/button-link'
 import { MarkdownIcon } from '@/components/icons'
 import { MarkdownEditor } from '@/components/markdown-editor'
 import { TextField } from '@/components/text-field'
-import { DatePicker } from '@/components/date-picker'
+import DataDisclosure from '@/components/DataDisclosure'
 import { useLeaveConfirm } from '@/lib/form'
 import * as React from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
@@ -61,6 +61,8 @@ export function PostForm({
           className="text-lg font-semibold !py-1.5"
         />
       </div>
+
+      <DataDisclosure />
 
       <div className="mt-6">
         <Controller
