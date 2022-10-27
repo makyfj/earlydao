@@ -147,16 +147,13 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
   const [prevStartDate, setPrevStartDate] = React.useState(new Date())
   const [prevEndDate, setPrevEndDate] = React.useState(new Date())
 
-  const { data: currMacro, refetch } = trpc.useQuery(
-    [
-      'apple_macro.get-range',
-      {
-        startDate: currentStartDate,
-        endDate: currentEndDate,
-      },
-    ],
-    { keepPreviousData: true }
-  )
+  const { data: currMacro, refetch } = trpc.useQuery([
+    'apple_macro.get-range',
+    {
+      startDate: currentStartDate,
+      endDate: currentEndDate,
+    },
+  ])
   // const macroQueryPast = trpc.useQuery([
   //   'apple_macro.get-range',
   //   {
@@ -206,7 +203,6 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
   //     endDate: prevEndDate,
   //   },
   // ])
-  // console.log()
 
   return (
     <>
@@ -315,7 +311,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
 
               const prompt = `Write a reflective essay about the following health
                data and give recommendations on how to improve going forward.
-              \n\Data: ${[]}:\n`
+              \n\Data: ${{ currMacro }}:\n`
 
               const res = await fetch(`/api/openai`, {
                 body: JSON.stringify({ prompt }),

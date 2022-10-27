@@ -48,6 +48,9 @@ export const miscRouter = createProtectedRouter()
             lte: input.endDate,
           },
         },
+        orderBy: {
+          date: 'asc',
+        },
       })
 
       return miscs

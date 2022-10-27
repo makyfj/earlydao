@@ -7,23 +7,27 @@ import ActivityOverview from './ActivityOverview'
 import Charts from './Charts'
 import LineChartTabs from './LineChartTabs'
 import MultipleAreaChart from './MultipleAreaChart'
+import { addDays, sub } from 'date-fns'
 
 export default function KpiCardGrid() {
+  const [currentStartDate, setCurrentStartDate] = useState(new Date())
+  const [currentEndDate, setCurrentEndDate] = useState(new Date())
+
   const [selectedView, setSelectedView] = useState('1W')
   return (
     <main className="p-6 sm:p-10">
       <Card>
         <Title>Sleep Overview</Title>
-        {/* <Text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</Text> */}
+        <Text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</Text>
 
         <TabList
-          defaultValue={1}
+          defaultValue={selectedView}
           handleSelect={(value) => setSelectedView(value)}
           marginTop="mt-6"
         >
           <Tab value="1W" text="1W" />
           <Tab value="1M" text="1M" />
-          <Tab value="1Q" text="2M" />
+          <Tab value="1Q" text="1Q" />
           <Tab value="6M" text="6M" />
           <Tab value="YTD" text="YTD" />
           <Tab value="1Y" text="1Y" />
@@ -31,43 +35,10 @@ export default function KpiCardGrid() {
 
         {selectedView === '1W' && (
           <>
-            <KpiCards />
-
-            <Block marginTop="mt-6">
-              <ChartView />
-            </Block>
-          </>
-        )}
-        {selectedView === '1M' && (
-          <>
-            <KpiCards />
-
-            <Block marginTop="mt-6">
-              <ChartView />
-            </Block>
-          </>
-        )}
-        {selectedView === '1W' && (
-          <>
-            <KpiCards />
-
-            <Block marginTop="mt-6">
-              <ChartView />
-            </Block>
-          </>
-        )}
-        {selectedView === '1W' && (
-          <>
-            <KpiCards />
-
-            <Block marginTop="mt-6">
-              <ChartView />
-            </Block>
-          </>
-        )}
-        {selectedView === '1W' && (
-          <>
-            <KpiCards />
+            <KpiCards
+              currentStartDate={sub(currentStartDate, { weeks: 1 })}
+              currentEndDate={addDays(sub(currentEndDate, { weeks: 1 }), 1)}
+            />
 
             <Block marginTop="mt-6">
               <ChartView />

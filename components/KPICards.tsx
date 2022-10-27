@@ -1,3 +1,4 @@
+import { trpc } from '@/lib/trpc'
 import {
   Card,
   Metric,
@@ -47,7 +48,17 @@ const categories: {
   },
 ]
 
-export default function KPICards() {
+export default function KPICards({ currentStartDate, currentEndDate }) {
+  const ouraQueryCurrent = trpc.useQuery([
+    'oura.get-range',
+    {
+      startDate: currentStartDate,
+      endDate: currentEndDate,
+    },
+  ])
+
+  console.log(ouraQueryCurrent)
+
   return (
     <ColGrid
       numColsSm={2}
