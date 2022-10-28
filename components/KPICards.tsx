@@ -48,7 +48,14 @@ const categories: {
   },
 ]
 
-export default function KPICards({ currentStartDate, currentEndDate }) {
+type DateProps = {
+  currentStartDate: Date
+  currentEndDate: Date
+}
+export default function KPICards({
+  currentStartDate,
+  currentEndDate,
+}: DateProps) {
   const ouraQueryCurrent = trpc.useQuery([
     'oura.get-range',
     {

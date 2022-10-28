@@ -26,13 +26,13 @@ export default function LineChartTabs() {
     },
   ])
 
-  const getDate = (date: Date) => {
+  const getDate = (date: string) => {
     const [day, month, year] = date.split('/').map(Number)
     return new Date(year, month - 1, day)
   }
 
   const filterData = (startDate: Date, endDate: Date) =>
-    currMisc.filter((item) => {
+    currMisc?.filter((item: any) => {
       const currentDate = getDate(item.date)
       return currentDate >= startDate && currentDate <= endDate
     })

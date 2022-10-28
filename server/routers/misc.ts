@@ -40,7 +40,6 @@ export const miscRouter = createProtectedRouter()
       endDate: z.date(),
     }),
     async resolve({ ctx, input }) {
-      console.log('input', input)
       const miscs = await ctx.prisma.misc.findMany({
         where: {
           authorId: ctx.session.user.id,
