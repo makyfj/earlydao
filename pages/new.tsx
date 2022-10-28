@@ -93,12 +93,12 @@ for (const [key, value] of Object.entries(intervals)) {
     number = `M${getMonth(rangeEnd) + 1}`
     next = endOfMonth(new Date())
   } else if (key === 'Weekly') {
-    start = new Date().setDate(new Date().getDate() - 5)
+    start = new Date().setDate(new Date().getDate() - 7)
     rangeStart = startOfWeek(rangeEnd, { weekStartsOn: 0 })
     number = `W${getWeek(rangeEnd)}`
     next = endOfWeek(new Date())
   }
-  console.log(`numbre`)
+
   if (
     isWithinInterval(value[0], {
       start: start,
@@ -154,6 +154,9 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
       endDate: currentEndDate,
     },
   ])
+
+  const utils = trpc.useContext()
+
   // const macroQueryPast = trpc.useQuery([
   //   'apple_macro.get-range',
   //   {
@@ -311,9 +314,21 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
                 setPrevEndDate(addDays(sub(endDate, { weeks: 1 }), 1))
               }
 
+              // await refetch()
+
+              const test = await utils.invalidateQueries([
+                'apple_macro.get-range',
+                {
+                  startDate: currentStartDate,
+                  endDate: currentEndDate,
+                },
+              ])
+
+              console.log(test)
+
               const prompt = `Write a reflective essay about the following health
                data and give recommendations on how to improve going forward.
-              \n\Data: ${{ currMacro }}:\n`
+              \n\Data: ${JSON.stringify({ test })}:\n`
 
               const res = await fetch(`/api/openai`, {
                 body: JSON.stringify({ prompt }),
@@ -333,7 +348,7 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
                   content: data.data.replace(/[^a-zA-Z0-9 ]/g, ''),
                   prompt: prompt,
                   response: data.data.replace(/[^a-zA-Z0-9 ]/g, ''),
-                  inputData: { currMacro },
+                  inputData: { test },
                 },
                 {
                   onSuccess: (data) => router.push(`/post/${data.id}/edit`),

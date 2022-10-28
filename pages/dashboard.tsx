@@ -17,7 +17,7 @@ const DashboardPage = () => {
       </Head>
 
       <div className="flex flex-col items-center justify-center">
-        {/* <KpiCardGrid /> */}
+        <KpiCardGrid />
         <LineChartTabs />
       </div>
     </>

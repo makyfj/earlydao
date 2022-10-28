@@ -44,7 +44,7 @@ export default function DataDisclosure() {
     <div className="w-full px-4 pt-5">
       <div className="mx-auto w-full rounded-2xl p-2">
         {questions.map((question, index) => (
-          <Disclosure key={question} as="div" className="mt-2">
+          <Disclosure key={index} as="div" className="mt-2">
             {({ open }) => (
               <>
                 <Disclosure.Button className="flex w-full justify-between rounded-lg px-4 py-2 text-left text-sm font-medium hover:bg-blue-700 dark:hover:bg-blue-700 dark:hover:bg-opacity-20 focus:outline-none focus-visible:ring focus-visible:ring-bg-white focus-visible:ring-opacity-75">

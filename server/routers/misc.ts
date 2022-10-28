@@ -40,6 +40,7 @@ export const miscRouter = createProtectedRouter()
       endDate: z.date(),
     }),
     async resolve({ ctx, input }) {
+      console.log('input', input)
       const miscs = await ctx.prisma.misc.findMany({
         where: {
           authorId: ctx.session.user.id,
@@ -52,6 +53,12 @@ export const miscRouter = createProtectedRouter()
           date: 'asc',
         },
       })
+
+      // return miscs with dates transformed to mm/dd/yyyy string
+      return miscs.map((misc) => ({
+        ...misc,
+        date: misc.date.toLocaleDateString(),
+      }))
 
       return miscs
     },
