@@ -74,6 +74,9 @@ export const appleMacroRouter = createProtectedRouter()
             lte: input.endDate,
           },
         },
+        orderBy: {
+          date: 'asc',
+        },
       })
 
       return appleMacros

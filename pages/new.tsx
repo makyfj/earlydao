@@ -218,7 +218,9 @@ const NewPostPage: NextPageWithAuthAndLayout = () => {
         <div className="mx-auto w-full max-w-md">
           <RadioGroup
             value={selectedCadence}
-            onChange={(cadence) => setSelectedCadence(cadence)}
+            onChange={(cadence: React.SetStateAction<undefined>) =>
+              setSelectedCadence(cadence)
+            }
           >
             <RadioGroup.Label className="sr-only">
               Post cadence

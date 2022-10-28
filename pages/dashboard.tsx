@@ -4,6 +4,8 @@ import { trpc } from '@/lib/trpc'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
+import LineChartTabs from '@/components/LineChartTabs'
+import { subDays } from 'date-fns'
 
 const DashboardPage = () => {
   const router = useRouter()
@@ -14,8 +16,9 @@ const DashboardPage = () => {
         <title>Dashboard - EARLY</title>
       </Head>
 
-      <div className="">
-        <KpiCardGrid />
+      <div className="flex flex-col items-center justify-center">
+        {/* <KpiCardGrid /> */}
+        <LineChartTabs />
       </div>
     </>
   )

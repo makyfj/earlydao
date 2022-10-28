@@ -27,22 +27,21 @@ const dataFormatter = (number: number) =>
   `$ ${Intl.NumberFormat('us').format(number).toString()}`
 
 export default function LineChartTabs() {
-  const { isInitialLoading, isError, datat, error, refetch, isFetching } =
-    trpc.useQuery(
-      [
-        'misc.get-range',
-        {
-          startDate: subDays(new Date(), 365),
-          endDate: new Date(),
-        },
-      ],
-      {
-        enabled: false,
-      }
-    )
-  console.log(datat)
-
   const [selectedPeriod, setSelectedPeriod] = useState('1W')
+
+  const {
+    data: currMisc,
+    refetch: refetchCurrMisc,
+    isLoading: currMiscIsLoading,
+  } = trpc.useQuery([
+    'misc.get-range',
+    {
+      startDate: subDays(new Date(), 10),
+      endDate: new Date(),
+    },
+  ])
+
+  console.log(currMisc)
 
   const getDate = (dateString: string) => {
     const [day, month, year] = dateString.split('.').map(Number)
@@ -87,10 +86,6 @@ export default function LineChartTabs() {
         return data
     }
   }
-
-  useEffect(() => {
-    refetch()
-  }, [])
 
   return (
     <Card>
