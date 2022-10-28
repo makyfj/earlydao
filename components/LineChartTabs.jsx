@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { startOfYear, subDays } from 'date-fns'
 import { trpc } from '@/lib/trpc'
 
-const dataFormatter = (number: number) => {
+const dataFormatter = (number) => {
   return number.toString()
 }
 
@@ -26,18 +26,18 @@ export default function LineChartTabs() {
     },
   ])
 
-  const getDate = (date: string) => {
+  const getDate = (date) => {
     const [day, month, year] = date.split('/').map(Number)
     return new Date(year, month - 1, day)
   }
 
-  const filterData = (startDate: Date, endDate: Date) =>
-    currMisc?.filter((item: any) => {
+  const filterData = (startDate, endDate) =>
+    currMisc.filter((item) => {
       const currentDate = getDate(item.date)
       return currentDate >= startDate && currentDate <= endDate
     })
 
-  const getFilteredData = (period: string) => {
+  const getFilteredData = (period) => {
     const lastAvailableDate = getDate(currMisc[currMisc.length - 1].date)
     switch (period) {
       case '1W': {
@@ -91,7 +91,7 @@ export default function LineChartTabs() {
         <div>Loading...</div>
       ) : (
         <LineChart
-          data={getFilteredData(selectedPeriod)!}
+          data={getFilteredData(selectedPeriod)}
           dataKey="date"
           categories={['weight']}
           colors={['blue']}
