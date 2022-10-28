@@ -10,6 +10,9 @@ import { subDays } from 'date-fns'
 const DashboardPage = () => {
   const router = useRouter()
 
+  const hello = trpc.hello.useQuery({ text: 'test' })
+
+  console.log(hello.data)
   return (
     <>
       <Head>

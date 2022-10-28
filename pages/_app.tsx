@@ -72,36 +72,36 @@ function getBaseUrl() {
   return `http://localhost:${process.env.PORT ?? 3000}`
 }
 
-export default withTRPC<AppRouter>({
-  config() {
-    return {
-      links: [
-        loggerLink({
-          enabled: (opts) =>
-            process.env.NODE_ENV === 'development' ||
-            (opts.direction === 'down' && opts.result instanceof Error),
-        }),
-        httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
-        }),
-      ],
-      transformer,
-      queryClientConfig: {
-        defaultOptions: {
-          queries: {
-            retry: (failureCount, error: any) => {
-              const trcpErrorCode = error?.data?.code as TRPCError['code']
-              if (trcpErrorCode === 'NOT_FOUND') {
-                return false
-              }
-              if (failureCount < 3) {
-                return true
-              }
-              return false
-            },
-          },
-        },
-      },
-    }
-  },
-})(MyApp)
+// export default withTRPC<AppRouter>({
+//   config() {
+//     return {
+//       links: [
+//         loggerLink({
+//           enabled: (opts) =>
+//             process.env.NODE_ENV === 'development' ||
+//             (opts.direction === 'down' && opts.result instanceof Error),
+//         }),
+//         httpBatchLink({
+//           url: `${getBaseUrl()}/api/trpc`,
+//         }),
+//       ],
+//       transformer,
+//       queryClientConfig: {
+//         defaultOptions: {
+//           queries: {
+//             retry: (failureCount, error: any) => {
+//               const trcpErrorCode = error?.data?.code as TRPCError['code']
+//               if (trcpErrorCode === 'NOT_FOUND') {
+//                 return false
+//               }
+//               if (failureCount < 3) {
+//                 return true
+//               }
+//               return false
+//             },
+//           },
+//         },
+//       },
+//     }
+//   },
+// })(MyApp)

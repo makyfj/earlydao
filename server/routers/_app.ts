@@ -9,8 +9,11 @@ import { ouraRouter } from './oura'
 import { appleMicroRouter } from './appleMicro'
 import { appleMacroRouter } from './appleMacro'
 import { miscRouter } from './misc'
+import * as trpc from '@trpc/server'
+import { mergeRouters, publicProcedure, router } from '../trpc'
+import { z } from 'zod'
 
-export const appRouter = createRouter()
+export const legacyRouter = createRouter()
   .transformer(superjson)
   .merge('post.', postRouter)
   .merge('comment.', commentRouter)
@@ -21,5 +24,22 @@ export const appRouter = createRouter()
   .merge('apple_macro.', appleMacroRouter)
   .merge('apple_micro.', appleMicroRouter)
   .merge('misc.', miscRouter)
+  .interop()
+
+const mainRouter = router({
+  hello: publicProcedure
+    .input(
+      z.object({
+        text: z.string().nullish(),
+      })
+    )
+    .query(({ input }) => {
+      return {
+        greeting: `hello ${input?.text ?? 'world'}`,
+      }
+    }),
+})
+
+export const appRouter = mergeRouters(legacyRouter, mainRouter)
 
 export type AppRouter = typeof appRouter
