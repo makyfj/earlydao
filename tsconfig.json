@@ -19,7 +19,8 @@
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
       "@/server/*": ["server/*"],
-      "@/env/*": ["env/*"]
+      "@/env/*": ["env/*"],
+      "@/src/*": ["src/*"]
     }
   },
   "include": [

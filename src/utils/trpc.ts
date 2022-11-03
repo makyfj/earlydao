@@ -78,7 +78,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
 
               // If you're using Node 18, omit the "connection" header
               const {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // @eslint-disable-next-line @typescript-eslint/no-unused-vars
                 connection: _connection,
                 ...headers
               } = ctx.req.headers
